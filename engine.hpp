@@ -50,21 +50,12 @@
 #include "SDL2/SDL_ttf.h"
 #include <windows.h>
 #define null NULL
-// request high performance gpu
-#ifdef __cplusplus
-extern "C"
-{
-#endif
 
-    __declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
-    __declspec(dllexport) int AmdPowerXpressRequestHighPerformance = 1;
 
-#ifdef __cplusplus
-}
-#endif
-
+#ifndef sdlgame
 namespace sdlgame
 {
+    #ifndef K_Code
     typedef enum
     {
         K_a = SDL_SCANCODE_A,
@@ -193,6 +184,8 @@ namespace sdlgame
         K_VOLUMEUP = SDL_SCANCODE_VOLUMEUP,
         K_VOLUMEDOWN = SDL_SCANCODE_VOLUMEDOWN,
     } K_Code;
+    #endif
+    #ifndef Window_Flag
     /*window flag here*/
     typedef enum
     {
@@ -205,9 +198,9 @@ namespace sdlgame
         ALWAYS_ON_TOP = SDL_WINDOW_ALWAYS_ON_TOP,
         RENDERER_ACCELERATED = SDL_RENDERER_ACCELERATED
     } Window_Flag;
-
+    #endif
     /*Texture flags ?*/
-
+    #ifndef Event_Code
     /*event type here*/
     typedef enum
     {
@@ -221,7 +214,9 @@ namespace sdlgame
         WINDOWEVENT = SDL_WINDOWEVENT,
         USEREVENT = SDL_USEREVENT,
     } Event_Code;
+    #endif
 
+    #ifndef Window_Event
     typedef enum
     {
         WINDOWSHOWN = SDL_WINDOWEVENT_SHOWN,           // Window became shown
@@ -241,6 +236,7 @@ namespace sdlgame
         WINDOWTAKEFOCUS = SDL_WINDOWEVENT_TAKE_FOCUS,       // Window was offered focus (SDL backend >= 2.0.5)
         WINDOWHITTEST = SDL_WINDOWEVENT_HIT_TEST,         // Window has a special hit test (SDL backend >= 2.0.5)
     } Window_Event;
+    #endif
     /*Variable here*/
 
     /**
@@ -2451,3 +2447,4 @@ namespace sdlgame
         SDL_Quit();
     }
 };
+#endif
