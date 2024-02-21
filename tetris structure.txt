@@ -1,0 +1,25 @@
+Definition:
+
+	Game:
+		- a game is the whole program, managing scene and transition, 
+		- a game should also managing the global variable that exist the entire lifetime of the game, mostly setting variable
+
+		Scene:
+			- a scene is a part of game with its own game loop
+			- a scene should not be link together in anyway, mean the functionality of a scene should not depend on any other scene
+		Scene transition: 
+			- a scene transition is a simple animation that appear whenever a scene is loadin or unload
+
+
+Tetris definition: (everything should have it's own update and draw function)
+	Cell: inherite from Sprite
+		- a cell is a single block that contain its image value (color for simplify, or image with certain color blend for better?)
+	Shape: 
+		- a shape is a 4x4 array of cell (could be empty), with many of its rotation form (look for original tetris for more details)
+	CurrentShapeManager:
+		- a manager for current falling shape, 
+
+	Table: 
+		- a table is a 2d array that contain many cell, and a table should only for containing cell
+	Table Manager:
+		- table manager will have its own table and loop through the value in the table to manage when and how much player will gain point, with certain condition met
