@@ -13,6 +13,8 @@
  *
  * @copyright if you want to use this file, please contact for permission, after that, feel free to use and modify this file
  */
+#ifndef ENGINE_HPP
+#define ENGINE_HPP
 #include <bits/stdc++.h>
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_audio.h"
@@ -50,12 +52,17 @@
 #include "SDL2/SDL_ttf.h"
 #include <windows.h>
 #define null NULL
-
-
-#ifndef sdlgame
+// request high performance gpu
+extern "C"
+{
+    __declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
+    __declspec(dllexport) int AmdPowerXpressRequestHighPerformance = 1;
+}
+/**
+ * TODO: further find optimization, write all instruction for function and classes
+*/
 namespace sdlgame
 {
-    #ifndef K_Code
     typedef enum
     {
         K_a = SDL_SCANCODE_A,
@@ -184,8 +191,6 @@ namespace sdlgame
         K_VOLUMEUP = SDL_SCANCODE_VOLUMEUP,
         K_VOLUMEDOWN = SDL_SCANCODE_VOLUMEDOWN,
     } K_Code;
-    #endif
-    #ifndef Window_Flag
     /*window flag here*/
     typedef enum
     {
@@ -196,11 +201,13 @@ namespace sdlgame
         SKIP_TASK_BAR = SDL_WINDOW_SKIP_TASKBAR,
         POPUP_MENU = SDL_WINDOW_POPUP_MENU,
         ALWAYS_ON_TOP = SDL_WINDOW_ALWAYS_ON_TOP,
-        RENDERER_ACCELERATED = SDL_RENDERER_ACCELERATED
+        RENDERER_ACCELERATED = SDL_RENDERER_ACCELERATED,
+        MAXIMIZED = SDL_WINDOW_MAXIMIZED,
+        MINIMIZED = SDL_WINDOW_MINIMIZED
     } Window_Flag;
-    #endif
+
     /*Texture flags ?*/
-    #ifndef Event_Code
+
     /*event type here*/
     typedef enum
     {
@@ -214,9 +221,7 @@ namespace sdlgame
         WINDOWEVENT = SDL_WINDOWEVENT,
         USEREVENT = SDL_USEREVENT,
     } Event_Code;
-    #endif
 
-    #ifndef Window_Event
     typedef enum
     {
         WINDOWSHOWN = SDL_WINDOWEVENT_SHOWN,           // Window became shown
@@ -236,7 +241,6 @@ namespace sdlgame
         WINDOWTAKEFOCUS = SDL_WINDOWEVENT_TAKE_FOCUS,       // Window was offered focus (SDL backend >= 2.0.5)
         WINDOWHITTEST = SDL_WINDOWEVENT_HIT_TEST,         // Window has a special hit test (SDL backend >= 2.0.5)
     } Window_Event;
-    #endif
     /*Variable here*/
 
     /**
@@ -266,20 +270,29 @@ namespace sdlgame
             SDL_Delay(miliseconds);
         }
 
+        /**
+         * Clock object for time manegement in game
+        */
         class Clock
         {
         private:
             Uint32 time;
             std::list<Uint32> elapsedTimes;
-
+            const int MAX_FPS = 1000;
+            double bullet_time_multiplier = 1;
         public:
             Clock()
             {
                 time = SDL_GetTicks();
             }
-
+            /**
+             * Update the clock
+             * @return the time has passed since the last call to this function
+             * @param fps desired FPS, if the fps is too high, it just run as fast as possible
+            */
             Uint32 tick(double fps = 0)
             {
+                if(fps==0) fps = MAX_FPS;
                 Uint32 currentTime = SDL_GetTicks();
                 Uint32 elapsedTime = currentTime - time;
                 time = currentTime;
@@ -293,15 +306,33 @@ namespace sdlgame
                         elapsedTime = frameTime;
                     }
                 }
+
                 elapsedTimes.push_back(elapsedTime);
                 if (elapsedTimes.size() > 10)
                     elapsedTimes.pop_front();
                 return elapsedTime;
             }
+            
+            /**
+             * @return delta-time, time passed that calculated from the lastest call to tick() function
+            */
             double delta_time() const
             {
-                return elapsedTimes.back() * 1.0 / 1000.0;
+                return elapsedTimes.back() * 1.0 / 1000.0 * bullet_time_multiplier;
             }
+            /**
+             * function to set bullet time or slow motion by multiply deltatime with certain percentage,
+             * this only work if user use delta_time for movement instead of fixed fps with normal increment
+             * @param percentage the value is clamp to [1,100], is how much slower time should
+             * flow compare to real-time
+            */
+            void set_bullettime_multiplier(double percentage)
+            {
+                bullet_time_multiplier = (percentage < 1 ? 1 : (percentage > 100 ? 100 : percentage)) / 100.0;
+            }
+            /**
+             * @return fps rely on 10 last delta time from tick function
+            */
             double get_fps() const
             {
                 double res = 0;
@@ -317,6 +348,9 @@ namespace sdlgame
 
     };
 
+    /**
+     * namespace for most use math functionality in game dev
+    */
     namespace math
     {
         double degree_to_radian(double deg)
@@ -419,10 +453,16 @@ namespace sdlgame
             {
                 return abs(x - oth.x) <= epsilon and abs(y - oth.y) <= epsilon;
             }
+            /**
+             * @return length of the vector
+            */
             double magnitude() const
             {
                 return sqrt(x * x + y * y);
             }
+            /**
+             * @return the squared value of the length of the vector
+            */
             double sqr_magnitude() const
             {
                 return x * x + y * y;
@@ -442,6 +482,9 @@ namespace sdlgame
                 x /= this->magnitude();
                 y /= this->magnitude();
             }
+            /**
+             * @return dot product between 2 vector
+            */
             double dot(const sdlgame::math::Vector2 &oth) const
             {
                 return x * oth.x + y * oth.y;
@@ -471,6 +514,9 @@ namespace sdlgame
                 x = _x * cos(angleInRadians) - _y * sin(angleInRadians);
                 y = x * sin(angleInRadians) + y * cos(angleInRadians);
             }
+            /**
+             * @return distance between 2 point
+            */
             double distance_to(const sdlgame::math::Vector2 &oth) const
             {
                 return sqrt((x - oth.x) * (x - oth.x) + (y - oth.y) * (y - oth.y));
@@ -483,14 +529,23 @@ namespace sdlgame
                 double dotProduct = this->dot(normal);
                 return (*this) - normal * 2 * (this->dot(normal));
             }
+            /**
+             * reflect the vector through a normal vector
+            */
             void reflect_ip(const sdlgame::math::Vector2 &normal)
             {
                 *this = this->reflect(normal);
             }
+            /**
+             * @return a projected vector from this vector to a normal vector
+            */
             sdlgame::math::Vector2 project(const sdlgame::math::Vector2 &normal) const
             {
                 return normal * (this->dot(normal) / (normal.sqr_magnitude()));
             }
+            /**
+             * project the vector onto a normal vector
+            */
             void project_ip(const sdlgame::math::Vector2 &normal)
             {
                 *this = this->project(normal);
@@ -509,6 +564,7 @@ namespace sdlgame
         }
     }
 
+    /// @brief namespace for rect usage
     namespace rect
     {
         /**
@@ -610,12 +666,12 @@ namespace sdlgame
                 // midbottom = sdlgame::math::Vector2(centerx, bottom);
                 // midright = sdlgame::math::Vector2(right, centery);
             }
-            Rect(sdlgame::math::Vector2 pos, sdlgame::math::Vector2 _size)
+            Rect(sdlgame::math::Vector2 pos, sdlgame::math::Vector2 size)
             {
                 x = left = pos.x;
                 y = top = pos.y;
-                w = width = _size.x;
-                h = height = _size.y;
+                w = width = size.x;
+                h = height = size.y;
                 bottom = top + h;
                 right = left + w;
                 // size = _size;
@@ -911,25 +967,25 @@ namespace sdlgame
             template <class T>
             void setTop(T _y)
             {
-                std::cout << "Moved the rect by " << T(_y - y) << " in y axis\n";
+                // std::cout << "Moved the rect by " << T(_y - y) << " in y axis\n";
                 this->move_ip(T(0), T(_y - y));
             }
             template <class T>
             void setLeft(T _x)
             {
-                std::cout << "Moved the rect by " << T(_x - x) << " in x axis\n";
+                // std::cout << "Moved the rect by " << T(_x - x) << " in x axis\n";
                 this->move_ip(T(_x - x), T(0));
             }
             template <class T>
             void setRight(T _x)
             {
-                std::cout << "Moved the rect by " << T(_x - x) << " in x axis\n";
+                // std::cout << "Moved the rect by " << T(_x - x) << " in x axis\n";
                 this->move_ip(T(_x - right), T(0));
             }
             template <class T>
             void setBottom(T _y)
             {
-                std::cout << "Moved the rect by " << T(_y - y) << " in y axis\n";
+                // std::cout << "Moved the rect by " << T(_y - y) << " in y axis\n";
                 this->move_ip(T(0), T(_y - bottom));
             }
             template <class T>
@@ -1436,12 +1492,22 @@ namespace sdlgame
         sdlgame::surface::Surface win_surf;
         bool isInit = false;
 
+        /**
+         * @return hardware resolution, if you have a fullHD monitor
+         * this should return a vector2 (1920,1080)
+        */
         sdlgame::math::Vector2 get_desktop_size(){
-            SDL_DisplayMode mode;
-            SDL_GetCurrentDisplayMode(0,&mode);
-            return sdlgame::math::Vector2(mode.w,mode.h);
+            int w = GetSystemMetrics(SM_CXSCREEN);
+            int h = GetSystemMetrics(SM_CYSCREEN);
+            return sdlgame::math::Vector2(w,h);
         }
-
+        /**
+         * Setup a window surface for use
+         * @param width the resolution width of the window
+         * @param height the resolution height of the window
+         * @param flags flags for the window, look for Window_Flags enum for more
+         * @return a surface that represent the window, what action affect this window will affect what display on screen
+        */
         sdlgame::surface::Surface &set_mode(int width = 0, int height = 0, Uint32 flags = 0)
         {
             if (width == 0 or height == 0)
@@ -1463,13 +1529,37 @@ namespace sdlgame
                 printf("Failed to create a renderer\nErr: %s\n", SDL_GetError());
                 exit(0);
             }
+            SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY,"linear");
+            SDL_RenderSetLogicalSize(renderer,width,height);
             // printf("Initialize window and renderer: %p %p\n",window,renderer);
             win_surf.texture = null; // THIS IS INTENDED!
+            win_surf.size = sdlgame::math::Vector2(width,height);
             return win_surf;
         }
-
         /**
-         *  return a Surface object that have reference SDL_surface to the window surface (NOT GARUANTEE IN ADVANCE ENGINE)
+         * Maximize the active window
+        */
+        void maximize()
+        {
+            SDL_MaximizeWindow(window);
+        }
+        /**
+         * Minimize the active window
+        */
+        void minimize()
+        {
+            SDL_MinimizeWindow(window);
+        }
+        void fullscreen()
+        {
+            SDL_SetWindowFullscreen(window,SDL_WINDOW_FULLSCREEN);
+        }
+        void fullscreen_desktop()
+        {
+            SDL_SetWindowFullscreen(window,SDL_WINDOW_FULLSCREEN_DESKTOP);
+        }
+        /**
+         *  return a Surface object that have reference SDL_surface to the window surface
          */
         sdlgame::surface::Surface &get_surface()
         {
@@ -1746,14 +1836,15 @@ namespace sdlgame
         /**
          * width determine how far the border will expand to the INSIDE
          */
-        void rect(sdlgame::surface::Surface surface, sdlgame::color::Color color, sdlgame::rect::Rect rect, int width = 0)
+        void rect(sdlgame::surface::Surface &surface, sdlgame::color::Color color, sdlgame::rect::Rect rect, int width = 0)
         {
             // std::cout << surface.texture << " color: "<<color.toString() << " rect: "<<rect.toString()<<std::endl;
-            SDL_SetRenderDrawColor(sdlgame::display::renderer, color.r, color.g, color.b, color.a);
             if (SDL_SetRenderTarget(sdlgame::display::renderer, surface.texture))
             {
                 printf("Failed to set target: %s\n", SDL_GetError());
             }
+            SDL_SetRenderDrawColor(sdlgame::display::renderer, color.r, color.g, color.b, color.a);
+            
             if (width == 0)
             {
                 SDL_FRect tmp = rect.to_SDL_FRect();
@@ -1765,10 +1856,10 @@ namespace sdlgame
             }
             else if (width > 0)
             {
-                SDL_FRect top = rect.inflate(width - rect.getHeight(), 0.0).to_SDL_FRect();
-                SDL_FRect left = rect.inflate(0.0, width - rect.getWidth()).to_SDL_FRect();
-                SDL_FRect bottom = rect.inflate(width - rect.getHeight(), 0.0).move(0.0, rect.getHeight() - width).to_SDL_FRect();
-                SDL_FRect right = rect.inflate(0.0, width - rect.getWidth()).move(rect.getWidth() - width, 0.0).to_SDL_FRect();
+                SDL_FRect top    = rect.inflate(0.0,width - rect.getHeight()).to_SDL_FRect();
+                SDL_FRect left   = rect.inflate(width - rect.getWidth(),0.0).to_SDL_FRect();
+                SDL_FRect bottom = rect.inflate(0.0,width - rect.getHeight()).move(0.0, rect.getHeight() - width).to_SDL_FRect();
+                SDL_FRect right  = rect.inflate(width - rect.getWidth(),0.0).move(rect.getWidth() - width, 0.0).to_SDL_FRect();
                 if (SDL_RenderFillRectF(sdlgame::display::renderer, &top) or
                     SDL_RenderFillRectF(sdlgame::display::renderer, &left) or
                     SDL_RenderFillRectF(sdlgame::display::renderer, &bottom) or
@@ -1785,13 +1876,14 @@ namespace sdlgame
         }
 
         template <class T>
-        void line(sdlgame::surface::Surface surface, sdlgame::color::Color color, T x1, T y1, T x2, T y2)
+        void line(sdlgame::surface::Surface &surface, sdlgame::color::Color color, T x1, T y1, T x2, T y2)
         {
             if (SDL_SetRenderTarget(sdlgame::display::renderer, surface.texture))
             {
                 printf("Failed to set target: %s\n", SDL_GetError());
             }
             SDL_SetRenderDrawColor(sdlgame::display::renderer, color.r, color.g, color.b, color.a);
+            
             if (SDL_RenderDrawLineF(sdlgame::display::renderer, x1, y1, x2, y2))
             {
                 printf("Failed to draw a line: %s\n", SDL_GetError());
@@ -1802,18 +1894,53 @@ namespace sdlgame
                 printf("Failed to set target: %s\n", SDL_GetError());
             }
         }
-        void draw_circle(sdlgame::surface::Surface surface, sdlgame::color::Color color, int centerX, int centerY, int radius)
+        void line(sdlgame::surface::Surface &surface, sdlgame::color::Color color, sdlgame::math::Vector2 start, sdlgame::math::Vector2 end)
         {
             if (SDL_SetRenderTarget(sdlgame::display::renderer, surface.texture))
             {
                 printf("Failed to set target: %s\n", SDL_GetError());
             }
             SDL_SetRenderDrawColor(sdlgame::display::renderer, color.r, color.g, color.b, color.a);
-            for (double angle = 0.0; angle < 2 * M_PI; angle += 0.01)
+            
+            if (SDL_RenderDrawLineF(sdlgame::display::renderer, start.x, start.y, end.x, end.y))
             {
-                float x = centerX + radius * cos(angle);
-                float y = centerY + radius * sin(angle);
-                SDL_RenderDrawPointF(sdlgame::display::renderer, x, y);
+                printf("Failed to draw a line: %s\n", SDL_GetError());
+                exit(0);
+            }
+            if (SDL_SetRenderTarget(sdlgame::display::renderer, NULL))
+            {
+                printf("Failed to set target: %s\n", SDL_GetError());
+            }
+        }
+        void circle(sdlgame::surface::Surface &surface, sdlgame::color::Color color, int centerX, int centerY, int radius, int width=0)
+        {
+            if (SDL_SetRenderTarget(sdlgame::display::renderer, surface.texture))
+            {
+                printf("Failed to set target: %s\n", SDL_GetError());
+            }
+            SDL_SetRenderDrawColor(sdlgame::display::renderer, color.r, color.g, color.b, color.a);
+            
+            if(width!=0){
+                int quality = 90;
+                sdlgame::math::Vector2 rad(radius,0);
+                for(int i=0;i<=quality;i++){
+                    sdlgame::math::Vector2 next = rad.rotate(360/quality);
+                    SDL_RenderDrawLineF(sdlgame::display::renderer,centerX+rad.x,centerY+rad.y,centerX+next.x,centerY+next.y);
+                    rad = next;
+                }
+            }
+            else{
+                double x;
+                for(int i=-radius;i<=radius;i++)
+                {
+                    x = radius * std::cos(std::asin(i*1.0/radius));
+                    SDL_RenderDrawLineF(
+                        sdlgame::display::renderer,
+                        x+centerX, i+centerY,
+                        centerX-x,i+centerY
+                    );
+                }
+
             }
             if (SDL_SetRenderTarget(sdlgame::display::renderer, NULL))
             {
@@ -1821,7 +1948,7 @@ namespace sdlgame
             }
         }
 
-        void draw_polygon(sdlgame::surface::Surface surface, sdlgame::color::Color color, std::vector<std::pair<int, int>> points)
+        void polygon(sdlgame::surface::Surface &surface, sdlgame::color::Color color, std::vector<std::pair<int, int>> points)
         {
             if (points.size() < 3)
                 throw std::invalid_argument("can't draw polygon with only 2 vertices or less");
@@ -1835,6 +1962,12 @@ namespace sdlgame
 
     namespace transform
     {
+        /**
+         * @return a flipped image in certain axis
+         * @param surface source surface
+         * @param flip_x whether to flip x or not
+         * @param flip_y whether to flip y or not
+        */
         sdlgame::surface::Surface flip(sdlgame::surface::Surface surface, bool flip_x, bool flip_y)
         {
             sdlgame::surface::Surface res = surface;
@@ -2167,8 +2300,7 @@ namespace sdlgame
          * @param channels 1 for mono, 2 for stereo
          * @param buffer size of sample that fed to the computer, the larger then better qualiy, but more audio lag
          * @param devicename name of the device, leave it as empty to be default system
-         * WTF: wav dont need to be call init but still loadable??????
-         * HUHHHHHHHHHHH?????????????
+         * Init the mixer module, it not guarantee that all flag can be sucessfully init since it depend on what in the os
          */
         void init(int freq = 44100, Uint16 size = 16, int channels = 2, int buffer = 512)
         {
@@ -2177,15 +2309,15 @@ namespace sdlgame
             {
                 printf("Failed to init mp3 type\nErr:%s\n", Mix_GetError());
             }
-            if (Mix_Init(MIX_INIT_OGG) & MIX_INIT_OGG != MIX_INIT_OGG)
+            else if (Mix_Init(MIX_INIT_OGG) & MIX_INIT_OGG != MIX_INIT_OGG)
             {
                 printf("Failed to init ogg type\nErr:%s\n", Mix_GetError());
             }
-            if (Mix_Init(MIX_INIT_WAVPACK) & MIX_INIT_WAVPACK != MIX_INIT_WAVPACK)
+            else if (Mix_Init(MIX_INIT_WAVPACK) & MIX_INIT_WAVPACK != MIX_INIT_WAVPACK)
             {
                 printf("Failed to init wav pack\nErr:%s\n", Mix_GetError());
             }
-            if (Mix_OpenAudio(freq, size, channels, buffer))
+            else if (Mix_OpenAudio(freq, size, channels, buffer))
             {
                 printf("Failed to init mixer\nErr:%s\n", Mix_GetError());
                 exit(0);
@@ -2233,6 +2365,7 @@ namespace sdlgame
 
         public:
             Mix_Chunk *chunk = NULL;
+            Sound() = default;
             Sound(std::string path)
             {
                 chunk = Mix_LoadWAV(path.c_str());
@@ -2257,6 +2390,15 @@ namespace sdlgame
                 }
                 return Channel(channel);
             }
+            void load(std::string path)
+            {
+                chunk = Mix_LoadWAV(path.c_str());
+                if (chunk == NULL)
+                {
+                    printf("Cant load track\nErr:%s\n", Mix_GetError());
+                    exit(0);
+                }
+            }
             void fadeout(int ms)
             {
                 Mix_FadeOutChannel(channels, ms);
@@ -2274,7 +2416,7 @@ namespace sdlgame
             {
                 Mix_VolumeChunk(chunk, convert_volume_value(value));
             }
-            int get_volume()
+            int get_volume() const
             {
                 return Mix_VolumeChunk(chunk, -1);
             }

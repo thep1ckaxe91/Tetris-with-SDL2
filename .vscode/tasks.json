@@ -3,7 +3,7 @@
         {
             "type": "cppbuild",
             "label": "C/C++: g++.exe build active file",
-            "command": "D:/Repos/Tetris-with-SDL2/mingw64/bin/g++.exe",
+            "command": "D:\\Repos\\Tetris-with-SDL2\\mingw64\\bin\\g++.exe",
             "args": [
                 "-fdiagnostics-color=always",
                 "-g",
@@ -20,7 +20,7 @@
                 "${fileDirname}\\${fileBasenameNoExtension}.exe"
             ],
             "options": {
-                "cwd": "D:/Repos/Tetris-with-SDL2/mingw64/bin"
+                "cwd": "D:\\Repos\\Tetris-with-SDL2\\mingw64\\bin"
             },
             "problemMatcher": [
                 "$gcc"

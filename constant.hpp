@@ -1,5 +1,7 @@
+#ifndef TETRIS_CONSTANT_HPP
+#define TETRIS_CONSTANT_HPP
 #include "engine.hpp"
+const sdlgame::math::Vector2 desktop_size = sdlgame::display::get_desktop_size();
 
-#ifndef desktop_size
-sdlgame::math::Vector2 desktop_size = sdlgame::display::get_desktop_size();
+
 #endif
