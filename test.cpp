@@ -1,7 +1,4 @@
 #include "engine.hpp"
-#include "Game.hpp"
-#include "Scene.hpp"
-#include "constant.hpp"
 using Event = sdlgame::event::Event;
 using Rect = sdlgame::rect::Rect;
 using Vector2 = sdlgame::math::Vector2;
@@ -11,43 +8,43 @@ using Sound = sdlgame::mixer::Sound;
 using Channel = sdlgame::mixer::Channel;
 using Font = sdlgame::font::Font;
 using namespace std;
-
-//If global declare is bad, i make MY OWN global declare >:)
-class Tetris : public Game
-{  
+//If global declare is bad, i make MY OWN global declare :)
+class Game
+{
 public:
-    bool gameactive = 1;
-    Surface window = sdlgame::display::set_mode();
+    bool gameactive = true;
+    Vector2 desktop_size = sdlgame::display::get_desktop_size();
+    string base_path = sdlgame::get_base_path();
+    Surface window = sdlgame::display::set_mode(
+        desktop_size.x,desktop_size.y,
+        sdlgame::RENDERER_ACCELERATED | sdlgame::RESIZABLE | sdlgame::MAXIMIZED
+    );
     sdlgame::time::Clock clock;
-    std::vector<std::shared_ptr<Scene>> scene_list;
-    
-    Tetris(){
 
+    Game() = default;
+
+    void draw()
+    {
+         
     }
     void update()
     {
 
     }
-    void draw()
-    {
-
-    }
-    void run()
-    {
+    void run(){
         while(true)
         {
             auto events = sdlgame::event::get();
-            for(auto& event : events)
+            for(auto &event : events)
             {
                 if(event.type == sdlgame::QUIT)
                 {
                     sdlgame::quit();
                     exit(0);
                 }
-                else if(event.type == sdlgame::WINDOWEVENT)
-                {
-                    if(event["event"]==sdlgame::WINDOWFOCUSGAINED) gameactive = 1;
-                    else if(event["event"]==sdlgame::WINDOWFOCUSLOST) gameactive = 0;
+                else if(event.type == sdlgame::WINDOWENTER){
+                    if(event["event"] == sdlgame::WINDOWFOCUSLOST) gameactive = false;
+                    else if(event["event"] == sdlgame::WINDOWFOCUSGAINED) gameactive = true;
                 }
             }
             if(gameactive)
@@ -60,14 +57,13 @@ public:
         }
     }
 };
-
 int main(int argc, char** argv)
 {
     sdlgame::init();
     sdlgame::font::init();
     sdlgame::image::init();
     sdlgame::mixer::init();
-    Tetris game;
+    Game game;
     game.run();
     return 0;
 }

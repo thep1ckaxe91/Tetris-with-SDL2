@@ -12,6 +12,9 @@ Definition:
 		Scene transition: 
 			- a scene transition is a simple animation that appear whenever a scene is loadin or unload
 
+		Command:
+			- a commands is an set of action user
+
 
 Tetris definition: (everything should have it's own update and draw function)
 	Cell: inherite from Sprite

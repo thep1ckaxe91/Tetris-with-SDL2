@@ -283,7 +283,8 @@ namespace sdlgame
         public:
             Clock()
             {
-                time = SDL_GetTicks();
+                this->time = SDL_GetTicks();
+                this->tick();
             }
             /**
              * Update the clock
@@ -294,8 +295,8 @@ namespace sdlgame
             {
                 if(fps==0) fps = MAX_FPS;
                 Uint32 currentTime = SDL_GetTicks();
-                Uint32 elapsedTime = currentTime - time;
-                time = currentTime;
+                Uint32 elapsedTime = currentTime - this->time;
+                this->time = currentTime;
 
                 if (fps > 0)
                 {
@@ -1300,11 +1301,12 @@ namespace sdlgame
         };
     }
     
+    //forward declare
     namespace surface
     {
         class Surface;
     }
-
+    //forward declare
     namespace display
     {
         extern SDL_Window *window;
@@ -1565,8 +1567,7 @@ namespace sdlgame
         {
             win_surf.texture = NULL;
             return win_surf;
-        }
-        
+        }      
         /**
          *  if set to true, the mouse will be confine to the window
          * this function get or set the state of mouse being confine or not
