@@ -17,16 +17,19 @@ class Tetris : public Game
 {  
 public:
     bool gameactive = 1;
-    Surface window = sdlgame::display::set_mode();
+    Surface window = sdlgame::display::set_mode(desktop_size.x,desktop_size.y,
+        sdlgame::RENDERER_ACCELERATED | sdlgame::MAXIMIZED
+    );
     sdlgame::time::Clock clock;
     std::vector<std::shared_ptr<Scene>> scene_list;
-    
+    double refresh_cooldown = 1/refresh_rate;
     Tetris(){
 
     }
     void update()
     {
 
+        this->refresh_cooldown += this->clock.delta_time();
     }
     void draw()
     {
@@ -53,7 +56,10 @@ public:
             if(gameactive)
             {
                 update();
-                draw();
+                if(this->refresh_cooldown >= 1/refresh_rate){
+                    this->refresh_cooldown -= 1/refresh_rate;
+                    draw();
+                }
                 sdlgame::display::flip();
             }
             clock.tick();

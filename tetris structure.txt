@@ -12,17 +12,13 @@ Definition:
 		Scene transition: 
 			- a scene transition is a simple animation that appear whenever a scene is loadin or unload
 
-		Command:
-			- a commands is an set of action user
-
-
 Tetris definition: (everything should have it's own update and draw function)
 	Cell: inherite from Sprite
 		- a cell is a single block that contain its image value (color for simplify, or image with certain color blend for better?)
 	Shape: 
 		- a shape is a 4x4 array of cell (could be empty), with many of its rotation form (look for original tetris for more details)
 	CurrentShapeManager:
-		- a manager for current falling shape, 
+		- a manager for current falling shape
 
 	Table: 
 		- a table is a 2d array that contain many cell, and a table should only for containing cell

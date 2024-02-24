@@ -1227,6 +1227,7 @@ namespace sdlgame
                 r = 0;
                 g = 0;
                 b = 0;
+                a = 0;
             }
             Color(const char *c_name)
             {
