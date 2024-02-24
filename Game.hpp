@@ -20,13 +20,11 @@ class Game
 {
 public:
     bool gameactive;
-    Vector2 desktop_size;
     Surface window;
     sdlgame::time::Clock clock;
     std::vector<std::shared_ptr<Scene>> scene_list;
     
     Game();
-    ~Game(){sdlgame::quit();};
     virtual void draw()   =0;
     virtual void update() =0;
     virtual void run()    =0;

@@ -12,24 +12,23 @@ using Channel = sdlgame::mixer::Channel;
 using Font = sdlgame::font::Font;
 using namespace std;
 class Game;
-class TransitionEvent
+class SceneTransition
 {
 public:
-    int type;
     double time; //time in second, the length of the animation
-    bool in;
     Vector2 dir;
     Surface window = sdlgame::display::get_surface();
     void set_dir(Vector2 dir){this->dir = dir;}
     virtual void update() = 0;
     virtual void draw() = 0;
 };
-class InZoomCircle : public TransitionEvent
+
+class InZoomCircle : public SceneTransition
 {
 public:
-    InZoomCircle(Vector2 dir)
+    InZoomCircle(Vector2 pos)
     {
-        this->dir = dir;
+        this->dir=pos;
     }
     void update()
     {
@@ -40,9 +39,12 @@ public:
 
     }
 };
-class OutZoomCircle : public TransitionEvent
+class OutZoomCircle : public SceneTransition
 {
-    const int type = 2;
+    OutZoomCircle(Vector2 pos)
+    {
+        this->dir = pos;
+    }
     void update()
     {
 
@@ -52,9 +54,34 @@ class OutZoomCircle : public TransitionEvent
 
     }
 };
-class InSwipeUp : public TransitionEvent
+class SwipeUp : public SceneTransition
 {
-    const int type = 3;
+public:
+    double start_accelerate;
+    double end_decelerate;
+    double pull_vel = 0;
+    SwipeUp(double second = 1, double accelerate = 1, double decelerate = 1)
+    {
+        start_accelerate = accelerate;
+        end_decelerate = decelerate;
+
+    }
+    void update()
+    {
+        
+    }
+    void draw()
+    {
+
+    }
+};
+class SwipeDown : public SceneTransition
+{
+public:
+    double y_pos=0;
+    SwipeDown()
+    {
+    }
     void update()
     {
 
@@ -64,68 +91,20 @@ class InSwipeUp : public TransitionEvent
 
     }
 };
-class OutSwipeUp : public TransitionEvent
-{
-    const int type = 4;
-    void update()
-    {
-
-    }
-    void draw()
-    {
-
-    }
-};
-class InSwipeDown : public TransitionEvent
-{
-    const int type = 5;
-    void update()
-    {
-
-    }
-    void draw()
-    {
-
-    }
-};
-class OutSwipeDown : public TransitionEvent
-{
-    const int type = 6;
-    void update()
-    {
-
-    }
-    void draw()
-    {
-
-    }
-};
-SDL_Event e;
 /**
  * class contain update and draw fucntion for unload and loadin transition animation
 */
-class SceneTransition
-{
-public:
-    int type;
-    SceneTransition(TransitionEvent args)
-    {
-        this->type = type;
-    }
-};
-
 class Scene
 {
-    public:
-    Scene() = default;
-    Scene(std::shared_ptr<Game> game);
+public:
+    Scene(std::shared_ptr<Game> game = nullptr);
     virtual void update() = 0;
     virtual void draw() = 0;
     virtual void handle_event(sdlgame::event::Event &event) = 0;
     private:
     std::shared_ptr<Game> game;
-    SceneTransition in;
-    SceneTransition out;
+    SceneTransition *in;
+    SceneTransition *out;
 };
 
 #endif

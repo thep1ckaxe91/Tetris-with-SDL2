@@ -3,7 +3,7 @@ Definition:
 	Game:
 		- a game is the whole program, managing scene and transition with game loop and call update, render and handle event to the current managing scene method
 		- a game should also managing the global variable that exist the entire lifetime of the game, mostly setting variable
-		- Game is an abstract class, mean that it should be specific for each game and inherited to create a new Game, Game is just a type to use for reference
+		- Game is an abstract class, mean that it should be specific for each game and inherited to create a new Game
 
 		Scene: 
 			- a scene is a part of game with its own render, update and event handler function
