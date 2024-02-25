@@ -2,6 +2,7 @@
 #define SCENE_HPP
 #include "engine.hpp"
 #include "Game.hpp"
+#include "SceneTransition.hpp"
 using Event = sdlgame::event::Event;
 using Rect = sdlgame::rect::Rect;
 using Vector2 = sdlgame::math::Vector2;
@@ -12,26 +13,26 @@ using Channel = sdlgame::mixer::Channel;
 using Font = sdlgame::font::Font;
 using namespace std;
 class Game;
-
 /**
- * class contain update and draw fucntion for unload and loadin transition animation
+ * class manage a scene, all update, draw, handle_event should be override
 */
 class Scene
 {
 public:
-    shared_ptr<sdlgame::time::Clock> clock;
-    shared_ptr<Game> game;
-    Scene(shared_ptr<Game> game){
-        this->clock = make_shared<sdlgame::time::Clock>(&game->clock);
-    }
-    virtual ~Scene() = 0;
+    Game* game;
+    Scene(Game &game){this->game=&game;}
+    ~Scene(){
+        if(in!=nullptr)
+            delete in;
+        if(out!=nullptr)
+            delete out;
+    };
     virtual void update() = 0;
     virtual void draw() = 0;
     virtual void handle_event(sdlgame::event::Event &event) = 0;
 private:
-    std::shared_ptr<Game> game;
-    SceneTransition *in;
-    SceneTransition *out;
+    SceneTransition *in = nullptr;
+    SceneTransition *out = nullptr;
 };
 
 #endif

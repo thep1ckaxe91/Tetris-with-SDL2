@@ -219,7 +219,7 @@ namespace sdlgame
         MOUSEMOTION = SDL_MOUSEMOTION,
         MOUSEWHEEL = SDL_MOUSEWHEEL,
         WINDOWEVENT = SDL_WINDOWEVENT,
-        USEREVENT = SDL_USEREVENT,
+        USEREVENT = SDL_USEREVENT
     } Event_Code;
 
     typedef enum
@@ -2323,6 +2323,9 @@ namespace sdlgame
             {
                 printf("Failed to init mixer\nErr:%s\n", Mix_GetError());
                 exit(0);
+            }
+            else{
+                printf("Mixer successfully initialized\n");
             }
         }
         int get_num_channels()

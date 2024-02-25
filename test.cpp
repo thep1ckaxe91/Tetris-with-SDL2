@@ -27,10 +27,7 @@ public:
     {
          
     }
-    void update()
-    {
-
-    }
+    virtual void update();
     void run(){
         while(true)
         {

@@ -24,7 +24,7 @@ public:
     sdlgame::time::Clock clock;
     std::vector<std::shared_ptr<Scene>> scene_list;
     
-    Game();
+    Game() = default;
     virtual void draw()   =0;
     virtual void update() =0;
     virtual void run()    =0;

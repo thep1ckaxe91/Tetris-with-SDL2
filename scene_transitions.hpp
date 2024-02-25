@@ -11,6 +11,7 @@ using Sound = sdlgame::mixer::Sound;
 using Channel = sdlgame::mixer::Channel;
 using Font = sdlgame::font::Font;
 using namespace std;
+
 class InZoomCircle : public SceneTransition
 {
 public:
@@ -43,6 +44,7 @@ public:
         window.blit(mask,Vector2(0,0));
     }
 };
+
 class OutZoomCircle : public SceneTransition
 {
     Surface mask;//mask surface to draw on top of window
@@ -66,48 +68,156 @@ class OutZoomCircle : public SceneTransition
         sdlgame::draw::circle(mask,Color(),this->dir.x,this->dir.y,this->rad);
         this->rad += this->speed;
         this->time -= delta_time;
-        if(this->rad >= (window.getRect().getTopLeft() - window.getRect().getBottomRight()).magnitude()) isDone = 1;
+        if(this->time <= 0) isDone = 1;
     }
     void draw() 
     {
         window.blit(mask,Vector2(0,0));
     }
 };
-class SwipeUp : public SceneTransition
+
+class OutSwipeUp : public SceneTransition
 {
 public:
-    double start_accelerate;
-    double end_decelerate;
-    double pull_vel = 0;
-    SwipeUp(double second = 1, double accelerate = 1, double decelerate = 1)
+    double start_acceleration;
+    double end_deceleration;
+    double vel = 0, t1 = 0;
+    double vel_at_t2;
+    double length,v_max;
+    double cur_height = window.getHeight();
+    OutSwipeUp(double time = 1, double accelerate = 10, double decelerate = 10) : SceneTransition(time)
     {
-        start_accelerate = accelerate;
-        end_decelerate = decelerate;
-
+        this->start_acceleration = accelerate;
+        this->end_deceleration = decelerate;
+        this->length = window.getHeight();
+        this->v_max = sqrt(2 * this->length / this->start_acceleration);
     }
-    void update()
+    void update(double delta_time)
     {
-        
+        if(this->v_max/this->start_acceleration < this->t1){
+            this->vel += this->start_acceleration * delta_time;
+        }
+        else{
+            this->vel -= this->end_deceleration*delta_time;
+        }
+        this->time -= delta_time;
+        this->t1 += delta_time;
+        if(this->time <= 0) isDone = 1;
+        this->cur_height -= this->vel;
     }
     void draw()
     {
-
+        sdlgame::draw::rect(window,Color("black"),Rect(0.0,this->cur_height,window.getWidth(),window.getHeight()-this->cur_height));
     }
 };
-class SwipeDown : public SceneTransition
+
+class InSwipeUp : public SceneTransition
 {
 public:
-    double y_pos=0;
-    SwipeDown()
+    double start_acceleration;
+    double end_deceleration;
+    double vel = 0, t1 = 0;
+    double vel_at_t2;
+    double length,v_max;
+    double cur_height = window.getHeight();
+    InSwipeUp(double time = 1, double accelerate = 10, double decelerate = 10) : SceneTransition(time)
     {
+        this->start_acceleration = accelerate;
+        this->end_deceleration = decelerate;
+        this->length = window.getHeight();
+        this->v_max = sqrt(2 * this->length / this->start_acceleration);
     }
-    void update()
+    void update(double delta_time)
     {
+        if(this->v_max/this->start_acceleration < this->t1){
+            this->vel += this->start_acceleration*delta_time;
+        }
+        else{
+            this->vel -= this->end_deceleration*delta_time;
+        }
+        this->time -= delta_time;
+        this->t1 += delta_time;
+        if(this->time <= 0) isDone = 1;
 
+        this->cur_height -= this->vel;
     }
     void draw()
     {
-
+        sdlgame::draw::rect(window,Color("black"),Rect(0.0,0.0,window.getWidth(),this->cur_height));
     }
 };
+
+class InSwipeDown : public SceneTransition
+{
+public:
+    double start_acceleration;
+    double end_deceleration;
+    double vel = 0, t1 = 0;
+    double vel_at_t2;
+    double length,v_max;
+    double cur_height = 0;
+    InSwipeDown(double time = 1, double accelerate = 10, double decelerate = 50) : SceneTransition(time)
+    {
+        this->start_acceleration = accelerate;
+        this->end_deceleration = decelerate;
+        this->length = window.getHeight();
+        this->v_max = sqrt(2 * this->length / this->start_acceleration);
+    }
+    void update(double delta_time)
+    {
+        if(this->v_max/this->start_acceleration < this->t1){
+            this->vel += start_acceleration * delta_time;
+        }
+        else{
+            this->vel -= this->end_deceleration*delta_time;
+        }
+        this->time -= delta_time;
+        this->t1 += delta_time;
+        if(this->time <= 0) isDone = 1;
+
+        this->cur_height += this->vel;
+    }
+    void draw()
+    {
+        sdlgame::draw::rect(window,Color("black"),Rect(0.0,this->cur_height,window.getWidth(),window.getHeight()-this->cur_height));
+    }
+};
+
+class OutSwipeDown : public SceneTransition
+{
+public:
+    double start_acceleration;
+    double end_deceleration;
+    double vel = 0, t1 = 0;
+    double vel_at_t2;
+    double length,v_max;
+    double cur_height = 0;
+    OutSwipeDown(double time = 1, double accelerate = 10, double decelerate = 50) : SceneTransition(time)
+    {
+        this->start_acceleration = accelerate;
+        this->end_deceleration = decelerate;
+        this->length = window.getHeight();
+        this->v_max = sqrt(2 * this->length / this->start_acceleration);
+    }
+    void update(double delta_time)
+    {
+        if(this->v_max/this->start_acceleration < this->t1){
+            this->vel += start_acceleration * delta_time;
+        }
+        else{
+            this->vel -= this->end_deceleration*delta_time;
+        }
+        this->time -= delta_time;
+        this->t1 += delta_time;
+        if(this->time <= 0) isDone = 1;
+
+        this->cur_height += this->vel;
+    }
+    void draw()
+    {
+        sdlgame::draw::rect(window,Color("black"),Rect(0.0,0.0,window.getWidth(),this->cur_height));
+    }
+
+};
+
 #endif

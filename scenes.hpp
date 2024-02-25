@@ -3,6 +3,8 @@
 
 #include "Scene.hpp"
 #include "engine.hpp"
+#include "Game.hpp"
+#include "constant.hpp"
 using Event = sdlgame::event::Event;
 using Rect = sdlgame::rect::Rect;
 using Vector2 = sdlgame::math::Vector2;
@@ -16,9 +18,25 @@ using namespace std;
 
 class Test : public Scene
 {
-    Test(shared_ptr<Game> game) : Scene(game){
-        
+public:
+
+    Test(Game &game) : Scene(game){
+        printf("%p\n",this->game);
     }
+    void handle_event(Event &event)
+    {
+
+    }
+    void update()
+    {
+
+    }
+    void draw()
+    {
+        this->game->window.fill(Color("white"));
+        sdlgame::draw::circle(this->game->window,Color("magenta"),desktop_size.x/2 * sin(sdlgame::time::get_ticks()/50),desktop_size.y/2,200);
+    }
+    ~Test(){}
 };
 
 class MainMenu : public Scene

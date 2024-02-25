@@ -2,6 +2,7 @@
 #include "Game.hpp"
 #include "Scene.hpp"
 #include "constant.hpp"
+#include "scenes.hpp"
 using Event = sdlgame::event::Event;
 using Rect = sdlgame::rect::Rect;
 using Vector2 = sdlgame::math::Vector2;
@@ -13,6 +14,7 @@ using Font = sdlgame::font::Font;
 using namespace std;
 
 //If global declare is bad, i make MY OWN global declare >:)
+
 class Tetris : public Game
 {  
 public:
@@ -21,19 +23,21 @@ public:
         sdlgame::RENDERER_ACCELERATED | sdlgame::MAXIMIZED
     );
     sdlgame::time::Clock clock;
-    std::vector<std::shared_ptr<Scene>> scene_list;
+    std::vector<Scene *> scene_list;
+    int buffer_lost = 0;
     double refresh_cooldown = 1/refresh_rate;
-    Tetris(){
-
+    Tetris() : Game(){
+        Test test_scene = Test(*this);
+        scene_list.push_back(&test_scene);
     }
     void update()
     {
-
+        scene_list[scene_list.size()-1]->update();
         this->refresh_cooldown += this->clock.delta_time();
     }
     void draw()
     {
-
+        scene_list[scene_list.size()-1]->draw();
     }
     void run()
     {
@@ -52,12 +56,14 @@ public:
                     if(event["event"]==sdlgame::WINDOWFOCUSGAINED) gameactive = 1;
                     else if(event["event"]==sdlgame::WINDOWFOCUSLOST) gameactive = 0;
                 }
+                scene_list[scene_list.size()-1]->handle_event(event);
             }
             if(gameactive)
             {
                 update();
                 if(this->refresh_cooldown >= 1/refresh_rate){
                     this->refresh_cooldown -= 1/refresh_rate;
+                    this->buffer_lost = this->refresh_cooldown*refresh_rate;
                     draw();
                 }
                 sdlgame::display::flip();
