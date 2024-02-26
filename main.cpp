@@ -15,21 +15,18 @@ using namespace std;
 
 //If global declare is bad, i make MY OWN global declare >:)
 
-class Tetris : public Game
+class Sandtris : public Game
 {  
 public:
     bool gameactive = 1;
-    Surface window = sdlgame::display::set_mode(desktop_size.x,desktop_size.y,
-        sdlgame::RENDERER_ACCELERATED | sdlgame::MAXIMIZED
+    Surface window = sdlgame::display::set_mode(RESOLUTION_WIDTH, RESOLUTION_HEIGHT,
+        sdlgame::RESIZABLE | sdlgame::MAXIMIZED 
     );
     sdlgame::time::Clock clock;
     std::vector<Scene *> scene_list;
     int buffer_lost = 0;
     double refresh_cooldown = 1/refresh_rate;
-    Tetris() : Game(){
-        Test test_scene = Test(*this);
-        scene_list.push_back(&test_scene);
-    }
+    Sandtris() : Game(){}
     void update()
     {
         scene_list[scene_list.size()-1]->update();
@@ -41,6 +38,10 @@ public:
     }
     void run()
     {
+        Test test_scene = Test(*this);
+        scene_list.push_back(&test_scene);
+
+
         while(true)
         {
             auto events = sdlgame::event::get();
@@ -79,7 +80,7 @@ int main(int argc, char** argv)
     sdlgame::font::init();
     sdlgame::image::init();
     sdlgame::mixer::init();
-    Tetris game;
+    Sandtris game;
     game.run();
     return 0;
 }

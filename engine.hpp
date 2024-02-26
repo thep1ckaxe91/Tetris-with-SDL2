@@ -60,7 +60,7 @@ extern "C"
 }
 /**
  * TODO: further find optimization, write all instruction for function and classes
-*/
+ */
 namespace sdlgame
 {
     typedef enum
@@ -201,9 +201,8 @@ namespace sdlgame
         SKIP_TASK_BAR = SDL_WINDOW_SKIP_TASKBAR,
         POPUP_MENU = SDL_WINDOW_POPUP_MENU,
         ALWAYS_ON_TOP = SDL_WINDOW_ALWAYS_ON_TOP,
-        RENDERER_ACCELERATED = SDL_RENDERER_ACCELERATED,
         MAXIMIZED = SDL_WINDOW_MAXIMIZED,
-        MINIMIZED = SDL_WINDOW_MINIMIZED
+        MINIMIZED = SDL_WINDOW_MINIMIZED,
     } Window_Flag;
 
     /*Texture flags ?*/
@@ -224,35 +223,35 @@ namespace sdlgame
 
     typedef enum
     {
-        WINDOWSHOWN = SDL_WINDOWEVENT_SHOWN,           // Window became shown
-        WINDOWHIDDEN = SDL_WINDOWEVENT_HIDDEN,       // Window became hidden
-        WINDOWEXPOSED = SDL_WINDOWEVENT_EXPOSED,      // Window got updated by some external event
-        WINDOWMOVED = SDL_WINDOWEVENT_MOVED,           // Window got moved
-        WINDOWRESIZED = SDL_WINDOWEVENT_RESIZED,         // Window got resized
-        WINDOWSIZECHANGED = SDL_WINDOWEVENT_SIZE_CHANGED,    // Window changed its size
+        WINDOWSHOWN = SDL_WINDOWEVENT_SHOWN,              // Window became shown
+        WINDOWHIDDEN = SDL_WINDOWEVENT_HIDDEN,            // Window became hidden
+        WINDOWEXPOSED = SDL_WINDOWEVENT_EXPOSED,          // Window got updated by some external event
+        WINDOWMOVED = SDL_WINDOWEVENT_MOVED,              // Window got moved
+        WINDOWRESIZED = SDL_WINDOWEVENT_RESIZED,          // Window got resized
+        WINDOWSIZECHANGED = SDL_WINDOWEVENT_SIZE_CHANGED, // Window changed its size
         WINDOWMINIMIZED = SDL_WINDOWEVENT_MINIMIZED,      // Window was minimized
         WINDOWMAXIMIZED = SDL_WINDOWEVENT_MAXIMIZED,      // Window was maximized
         WINDOWRESTORED = SDL_WINDOWEVENT_RESTORED,        // Window was restored
-        WINDOWENTER = SDL_WINDOWEVENT_ENTER,          // Mouse entered the window
-        WINDOWLEAVE = SDL_WINDOWEVENT_LEAVE,           // Mouse left the window
-        WINDOWFOCUSGAINED = SDL_WINDOWEVENT_FOCUS_GAINED,     // Window gained focus
-        WINDOWFOCUSLOST = SDL_WINDOWEVENT_FOCUS_LOST,      // Window lost focus
-        WINDOWCLOSE = SDL_WINDOWEVENT_CLOSE,          // Window was closed
-        WINDOWTAKEFOCUS = SDL_WINDOWEVENT_TAKE_FOCUS,       // Window was offered focus (SDL backend >= 2.0.5)
+        WINDOWENTER = SDL_WINDOWEVENT_ENTER,              // Mouse entered the window
+        WINDOWLEAVE = SDL_WINDOWEVENT_LEAVE,              // Mouse left the window
+        WINDOWFOCUSGAINED = SDL_WINDOWEVENT_FOCUS_GAINED, // Window gained focus
+        WINDOWFOCUSLOST = SDL_WINDOWEVENT_FOCUS_LOST,     // Window lost focus
+        WINDOWCLOSE = SDL_WINDOWEVENT_CLOSE,              // Window was closed
+        WINDOWTAKEFOCUS = SDL_WINDOWEVENT_TAKE_FOCUS,     // Window was offered focus (SDL backend >= 2.0.5)
         WINDOWHITTEST = SDL_WINDOWEVENT_HIT_TEST,         // Window has a special hit test (SDL backend >= 2.0.5)
     } Window_Event;
     /*Variable here*/
 
     /**
      * @return base path to the exe file that call this function
-    */
+     */
     std::string get_base_path()
     {
         return std::string(SDL_GetBasePath());
     }
     /**
      * @brief namespace for time function and class in sdlgame
-    */
+     */
     namespace time
     {
         /**
@@ -272,7 +271,7 @@ namespace sdlgame
 
         /**
          * Clock object for time manegement in game
-        */
+         */
         class Clock
         {
         private:
@@ -280,6 +279,7 @@ namespace sdlgame
             std::list<Uint32> elapsedTimes;
             const int MAX_FPS = 1000;
             double bullet_time_multiplier = 1;
+
         public:
             Clock()
             {
@@ -290,10 +290,11 @@ namespace sdlgame
              * Update the clock
              * @return the time has passed since the last call to this function
              * @param fps desired FPS, if the fps is too high, it just run as fast as possible
-            */
+             */
             Uint32 tick(double fps = 0)
             {
-                if(fps==0) fps = MAX_FPS;
+                if (fps == 0)
+                    fps = MAX_FPS;
                 Uint32 currentTime = SDL_GetTicks();
                 Uint32 elapsedTime = currentTime - this->time;
                 this->time = currentTime;
@@ -313,10 +314,10 @@ namespace sdlgame
                     elapsedTimes.pop_front();
                 return elapsedTime;
             }
-            
+
             /**
              * @return delta-time, time passed that calculated from the lastest call to tick() function
-            */
+             */
             double delta_time() const
             {
                 return elapsedTimes.back() * 1.0 / 1000.0 * bullet_time_multiplier;
@@ -326,14 +327,14 @@ namespace sdlgame
              * this only work if user use delta_time for movement instead of fixed fps with normal increment
              * @param percentage the value is clamp to [1,100], is how much slower time should
              * flow compare to real-time
-            */
+             */
             void set_bullettime_multiplier(double percentage)
             {
                 bullet_time_multiplier = (percentage < 1 ? 1 : (percentage > 100 ? 100 : percentage)) / 100.0;
             }
             /**
              * @return fps rely on 10 last delta time from tick function
-            */
+             */
             double get_fps() const
             {
                 double res = 0;
@@ -351,7 +352,7 @@ namespace sdlgame
 
     /**
      * namespace for most use math functionality in game dev
-    */
+     */
     namespace math
     {
         double degree_to_radian(double deg)
@@ -456,14 +457,14 @@ namespace sdlgame
             }
             /**
              * @return length of the vector
-            */
+             */
             double magnitude() const
             {
                 return sqrt(x * x + y * y);
             }
             /**
              * @return the squared value of the length of the vector
-            */
+             */
             double sqr_magnitude() const
             {
                 return x * x + y * y;
@@ -485,7 +486,7 @@ namespace sdlgame
             }
             /**
              * @return dot product between 2 vector
-            */
+             */
             double dot(const sdlgame::math::Vector2 &oth) const
             {
                 return x * oth.x + y * oth.y;
@@ -517,7 +518,7 @@ namespace sdlgame
             }
             /**
              * @return distance between 2 point
-            */
+             */
             double distance_to(const sdlgame::math::Vector2 &oth) const
             {
                 return sqrt((x - oth.x) * (x - oth.x) + (y - oth.y) * (y - oth.y));
@@ -532,21 +533,21 @@ namespace sdlgame
             }
             /**
              * reflect the vector through a normal vector
-            */
+             */
             void reflect_ip(const sdlgame::math::Vector2 &normal)
             {
                 *this = this->reflect(normal);
             }
             /**
              * @return a projected vector from this vector to a normal vector
-            */
+             */
             sdlgame::math::Vector2 project(const sdlgame::math::Vector2 &normal) const
             {
                 return normal * (this->dot(normal) / (normal.sqr_magnitude()));
             }
             /**
              * project the vector onto a normal vector
-            */
+             */
             void project_ip(const sdlgame::math::Vector2 &normal)
             {
                 *this = this->project(normal);
@@ -1232,9 +1233,12 @@ namespace sdlgame
             Color(const char *c_name)
             {
                 std::string name = std::string(c_name);
-                if(name=="none"){
-                    r=0; g=0; b=0;
-                    a=0;
+                if (name == "none")
+                {
+                    r = 0;
+                    g = 0;
+                    b = 0;
+                    a = 0;
                     return;
                 }
                 for (char &c : name)
@@ -1251,9 +1255,12 @@ namespace sdlgame
             }
             Color(std::string name)
             {
-                if(name=="none"){
-                    r=0; g=0; b=0;
-                    a=0;
+                if (name == "none")
+                {
+                    r = 0;
+                    g = 0;
+                    b = 0;
+                    a = 0;
                     return;
                 }
                 for (char &c : name)
@@ -1301,13 +1308,13 @@ namespace sdlgame
             }
         };
     }
-    
-    //forward declare
+
+    // forward declare
     namespace surface
     {
         class Surface;
     }
-    //forward declare
+    // forward declare
     namespace display
     {
         extern SDL_Window *window;
@@ -1333,7 +1340,7 @@ namespace sdlgame
                 flags = 0;
                 texture = NULL;
             }
-            
+
             Surface(int width, int height, Uint32 _flags = 0)
             {
                 flags = _flags;
@@ -1349,7 +1356,7 @@ namespace sdlgame
                 SDL_RenderClear(sdlgame::display::renderer);
                 SDL_SetRenderTarget(sdlgame::display::renderer, NULL);
             }
-            
+
             Surface(const Surface &oth)
             {
                 int w, h;
@@ -1377,7 +1384,7 @@ namespace sdlgame
                 SDL_SetRenderTarget(sdlgame::display::renderer, NULL);
                 size = sdlgame::math::Vector2(w, h);
             }
-            
+
             Surface(SDL_Surface *surf)
             {
                 texture = SDL_CreateTextureFromSurface(sdlgame::display::renderer, surf);
@@ -1498,11 +1505,12 @@ namespace sdlgame
         /**
          * @return hardware resolution, if you have a fullHD monitor
          * this should return a vector2 (1920,1080)
-        */
-        sdlgame::math::Vector2 get_desktop_size(){
+         */
+        sdlgame::math::Vector2 get_desktop_size()
+        {
             int w = GetSystemMetrics(SM_CXSCREEN);
             int h = GetSystemMetrics(SM_CYSCREEN);
-            return sdlgame::math::Vector2(w,h);
+            return sdlgame::math::Vector2(w, h);
         }
         /**
          * Setup a window surface for use
@@ -1510,7 +1518,7 @@ namespace sdlgame
          * @param height the resolution height of the window
          * @param flags flags for the window, look for Window_Flags enum for more
          * @return a surface that represent the window, what action affect this window will affect what display on screen
-        */
+         */
         sdlgame::surface::Surface &set_mode(int width = 0, int height = 0, Uint32 flags = 0)
         {
             if (width == 0 or height == 0)
@@ -1526,40 +1534,40 @@ namespace sdlgame
                 printf("Failed to create a window object\nErr: %s\n", SDL_GetError());
                 exit(0);
             }
-            renderer = SDL_CreateRenderer(window, -1, 0);
+            renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED);
             if (renderer == nullptr)
             {
                 printf("Failed to create a renderer\nErr: %s\n", SDL_GetError());
                 exit(0);
             }
-            SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY,"linear");
-            SDL_RenderSetLogicalSize(renderer,width,height);
+            SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
+            SDL_RenderSetLogicalSize(renderer, width, height);
             // printf("Initialize window and renderer: %p %p\n",window,renderer);
             win_surf.texture = null; // THIS IS INTENDED!
-            win_surf.size = sdlgame::math::Vector2(width,height);
+            win_surf.size = sdlgame::math::Vector2(width, height);
             return win_surf;
         }
         /**
          * Maximize the active window
-        */
+         */
         void maximize()
         {
             SDL_MaximizeWindow(window);
         }
         /**
          * Minimize the active window
-        */
+         */
         void minimize()
         {
             SDL_MinimizeWindow(window);
         }
         void fullscreen()
         {
-            SDL_SetWindowFullscreen(window,SDL_WINDOW_FULLSCREEN);
+            SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
         }
         void fullscreen_desktop()
         {
-            SDL_SetWindowFullscreen(window,SDL_WINDOW_FULLSCREEN_DESKTOP);
+            SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
         }
         /**
          *  return a Surface object that have reference SDL_surface to the window surface
@@ -1568,7 +1576,7 @@ namespace sdlgame
         {
             win_surf.texture = NULL;
             return win_surf;
-        }      
+        }
         /**
          *  if set to true, the mouse will be confine to the window
          * this function get or set the state of mouse being confine or not
@@ -1629,15 +1637,15 @@ namespace sdlgame
     {
         /**
          * Currently only support JPG and PNG type
-        */
+         */
         void init()
         {
-            if (IMG_Init(IMG_INIT_JPG)&IMG_INIT_JPG!=IMG_INIT_JPG)
+            if (IMG_Init(IMG_INIT_JPG) & IMG_INIT_JPG != IMG_INIT_JPG)
             {
                 printf("Failed to init JPG image flags\n%s\n", IMG_GetError());
                 exit(0);
             }
-            else if(IMG_Init(IMG_INIT_PNG)&IMG_INIT_PNG!=IMG_INIT_PNG)
+            else if (IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG != IMG_INIT_PNG)
             {
                 printf("Failed to init PNG image flags\n%s\n", IMG_GetError());
                 exit(0);
@@ -1651,8 +1659,9 @@ namespace sdlgame
         sdlgame::surface::Surface load(std::string path)
         {
             SDL_Texture *tex = IMG_LoadTexture(sdlgame::display::renderer, path.c_str());
-            if(tex==NULL){
-                printf("Cant load image\n%s\n",IMG_GetError());
+            if (tex == NULL)
+            {
+                printf("Cant load image\n%s\n", IMG_GetError());
                 exit(0);
             }
             sdlgame::surface::Surface res = sdlgame::surface::Surface(tex);
@@ -1755,14 +1764,13 @@ namespace sdlgame
                 /**
                  * @todo: leave these here in case need, now type only is good enough
                  */
-                if(e.type == SDL_WINDOWEVENT)
+                if (e.type == SDL_WINDOWEVENT)
                 {
                     timestamp = e.window.timestamp;
-                    dict["windowID"] = e.window.windowID;    /**< The associated window */
+                    dict["windowID"] = e.window.windowID; /**< The associated window */
                     dict["event"] = e.window.event;
                 }
-                else
-                if (e.type == SDL_KEYDOWN or e.type == SDL_KEYUP)
+                else if (e.type == SDL_KEYDOWN or e.type == SDL_KEYUP)
                 {
                     timestamp = e.key.timestamp;
                     dict["key"] = e.key.keysym.scancode;
@@ -1846,7 +1854,7 @@ namespace sdlgame
                 printf("Failed to set target: %s\n", SDL_GetError());
             }
             SDL_SetRenderDrawColor(sdlgame::display::renderer, color.r, color.g, color.b, color.a);
-            
+
             if (width == 0)
             {
                 SDL_FRect tmp = rect.to_SDL_FRect();
@@ -1858,10 +1866,10 @@ namespace sdlgame
             }
             else if (width > 0)
             {
-                SDL_FRect top    = rect.inflate(0.0,width - rect.getHeight()).to_SDL_FRect();
-                SDL_FRect left   = rect.inflate(width - rect.getWidth(),0.0).to_SDL_FRect();
-                SDL_FRect bottom = rect.inflate(0.0,width - rect.getHeight()).move(0.0, rect.getHeight() - width).to_SDL_FRect();
-                SDL_FRect right  = rect.inflate(width - rect.getWidth(),0.0).move(rect.getWidth() - width, 0.0).to_SDL_FRect();
+                SDL_FRect top = rect.inflate(0.0, width - rect.getHeight()).to_SDL_FRect();
+                SDL_FRect left = rect.inflate(width - rect.getWidth(), 0.0).to_SDL_FRect();
+                SDL_FRect bottom = rect.inflate(0.0, width - rect.getHeight()).move(0.0, rect.getHeight() - width).to_SDL_FRect();
+                SDL_FRect right = rect.inflate(width - rect.getWidth(), 0.0).move(rect.getWidth() - width, 0.0).to_SDL_FRect();
                 if (SDL_RenderFillRectF(sdlgame::display::renderer, &top) or
                     SDL_RenderFillRectF(sdlgame::display::renderer, &left) or
                     SDL_RenderFillRectF(sdlgame::display::renderer, &bottom) or
@@ -1885,7 +1893,7 @@ namespace sdlgame
                 printf("Failed to set target: %s\n", SDL_GetError());
             }
             SDL_SetRenderDrawColor(sdlgame::display::renderer, color.r, color.g, color.b, color.a);
-            
+
             if (SDL_RenderDrawLineF(sdlgame::display::renderer, x1, y1, x2, y2))
             {
                 printf("Failed to draw a line: %s\n", SDL_GetError());
@@ -1903,7 +1911,7 @@ namespace sdlgame
                 printf("Failed to set target: %s\n", SDL_GetError());
             }
             SDL_SetRenderDrawColor(sdlgame::display::renderer, color.r, color.g, color.b, color.a);
-            
+
             if (SDL_RenderDrawLineF(sdlgame::display::renderer, start.x, start.y, end.x, end.y))
             {
                 printf("Failed to draw a line: %s\n", SDL_GetError());
@@ -1914,42 +1922,42 @@ namespace sdlgame
                 printf("Failed to set target: %s\n", SDL_GetError());
             }
         }
-        void circle(sdlgame::surface::Surface &surface, sdlgame::color::Color color, int centerX, int centerY, int radius, int width=0)
+        void circle(sdlgame::surface::Surface &surface, sdlgame::color::Color color, int centerX, int centerY, int radius, int width = 0)
         {
             if (SDL_SetRenderTarget(sdlgame::display::renderer, surface.texture))
             {
                 printf("Failed to set target: %s\n", SDL_GetError());
             }
             SDL_SetRenderDrawColor(sdlgame::display::renderer, color.r, color.g, color.b, color.a);
-            
-            if(width!=0){
+
+            if (width != 0)
+            {
                 int quality = 90;
-                sdlgame::math::Vector2 rad(radius,0);
-                for(int i=0;i<=quality;i++){
-                    sdlgame::math::Vector2 next = rad.rotate(360/quality);
-                    SDL_RenderDrawLineF(sdlgame::display::renderer,centerX+rad.x,centerY+rad.y,centerX+next.x,centerY+next.y);
+                sdlgame::math::Vector2 rad(radius, 0);
+                for (int i = 0; i <= quality; i++)
+                {
+                    sdlgame::math::Vector2 next = rad.rotate(360 / quality);
+                    SDL_RenderDrawLineF(sdlgame::display::renderer, centerX + rad.x, centerY + rad.y, centerX + next.x, centerY + next.y);
                     rad = next;
                 }
             }
-            else{
+            else
+            {
                 double x;
-                for(int i=-radius;i<=radius;i++)
+                for (int i = -radius; i <= radius; i++)
                 {
-                    x = radius * std::cos(std::asin(i*1.0/radius));
+                    x = radius * std::cos(std::asin(i * 1.0 / radius));
                     SDL_RenderDrawLineF(
                         sdlgame::display::renderer,
-                        x+centerX, i+centerY,
-                        centerX-x,i+centerY
-                    );
+                        x + centerX, i + centerY,
+                        centerX - x, i + centerY);
                 }
-
             }
             if (SDL_SetRenderTarget(sdlgame::display::renderer, NULL))
             {
                 printf("Failed to set target: %s\n", SDL_GetError());
             }
         }
-
         void polygon(sdlgame::surface::Surface &surface, sdlgame::color::Color color, std::vector<std::pair<int, int>> points)
         {
             if (points.size() < 3)
@@ -1960,6 +1968,26 @@ namespace sdlgame
             }
             sdlgame::draw::line(surface, color, points[0].first, points[0].second, points[points.size() - 1].first, points[points.size() - 1].second);
         }
+
+        template <class T>
+        void point(sdlgame::surface::Surface &surface, sdlgame::color::Color color, T x, T y)
+        {
+            if (SDL_SetRenderTarget(sdlgame::display::renderer, surface.texture))
+            {
+                printf("Failed to set target: %s\n", SDL_GetError());
+            }
+            SDL_SetRenderDrawColor(sdlgame::display::renderer, color.r, color.g, color.b, color.a);
+
+            if (SDL_RenderDrawPointF(sdlgame::display::renderer, x, y))
+            {
+                printf("Failed to draw a point: %s\n", SDL_GetError());
+                exit(0);
+            }
+            if (SDL_SetRenderTarget(sdlgame::display::renderer, NULL))
+            {
+                printf("Failed to set target: %s\n", SDL_GetError());
+            }
+        }
     }
 
     namespace transform
@@ -1969,7 +1997,7 @@ namespace sdlgame
          * @param surface source surface
          * @param flip_x whether to flip x or not
          * @param flip_y whether to flip y or not
-        */
+         */
         sdlgame::surface::Surface flip(sdlgame::surface::Surface surface, bool flip_x, bool flip_y)
         {
             sdlgame::surface::Surface res = surface;
@@ -2324,7 +2352,8 @@ namespace sdlgame
                 printf("Failed to init mixer\nErr:%s\n", Mix_GetError());
                 exit(0);
             }
-            else{
+            else
+            {
                 printf("Mixer successfully initialized\n");
             }
         }
@@ -2397,6 +2426,8 @@ namespace sdlgame
             }
             void load(std::string path)
             {
+                if (chunk != NULL)
+                    Mix_FreeChunk(chunk);
                 chunk = Mix_LoadWAV(path.c_str());
                 if (chunk == NULL)
                 {
@@ -2455,7 +2486,7 @@ namespace sdlgame
         // std::string window_font_path = "C:/Windows/Fonts/";
         /**
          * @brief initialize font, after call this function, you should be able to use other function and class
-        */
+         */
         void init()
         {
             if (TTF_Init())
@@ -2491,7 +2522,7 @@ namespace sdlgame
                     exit(0);
                 }
             }
-            
+
             /**
              * @return a surface that only contain the text
              * @param antialias = 0 no antialiasing fastest
@@ -2568,6 +2599,48 @@ namespace sdlgame
         float randf()
         {
             return randint(0, 1000000) / 1000000.0;
+        }
+    }
+
+    namespace music
+    {
+        Mix_Music *music = NULL;
+        bool playing = 0;
+        void load(std::string path)
+        {
+            if (music != NULL)
+                Mix_FreeMusic(music);
+            music = Mix_LoadMUS(path.c_str());
+            if (!music)
+            {
+                printf("Cant load music\nErr:%s\n", Mix_GetError());
+                exit(0);
+            }
+        }
+        void play(int loop = 0)
+        {
+            if (Mix_PlayMusic(music, loop))
+            {
+                printf("Cant play music\nErr:%s\n", Mix_GetError());
+                exit(0);
+            }
+        }
+        void pause()
+        {
+            Mix_PauseMusic();
+        }
+        void resume()
+        {
+            Mix_ResumeMusic();
+        }
+        void stop()
+        {
+            Mix_HaltMusic();
+        }
+        // Return duration of the music in second
+        double duration()
+        {
+            return Mix_MusicDuration(music);
         }
     }
 

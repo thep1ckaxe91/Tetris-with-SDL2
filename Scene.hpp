@@ -19,20 +19,15 @@ class Game;
 class Scene
 {
 public:
-    Game* game;
+    Game *game;
     Scene(Game &game){this->game=&game;}
-    ~Scene(){
-        if(in!=nullptr)
-            delete in;
-        if(out!=nullptr)
-            delete out;
-    };
+    ~Scene(){};
     virtual void update() = 0;
     virtual void draw() = 0;
     virtual void handle_event(sdlgame::event::Event &event) = 0;
 private:
-    SceneTransition *in = nullptr;
-    SceneTransition *out = nullptr;
+    SceneTransition *in;
+    SceneTransition *out;
 };
 
 #endif

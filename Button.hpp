@@ -14,7 +14,7 @@ using namespace std;
 class Button : public sdlgame::sprite::Sprite
 {
 public:
-    Surface idle,hover,click;
+    Surface idle, hover, click;
     bool valid_click = 0;
     function<void()> onClickFunction;
     Button(Surface idle, Surface hover, Surface click)
@@ -25,15 +25,20 @@ public:
     }
 
     template <typename... Args>
-    void setOnClick(function<void(Args...)> func) {
+    void setOnClick(function<void(Args...)> func)
+    {
         onClickFunction = func;
     }
 
     template <typename... Args>
-    void onClick(Args&&... args) {
-        if (onClickFunction) {
-        onClickFunction(std::forward<Args>(args)...); // Forward arguments
-        } else {
+    void onClick(Args &&...args)
+    {
+        if (onClickFunction)
+        {
+            onClickFunction(std::forward<Args>(args)...); // Forward arguments
+        }
+        else
+        {
             throw std::invalid_argument("onclickfunciton have not set, call setOnclick to set function\n");
         }
     }
