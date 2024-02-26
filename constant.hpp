@@ -12,18 +12,24 @@ const double refresh_rate = 60;
 typedef enum
 {
     GRID_WIDTH = 80,
-    GRID_HEIGHT = 144 + 16 //the +16 is for the area tetrimino spawn, every update only apply to those in this range
+    GRID_HEIGHT = 144 + 32 //the +32 is for the area tetrimino spawn, every update only apply to those in this range
 } grid_size;
 typedef enum
 {
     GRID_X = 16,
     GRID_Y = 0,
 } grid_pos;
+typedef enum
+{
+    EDGE_SIZE = 32,
+} tetrimino_size;
 const Color RED_SAND_COLOR = Color("red");
 const Color GREEN_SAND_COLOR = Color("green");
 const Color YELLOW_SAND_COLOR = Color("yellow");
 const Color BLUE_SAND_COLOR = Color("blue");
-
+const Vector2 spawn_pos = Vector2(24,-32);
 const double fall_speed = 40; //pixel per second
+const double fast_fall_speed = 140; //pps
+const double sideway_move_speed = 120;//pps
 
 #endif

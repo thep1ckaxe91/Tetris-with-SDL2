@@ -16,7 +16,9 @@ using namespace std;
 //If global declare is bad, i make MY OWN global declare >:)
 
 class Sandtris : public Game
-{  
+{
+private:
+    double refresh_cooldown = 1/refresh_rate;
 public:
     bool gameactive = 1;
     Surface window = sdlgame::display::set_mode(RESOLUTION_WIDTH, RESOLUTION_HEIGHT,
@@ -25,7 +27,6 @@ public:
     sdlgame::time::Clock clock;
     std::vector<Scene *> scene_list;
     int buffer_lost = 0;
-    double refresh_cooldown = 1/refresh_rate;
     Sandtris() : Game(){}
     void update()
     {

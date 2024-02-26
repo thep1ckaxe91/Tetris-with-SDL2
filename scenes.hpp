@@ -1,6 +1,10 @@
 #ifndef SCENES_HPP
 #define SCENES_HPP
-
+/**
+ * 2 test scene is for test scene transition and some this and that function
+ * 
+ * all scene this game need is MainMenu, Credit, GamePlay, GameOver
+*/
 #include "Scene.hpp"
 #include "engine.hpp"
 #include "Game.hpp"
@@ -64,6 +68,8 @@ public:
 
     }
 };
+
+
 
 class MainMenu : public Scene
 {

@@ -95,23 +95,25 @@ struct Tetrimino
      * =0x4c40
     */
     Uint16 mask;
-    char type
+    char type;
     int current_rotation = 0;
     /**
-     * @param shape the character stand for the shape, a shape have it's own color (sand_shift color, not Color)
+     * @param shape the character stand for the shape
+     * @param color SandShift color for the shape
     */
     Tetrimino(char shape, SandShift color)
     {
         this->type = shape;
         this->color = color;
-        
+        this->mask = ShapeInfoList[this->type].mask[0];
     }
-    
+    Tetrimino() = default;
+
     void rotate()
     {
         this->current_rotation++;
         this->current_rotation%=4;
-        copy(ShapeInfoList[''])
+        this->mask = ShapeInfoList[this->type].mask[this->current_rotation];
     }
 };
 

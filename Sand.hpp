@@ -1,6 +1,8 @@
 #ifndef SAND_HPP
 #define SAND_HPP
 #include "engine.hpp"
+#include "constant.hpp"
+using Color = sdlgame::color::Color;
 using namespace std;
 
 //Bit shift for color check, not for actual color
@@ -13,6 +15,13 @@ typedef enum
     GREEN_SAND = 0x8,  //0000 1000 
     STATIC_SAND = 0x80,//1000 0000 
 } SandShift;
+static map<SandShift,Color> SandShiftColor = {
+    {EMPTY_SAND, Color()},
+    {RED_SAND, RED_SAND_COLOR},
+    {YELLOW_SAND, YELLOW_SAND_COLOR},
+    {BLUE_SAND, BLUE_SAND_COLOR},
+    {GREEN_SAND, GREEN_SAND_COLOR}
+};
 struct Sand
 {
     Uint8 mask;
