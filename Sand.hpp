@@ -24,11 +24,11 @@ static map<SandShift,Color> SandShiftColor = {
 };
 struct Sand
 {
-    Uint8 mask;
+    SandShift mask;
     /*
     bitmask for fast color/collision checking
     */
-    Sand(Uint8 mask = 0){this->mask = mask;}
+    Sand(SandShift mask = EMPTY_SAND){this->mask = mask;}
 };
 
 #endif

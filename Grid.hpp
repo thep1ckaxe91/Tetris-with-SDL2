@@ -4,6 +4,7 @@
 #include "engine.hpp"
 #include "constant.hpp"
 #include "Tetrimino.hpp"
+#include "TetriminoController.hpp"
 #include "Game.hpp"
 using namespace std;
 
@@ -21,9 +22,11 @@ public:
     Sand grid[GRID_HEIGHT+2][GRID_WIDTH+2];
     Game* game;
     const double fixed_delta_time = 0.02;
+    TetriminoController controller;
     Grid(Game &game)
     {
         this->game = &game;
+        controller = TetriminoController(game,)
         for(int i=0;i<GRID_HEIGHT+2;i++) grid[i][0] = grid[i][GRID_WIDTH+1] = Sand(STATIC_SAND);
         for(int i=0;i<GRID_WIDTH+2;i++)  grid[0][i] = grid[GRID_HEIGHT+1][i] = Sand(STATIC_SAND);
         for(int i=1;i<=GRID_HEIGHT;i++)
@@ -32,7 +35,7 @@ public:
     }
     void handle_event(Event &event)
     {
-        if(event.type == )
+        controller.handle_event(event);
     }
     void update()
     {
@@ -54,10 +57,18 @@ public:
                 }
             }
         }
+        controller.update();
     }
     void draw()
     {
-
+        for(int i=1;i<=GRID_HEIGHT;i++)
+        {
+            for(int j=1;j<=GRID_WIDTH;j++)
+            {
+                sdlgame::draw::point(this->game->window,SandShiftColor[grid[i][j].mask],j+GRID_X,i+GRID_Y);
+            }
+        }
+        controller.draw();
     }
 };
 

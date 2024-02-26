@@ -17,7 +17,7 @@ typedef enum
 typedef enum
 {
     GRID_X = 16,
-    GRID_Y = 0,
+    GRID_Y = -32,
 } grid_pos;
 typedef enum
 {
