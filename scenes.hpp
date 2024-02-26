@@ -9,6 +9,8 @@
 #include "engine.hpp"
 #include "Game.hpp"
 #include "constant.hpp"
+#include "scene_transitions.hpp"
+#include "SceneTransition.hpp"
 using Event = sdlgame::event::Event;
 using Rect = sdlgame::rect::Rect;
 using Vector2 = sdlgame::math::Vector2;
@@ -18,7 +20,7 @@ using Sound = sdlgame::mixer::Sound;
 using Channel = sdlgame::mixer::Channel;
 using Font = sdlgame::font::Font;
 using namespace std;
-
+class Test; class Test2;
 
 class Test : public Scene
 {
@@ -29,7 +31,14 @@ public:
     }
     void handle_event(Event &event)
     {
-
+        if(event.type == sdlgame::KEYDOWN)
+        {
+            if(event["key"] == sdlgame::K_p)
+            {
+                Test2 *next = new Test2(*game);
+                this->game->add_scene(next);
+            }
+        }
     }
     void update()
     {
@@ -54,7 +63,7 @@ public:
     {}
     void handle_event(Event &event)
     {
-
+        if(event.)
     }
     void update()
     {
@@ -65,7 +74,7 @@ public:
     }
     void draw()
     {
-
+        this->game->window.blit(font_surf,Vector2(RESOLUTION_WIDTH/2,RESOLUTION_HEIGHT/2)-font_surf.get_size()*0.5);
     }
 };
 

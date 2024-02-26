@@ -22,20 +22,22 @@ public:
     bool gameactive;
     Surface window;
     sdlgame::time::Clock clock;
-    std::vector<std::shared_ptr<Scene>> scene_list;
+    std::vector<Scene *> scene_list;
     
     Game() = default;
-    virtual void draw()   =0;
+    virtual void draw() const  =0;
     virtual void update() =0;
     virtual void run()    =0;
-    void add_scene(std::shared_ptr<Scene> scene){
-        scene_list.push_back(scene);
+    void add_scene(Scene *scene){
+        this->scene_list.push_back(scene);
     }
-    std::shared_ptr<Scene> get_current_scene() const{
-        return scene_list.back();
-    }
-    void go_back_scene(){
+    void pop_scene()
+    {
+        delete this->get_current_scene();
         scene_list.pop_back();
+    }
+    Scene *get_current_scene() const{
+        return scene_list.back();
     }
 };
 #endif

@@ -19,13 +19,13 @@ class Sandtris : public Game
 {
 private:
     double refresh_cooldown = 1/refresh_rate;
+    std::vector<Scene *> scene_list;
 public:
     bool gameactive = 1;
     Surface window = sdlgame::display::set_mode(RESOLUTION_WIDTH, RESOLUTION_HEIGHT,
         sdlgame::RESIZABLE | sdlgame::MAXIMIZED 
     );
     sdlgame::time::Clock clock;
-    std::vector<Scene *> scene_list;
     int buffer_lost = 0;
     Sandtris() : Game(){}
     void update()
@@ -33,14 +33,14 @@ public:
         scene_list[scene_list.size()-1]->update();
         this->refresh_cooldown += this->clock.delta_time();
     }
-    void draw()
+    void draw() const
     {
         scene_list[scene_list.size()-1]->draw();
     }
     void run()
     {
-        Test test_scene = Test(*this);
-        scene_list.push_back(&test_scene);
+        Test *test_scene = new Test(*this);
+        scene_list.push_back(test_scene);
 
 
         while(true)
