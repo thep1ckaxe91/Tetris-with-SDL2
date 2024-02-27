@@ -1350,7 +1350,7 @@ namespace sdlgame
                     exit(0);
                 }
                 size = sdlgame::math::Vector2(width, height);
-                SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
+                if(SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND));
                 SDL_SetRenderTarget(sdlgame::display::renderer, texture);
                 SDL_SetRenderDrawColor(sdlgame::display::renderer, 0, 0, 0, 0);
                 SDL_RenderClear(sdlgame::display::renderer);

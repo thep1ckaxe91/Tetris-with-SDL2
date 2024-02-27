@@ -99,7 +99,7 @@ public:
     {
         this->vel += this->accelerate * delta_time;
         this->time -= delta_time;
-        if(this->time <= 0 or cur_height >= sdlgame::display::get_height()) isDone = 1;
+        if(this->time <= 0) isDone = 1;
 
         this->cur_height += this->vel*delta_time;
     }
@@ -118,7 +118,7 @@ public:
     Surface mask;
     OutSwipeDown(double time = 1) : SceneTransition(time)
     {
-        this->accelerate = (sdlgame::display::get_height()/(time*time));
+        this->accelerate = (sdlgame::display::get_height()*2/(time*time));
         mask = Surface(sdlgame::display::get_width(),sdlgame::display::get_height());
         mask.fill("black");
     }
@@ -126,7 +126,7 @@ public:
     {
         this->vel += this->accelerate * delta_time;
         this->time -= delta_time;
-        if(this->time <= 0 or cur_height >= sdlgame::display::get_height()) isDone = 1;
+        if(this->time <= 0) isDone = 1;
         // cout << this->vel << " " << this->accelerate << " " << delta_time << endl;
         this->cur_height += this->vel*delta_time;
     }

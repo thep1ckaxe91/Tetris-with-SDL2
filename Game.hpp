@@ -34,7 +34,7 @@ public:
     sdlgame::time::Clock clock;
 
     Game() = default;
-    virtual void draw() const = 0;
+    virtual void draw() = 0;
     virtual void update() = 0;
     virtual void run() = 0;
     template <class T1, class T2>
@@ -65,15 +65,13 @@ public:
     void pop_scene(T1* out, T2* next, T3* in) {
         if (scene_list.size() > 0) {
             this->out = out;
-            if(this->out == nullptr){
-                cout << "somethings off\n";
-                exit(0);
-            }
             std::thread([this, next, in, out]() {
-                std::this_thread::sleep_for(chrono::milliseconds(int(out->time * 1000 + 200)));
+                std::this_thread::sleep_for(chrono::milliseconds(int(out->time * 1000)));
                 this->gameactive = false;
                 mtx.lock();
-                delete scene_list.back(); 
+                Scene *tmp = this->scene_list.back();
+                scene_list[scene_list.size()-1] = nullptr;
+                delete tmp; 
                 scene_list.pop_back();
                 mtx.unlock();
                 this->add_scene(next, in);

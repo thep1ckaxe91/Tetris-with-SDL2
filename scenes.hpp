@@ -38,11 +38,11 @@ public:
         int cnt = sdlgame::random::randint(20,25);
         for(int i=0;i<cnt;i++) test_text+=char(sdlgame::random::randint('a','z'));
 
-        font_surf = test_font.render(test_text,0,Color("black"));
+        font_surf = test_font.render(test_text,0,"white");
     }
     void draw()
     {
-        this->game->window.fill(Color("white"));
+        this->game->window.fill("black");
         this->game->window.blit(font_surf,Vector2(RESOLUTION_WIDTH/2,RESOLUTION_HEIGHT/2)-font_surf.get_size()*0.5);
     }
 };
@@ -70,7 +70,7 @@ public:
     }
     void draw()
     {
-        this->game->window.fill(Color("white"));
+        this->game->window.fill("black");
         sdlgame::draw::circle(this->game->window,Color("magenta"),
             RESOLUTION_WIDTH/2 + sin(sdlgame::time::get_ticks()/500.0)*7, RESOLUTION_HEIGHT/2, 4
         );

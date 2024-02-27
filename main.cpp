@@ -24,12 +24,16 @@ public:
     int buffer_lost = 0;
     Sandtris() : Game(){
         this->window = sdlgame::display::set_mode(RESOLUTION_WIDTH, RESOLUTION_HEIGHT,
-            sdlgame::RESIZABLE | sdlgame::MAXIMIZED 
+            sdlgame::RESIZABLE | sdlgame::MAXIMIZED
         );
     }
     void update()
     {
-        if(!scene_list.empty()) if(scene_list.back()) scene_list.back()->update();
+        if(!scene_list.empty()) if(scene_list.back()){
+            mtx.lock();
+            scene_list.back()->update();
+            mtx.unlock();
+        }
         if(this->in){
             in->update(clock.delta_time());
             if(in->isDone){
@@ -47,9 +51,13 @@ public:
 
         this->refresh_cooldown += this->clock.delta_time();
     }
-    void draw() const
+    void draw()
     {
-        if(!scene_list.empty()) scene_list.back()->draw();
+        if(!scene_list.empty()) if(scene_list.back()){
+            mtx.lock();
+            scene_list.back()->draw();
+            mtx.unlock();
+        }
         if(this->in) in->draw();
         if(this->out) out->draw();
     }
@@ -58,7 +66,7 @@ public:
         Test2 *test_scene = new Test2(*this);
         scene_list.push_back((Scene*)test_scene);
         in = new InSwipeDown();
-        {
+        while(true){
             auto events = sdlgame::event::get();
             for(auto& event : events)
             {
@@ -99,9 +107,3 @@ int main(int argc, char** argv)
     game.run();
     return 0;
 }
-
-/**
- * 
- * ISSUES: race condition happend when delete a Scene memory, this cause the texture to be invalid when main thread use it
- * APPROACH: 
-*/
