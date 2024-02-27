@@ -2667,4 +2667,5 @@ namespace sdlgame
         SDL_Quit();
     }
 };
+
 #endif

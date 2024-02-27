@@ -16,18 +16,14 @@ class Game;
 /**
  * class manage a scene, all update, draw, handle_event should be override
 */
+
 class Scene
 {
 public:
     Game *game;
     Scene(Game &game){this->game=&game;}
-    ~Scene(){};
-    virtual void update() = 0;
-    virtual void draw() = 0;
+    virtual void update()=0;
+    virtual void draw()=0;
     virtual void handle_event(sdlgame::event::Event &event) = 0;
-private:
-    SceneTransition *in;
-    SceneTransition *out;
 };
-
 #endif

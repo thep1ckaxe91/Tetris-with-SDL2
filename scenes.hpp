@@ -5,8 +5,8 @@
  * 
  * all scene this game need is MainMenu, Credit, GamePlay, GameOver
 */
-#include "Scene.hpp"
 #include "engine.hpp"
+#include "Scene.hpp"
 #include "Game.hpp"
 #include "constant.hpp"
 #include "scene_transitions.hpp"
@@ -20,51 +20,18 @@ using Sound = sdlgame::mixer::Sound;
 using Channel = sdlgame::mixer::Channel;
 using Font = sdlgame::font::Font;
 using namespace std;
-class Test; class Test2;
 
-class Test : public Scene
-{
-public:
-    Surface mask;
-    Test(Game &game) : Scene(game){
-        printf("got here\n%p\n",this->game->window.texture);
-    }
-    void handle_event(Event &event)
-    {
-        if(event.type == sdlgame::KEYDOWN)
-        {
-            if(event["key"] == sdlgame::K_p)
-            {
-                Test2 *next = new Test2(*game);
-                this->game->add_scene(next);
-            }
-        }
-    }
-    void update()
-    {
-        
-    }
-    void draw()
-    {
-        this->game->window.fill(Color("white"));
-        sdlgame::draw::circle(this->game->window,Color("magenta"),
-            RESOLUTION_WIDTH/2, RESOLUTION_HEIGHT/2, 4
-        );
-    }
-    ~Test(){}
-};
-class Test2 : public Scene
-{
+/**
+ * TODO: now the new scene is present play out transition and move to the next scene;
+ * SOLUTION: just define class, declare method and later define what need 
+*/ 
+class Test2 : public Scene {
 public:
     Surface font_surf;
     Rect font_rect;
     Font test_font = Font(base_path + "data/fonts/arial.ttf");
-    Test2(Game &game) : Scene(game)
-    {}
-    void handle_event(Event &event)
-    {
-        if(event.)
-    }
+    Test2(Game &game) : Scene(game){}
+    void handle_event(Event &event);
     void update()
     {
         string test_text = "";
@@ -77,8 +44,50 @@ public:
         this->game->window.blit(font_surf,Vector2(RESOLUTION_WIDTH/2,RESOLUTION_HEIGHT/2)-font_surf.get_size()*0.5);
     }
 };
+class Test : public Scene
+{
+public:
+    Surface mask;
+    Test(Game &game) : Scene(game){
+    }
+    void handle_event(Event &event)
+    {
+        if(event.type == sdlgame::KEYDOWN)
+        {
+            if(event["key"] == sdlgame::K_p)
+            {
+                OutSwipeDown *out = new OutSwipeDown();
+                Test2 *next = new Test2(*this->game);
+                InSwipeDown *in = new InSwipeDown();
+                this->game->pop_scene(out,next,in);
+            }
+        }
+    }
+    void update()
+    {
+    }
+    void draw()
+    {
+        this->game->window.fill(Color("white"));
+        sdlgame::draw::circle(this->game->window,Color("magenta"),
+            RESOLUTION_WIDTH/2, RESOLUTION_HEIGHT/2, 4
+        );
+    }
+};
 
-
+void Test2::handle_event(Event &event)
+{
+    if(event.type == sdlgame::KEYDOWN)
+    {
+        if(event["key"] == sdlgame::K_p)
+        {
+            OutSwipeDown *out = new OutSwipeDown();
+            Test *next = new Test(*this->game);
+            InSwipeDown *in = new InSwipeDown();
+            this->game->pop_scene(out,next,in);
+        }
+    }
+}
 
 class MainMenu : public Scene
 {

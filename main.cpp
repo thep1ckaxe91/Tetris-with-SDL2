@@ -1,6 +1,6 @@
 #include "engine.hpp"
-#include "Game.hpp"
 #include "Scene.hpp"
+#include "Game.hpp"
 #include "constant.hpp"
 #include "scenes.hpp"
 using Event = sdlgame::event::Event;
@@ -31,16 +31,20 @@ public:
     void update()
     {
         scene_list[scene_list.size()-1]->update();
+        if(this->in!=nullptr) in->update(clock.delta_time());
+        if(this->out!=nullptr) out->update(clock.delta_time());
         this->refresh_cooldown += this->clock.delta_time();
     }
     void draw() const
     {
         scene_list[scene_list.size()-1]->draw();
+        if(this->in!=nullptr) in->draw();
+        if(this->out!=nullptr) out->draw();
     }
     void run()
     {
         Test *test_scene = new Test(*this);
-        scene_list.push_back(test_scene);
+        scene_list.push_back((Scene*)test_scene);
 
 
         while(true)

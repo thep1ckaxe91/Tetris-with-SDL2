@@ -22,7 +22,6 @@ public:
     void set_dir(Vector2 dir){this->dir = dir;}
     virtual void update(double delta_time) = 0;
     virtual void draw() = 0;
-    virtual void reset() = 0;
 };
 
 #endif

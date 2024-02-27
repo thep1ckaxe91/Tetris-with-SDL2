@@ -31,5 +31,5 @@ const Vector2 spawn_pos = Vector2(24,-32);
 const double fall_speed = 40; //pixel per second
 const double fast_fall_speed = 140; //pps
 const double sideway_move_speed = 120;//pps
-
+const int FONT_SIZE = 5;
 #endif
