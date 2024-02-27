@@ -58,9 +58,9 @@ public:
         {
             if(event["key"] == sdlgame::K_p)
             {
-                OutZoomCircle *out = new OutZoomCircle(1,this->game->window.getRect().getCenter());
+                OutSwipeDown *out = new OutSwipeDown();
                 Test2 *next = new Test2(*this->game);
-                InZoomCircle *in = new InZoomCircle(1,this->game->window.getRect().getCenter());
+                InSwipeDown *in = new InSwipeDown();
                 this->game->pop_scene(out,next,in);
             }
         }
@@ -83,9 +83,9 @@ void Test2::handle_event(Event &event)
     {
         if(event["key"] == sdlgame::K_p)
         {
-            OutZoomCircle *out = new OutZoomCircle(1,this->game->window.getRect().getCenter());
+            OutSwipeDown *out = new OutSwipeDown();
             Test *next = new Test(*this->game);
-            InZoomCircle *in = new InZoomCircle(1,this->game->window.getRect().getCenter());
+            InSwipeDown *in = new InSwipeDown();
             this->game->pop_scene(out,next,in);
         }
     }

@@ -1344,7 +1344,7 @@ namespace sdlgame
             Surface(int width, int height, Uint32 _flags = 0)
             {
                 flags = _flags;
-                if (!(texture = SDL_CreateTexture(sdlgame::display::renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, std::max(width,1), std::max(height,1))))
+                if (!(texture = SDL_CreateTexture(sdlgame::display::renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, width, height)))
                 {
                     printf("Failed to create texture\nErr: %s\n", SDL_GetError());
                     exit(0);
@@ -1571,12 +1571,21 @@ namespace sdlgame
         {
             SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
         }
-        /**
-         *  return a Surface object that have reference SDL_surface to the window surface
-         */
-        sdlgame::surface::Surface &get_surface()
+        double get_width()
         {
-            return win_surf;
+            if(win_surf.getWidth()==0){
+                printf("Display not yet set mode\n");
+                exit(0);
+            }
+            return win_surf.getWidth();
+        }
+        double get_height()
+        {
+            if(win_surf.getHeight()==0){
+                printf("Display not yet set mode\n");
+                exit(0);
+            }
+            return win_surf.getHeight();
         }
         /**
          *  if set to true, the mouse will be confine to the window

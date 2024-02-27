@@ -24,11 +24,11 @@ using namespace std;
 class Game
 {
 protected:
-    bool gameactive;
+    std::atomic_int_fast8_t gameactive=0;
     std::vector<Scene *> scene_list;
     SceneTransition *in = nullptr;
     SceneTransition *out = nullptr;
-    
+    std::mutex mtx;
 public:
     Surface window;
     sdlgame::time::Clock clock;
@@ -72,8 +72,10 @@ public:
             std::thread([this, next, in, out]() {
                 std::this_thread::sleep_for(chrono::milliseconds(int(out->time * 1000 + 200)));
                 this->gameactive = false;
-                delete scene_list[scene_list.size() - 1];
+                mtx.lock();
+                delete scene_list.back(); 
                 scene_list.pop_back();
+                mtx.unlock();
                 this->add_scene(next, in);
                 this->gameactive = true;
             }).detach();

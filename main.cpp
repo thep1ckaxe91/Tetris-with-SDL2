@@ -29,7 +29,7 @@ public:
     }
     void update()
     {
-        if(!scene_list.empty()) scene_list[scene_list.size()-1]->update();
+        if(!scene_list.empty()) if(scene_list.back()) scene_list.back()->update();
         if(this->in){
             in->update(clock.delta_time());
             if(in->isDone){
@@ -49,7 +49,7 @@ public:
     }
     void draw() const
     {
-        if(!scene_list.empty()) scene_list[scene_list.size()-1]->draw();
+        if(!scene_list.empty()) scene_list.back()->draw();
         if(this->in) in->draw();
         if(this->out) out->draw();
     }
@@ -57,8 +57,7 @@ public:
     {
         Test2 *test_scene = new Test2(*this);
         scene_list.push_back((Scene*)test_scene);
-        in = new InSwipeUp();
-        while(true)
+        in = new InSwipeDown();
         {
             auto events = sdlgame::event::get();
             for(auto& event : events)
@@ -100,3 +99,9 @@ int main(int argc, char** argv)
     game.run();
     return 0;
 }
+
+/**
+ * 
+ * ISSUES: race condition happend when delete a Scene memory, this cause the texture to be invalid when main thread use it
+ * APPROACH: 
+*/
