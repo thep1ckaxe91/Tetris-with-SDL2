@@ -1344,7 +1344,7 @@ namespace sdlgame
             Surface(int width, int height, Uint32 _flags = 0)
             {
                 flags = _flags;
-                if (!(texture = SDL_CreateTexture(sdlgame::display::renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, width, height)))
+                if (!(texture = SDL_CreateTexture(sdlgame::display::renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, std::max(width,1), std::max(height,1))))
                 {
                     printf("Failed to create texture\nErr: %s\n", SDL_GetError());
                     exit(0);
@@ -1398,9 +1398,9 @@ namespace sdlgame
             }
             Surface &operator=(const Surface &other)
             {
-                if (this != &other)
+                if (this->texture != other.texture and this != &other)
                 {
-                    SDL_DestroyTexture(texture);
+                    if(texture!=NULL) SDL_DestroyTexture(texture);
                     flags = other.flags;
                     int w, h;
                     SDL_QueryTexture(other.texture, NULL, NULL, &w, &h);
@@ -1489,8 +1489,10 @@ namespace sdlgame
             }
             ~Surface()
             {
-                if (texture != NULL)
+                if (texture != NULL){
                     SDL_DestroyTexture(texture);
+                    texture = NULL;
+                }
             }
         };
     }
@@ -1574,7 +1576,6 @@ namespace sdlgame
          */
         sdlgame::surface::Surface &get_surface()
         {
-            win_surf.texture = NULL;
             return win_surf;
         }
         /**
@@ -2587,7 +2588,7 @@ namespace sdlgame
          */
         int randint(int l, int r)
         {
-            srand(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count());
+            srand(std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count());
             if (l > r)
                 std::swap(l, r);
             return (rand() * rand()) % (r - l + 1) + l;

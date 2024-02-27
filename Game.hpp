@@ -3,6 +3,8 @@
 #include "Scene.hpp"
 #include "engine.hpp"
 #include "SceneTransition.hpp"
+#include <thread>
+#include <future>
 using Event = sdlgame::event::Event;
 using Rect = sdlgame::rect::Rect;
 using Vector2 = sdlgame::math::Vector2;
@@ -26,7 +28,7 @@ protected:
     std::vector<Scene *> scene_list;
     SceneTransition *in = nullptr;
     SceneTransition *out = nullptr;
-
+    
 public:
     Surface window;
     sdlgame::time::Clock clock;
@@ -42,6 +44,13 @@ public:
         this->scene_list.push_back(scene);
         this->in = in;
     }
+    // template <class T1,class T2>
+    // void wait_for_scenetransition(double second,T1 *next, T2 *in){
+    //     std::this_thread::sleep_for(chrono::milliseconds(int(second*1000+200)));
+    //     delete scene_list[scene_list.size() - 1];
+    //     scene_list.pop_back();
+    //     this->add_scene(next, in);
+    // }
     // completely goback
     void remove_scene()
     {
@@ -53,15 +62,23 @@ public:
     }
     // remove a scene and add another
     template <class T1, class T2, class T3>
-    void pop_scene(T1 *out, T2 *next, T3 *in)
-    {
-        if (scene_list.size() > 0)
-        {
-            delete scene_list[scene_list.size() - 1];
-            scene_list.pop_back();
+    void pop_scene(T1* out, T2* next, T3* in) {
+        if (scene_list.size() > 0) {
             this->out = out;
-            this->add_scene(next, in);
+            if(this->out == nullptr){
+                cout << "somethings off\n";
+                exit(0);
+            }
+            std::thread([this, next, in, out]() {
+                std::this_thread::sleep_for(chrono::milliseconds(int(out->time * 1000 + 200)));
+                this->gameactive = false;
+                delete scene_list[scene_list.size() - 1];
+                scene_list.pop_back();
+                this->add_scene(next, in);
+                this->gameactive = true;
+            }).detach();
         }
     }
+
 };
 #endif

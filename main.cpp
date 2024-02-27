@@ -29,15 +29,15 @@ public:
     }
     void update()
     {
-        scene_list[scene_list.size()-1]->update();
-        if(this->in!=nullptr){
+        if(!scene_list.empty()) scene_list[scene_list.size()-1]->update();
+        if(this->in){
             in->update(clock.delta_time());
             if(in->isDone){
                 delete in;
                 in = nullptr;
             }
         }
-        if(this->out!=nullptr){
+        if(this->out){
             out->update(clock.delta_time());
             if(out->isDone){
                 delete out;
@@ -49,13 +49,13 @@ public:
     }
     void draw() const
     {
-        scene_list[scene_list.size()-1]->draw();
-        if(this->in!=nullptr) in->draw();
-        if(this->out!=nullptr) out->draw();
+        if(!scene_list.empty()) scene_list[scene_list.size()-1]->draw();
+        if(this->in) in->draw();
+        if(this->out) out->draw();
     }
     void run()
     {
-        Test *test_scene = new Test(*this);
+        Test2 *test_scene = new Test2(*this);
         scene_list.push_back((Scene*)test_scene);
         in = new InSwipeUp();
         while(true)

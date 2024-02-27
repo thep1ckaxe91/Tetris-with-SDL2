@@ -42,6 +42,7 @@ public:
     }
     void draw()
     {
+        this->game->window.fill(Color("white"));
         this->game->window.blit(font_surf,Vector2(RESOLUTION_WIDTH/2,RESOLUTION_HEIGHT/2)-font_surf.get_size()*0.5);
     }
 };
@@ -57,9 +58,9 @@ public:
         {
             if(event["key"] == sdlgame::K_p)
             {
-                OutSwipeDown *out = new OutSwipeDown();
+                OutZoomCircle *out = new OutZoomCircle(1,this->game->window.getRect().getCenter());
                 Test2 *next = new Test2(*this->game);
-                InSwipeDown *in = new InSwipeDown();
+                InZoomCircle *in = new InZoomCircle(1,this->game->window.getRect().getCenter());
                 this->game->pop_scene(out,next,in);
             }
         }
@@ -71,7 +72,7 @@ public:
     {
         this->game->window.fill(Color("white"));
         sdlgame::draw::circle(this->game->window,Color("magenta"),
-            RESOLUTION_WIDTH/2, RESOLUTION_HEIGHT/2, 4
+            RESOLUTION_WIDTH/2 + sin(sdlgame::time::get_ticks()/500.0)*7, RESOLUTION_HEIGHT/2, 4
         );
     }
 };
@@ -82,9 +83,9 @@ void Test2::handle_event(Event &event)
     {
         if(event["key"] == sdlgame::K_p)
         {
-            OutSwipeDown *out = new OutSwipeDown();
+            OutZoomCircle *out = new OutZoomCircle(1,this->game->window.getRect().getCenter());
             Test *next = new Test(*this->game);
-            InSwipeDown *in = new InSwipeDown();
+            InZoomCircle *in = new InZoomCircle(1,this->game->window.getRect().getCenter());
             this->game->pop_scene(out,next,in);
         }
     }

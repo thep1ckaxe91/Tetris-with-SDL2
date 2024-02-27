@@ -15,9 +15,9 @@ class SceneTransition
 public:
     double time; //time in second, the length of the animation
     Vector2 dir;
-    Surface window = sdlgame::display::get_surface();
+    Surface window;
     bool isDone = 1;
-    SceneTransition(double time=1){this->time = time; this->isDone = 0;}
+    SceneTransition(double time=1){this->time = time; this->isDone = 0; window = sdlgame::display::get_surface();}
     void play(){this->isDone = 0;}
     void set_dir(Vector2 dir){this->dir = dir;}
     virtual void update(double delta_time) = 0;

@@ -19,7 +19,7 @@ public:
     double rad;
     double speed;//pixel per second
 
-    InZoomCircle(Vector2 pos, double time) : SceneTransition(time)
+    InZoomCircle(double time, Vector2 pos) : SceneTransition(time)
     {
         mask = Surface(window.getWidth(),window.getHeight());
         this->dir=pos;
@@ -47,10 +47,11 @@ public:
 
 class OutZoomCircle : public SceneTransition
 {
+public:
     Surface mask;//mask surface to draw on top of window
     double rad;
     double speed;//pixel per second
-    OutZoomCircle(Vector2 pos, double time) : SceneTransition(time)
+    OutZoomCircle(double time, Vector2 pos) : SceneTransition(time)
     {
         mask = Surface(window.getWidth(),window.getHeight());
         this->dir=pos;
@@ -76,110 +77,37 @@ class OutZoomCircle : public SceneTransition
     }
 };
 
-class OutSwipeUp : public SceneTransition
-{
-public:
-    double start_acceleration;
-    double end_deceleration;
-    double vel = 0, t1 = 0;
-    double vel_at_t2;
-    double length,v_max;
-    double cur_height = window.getHeight();
-    OutSwipeUp(double time = 1, double accelerate = 10, double decelerate = 10) : SceneTransition(time)
-    {
-        this->start_acceleration = accelerate;
-        this->end_deceleration = decelerate;
-        this->length = window.getHeight();
-        this->v_max = sqrt(2 * this->length / this->start_acceleration);
-    }
-    void update(double delta_time)
-    {
-        if(this->v_max/this->start_acceleration < this->t1){
-            this->vel += this->start_acceleration * delta_time;
-        }
-        else{
-            this->vel -= this->end_deceleration*delta_time;
-        }
-        this->time -= delta_time;
-        this->t1 += delta_time;
-        if(this->time <= 0) isDone = 1;
-        this->cur_height -= this->vel;
-    }
-    void draw()
-    {
-        sdlgame::draw::rect(window,Color("black"),Rect(0.0,this->cur_height,window.getWidth(),window.getHeight()-this->cur_height));
-    }
-};
-
-class InSwipeUp : public SceneTransition
-{
-public:
-    double start_acceleration;
-    double end_deceleration;
-    double vel = 0, t1 = 0;
-    double vel_at_t2;
-    double length,v_max;
-    double cur_height = window.getHeight();
-    InSwipeUp(double time = 1, double accelerate = 10, double decelerate = 10) : SceneTransition(time)
-    {
-        this->start_acceleration = accelerate;
-        this->end_deceleration = decelerate;
-        this->length = window.getHeight();
-        this->v_max = sqrt(2 * this->length / this->start_acceleration);
-    }
-    void update(double delta_time)
-    {
-        if(this->v_max/this->start_acceleration < this->t1){
-            this->vel += this->start_acceleration*delta_time;
-        }
-        else{
-            this->vel -= this->end_deceleration*delta_time;
-        }
-        this->time -= delta_time;
-        this->t1 += delta_time;
-        if(this->time <= 0) isDone = 1;
-
-        this->cur_height -= this->vel;
-    }
-    void draw()
-    {
-        sdlgame::draw::rect(window,Color("black"),Rect(0.0,0.0,window.getWidth(),this->cur_height));
-    }
-};
-
 class InSwipeDown : public SceneTransition
 {
 public:
     double start_acceleration;
     double end_deceleration;
-    double vel = 0, t1 = 0;
-    double vel_at_t2;
-    double length,v_max;
+    double vel = 0;
     double cur_height = 0;
+    Surface mask;
     InSwipeDown(double time = 1, double accelerate = 10, double decelerate = 50) : SceneTransition(time)
     {
         this->start_acceleration = accelerate;
         this->end_deceleration = decelerate;
-        this->length = window.getHeight();
-        this->v_max = sqrt(2 * this->length / this->start_acceleration);
+        mask = Surface(window.getWidth(),window.getHeight());
+        mask.fill("black");
     }
     void update(double delta_time)
     {
-        if(this->v_max/this->start_acceleration < this->t1){
-            this->vel += start_acceleration * delta_time;
+        if(this->vel - this->end_deceleration * (this->time) >=0){//not yet time to decelerate
+            this->vel += this->start_acceleration * delta_time;
         }
         else{
-            this->vel -= this->end_deceleration*delta_time;
+            this->vel -= this->end_deceleration * delta_time;
         }
         this->time -= delta_time;
-        this->t1 += delta_time;
         if(this->time <= 0) isDone = 1;
 
         this->cur_height += this->vel;
     }
     void draw()
-    {
-        sdlgame::draw::rect(window,Color("black"),Rect(0.0,this->cur_height,window.getWidth(),window.getHeight()-this->cur_height));
+    {   
+        window.blit(this->mask,Vector2(0.0,cur_height));
     }
 };
 
@@ -188,34 +116,32 @@ class OutSwipeDown : public SceneTransition
 public:
     double start_acceleration;
     double end_deceleration;
-    double vel = 0, t1 = 0;
-    double vel_at_t2;
-    double length,v_max;
+    double vel = 0;
     double cur_height = 0;
+    Surface mask;
     OutSwipeDown(double time = 1, double accelerate = 10, double decelerate = 50) : SceneTransition(time)
     {
         this->start_acceleration = accelerate;
         this->end_deceleration = decelerate;
-        this->length = window.getHeight();
-        this->v_max = sqrt(2 * this->length / this->start_acceleration);
+        mask = Surface(window.getWidth(),window.getHeight());
+        mask.fill("black");
     }
     void update(double delta_time)
     {
-        if(this->v_max/this->start_acceleration < this->t1){
+        if(this->vel - this->end_deceleration * this->time >=0){
             this->vel += start_acceleration * delta_time;
         }
         else{
             this->vel -= this->end_deceleration*delta_time;
         }
         this->time -= delta_time;
-        this->t1 += delta_time;
         if(this->time <= 0) isDone = 1;
 
         this->cur_height += this->vel;
     }
     void draw()
     {
-        sdlgame::draw::rect(window,Color("black"),Rect(0.0,0.0,window.getWidth(),this->cur_height));
+        window.blit(this->mask,Vector2(0.0,cur_height-window.getHeight()));
     }
 
 };
