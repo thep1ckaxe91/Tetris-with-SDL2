@@ -45,6 +45,7 @@ public:
                     Rect(8*j,8*i,8,8)
                 );
     }
+    TetriminoController(){game=nullptr; tetrimino = Tetrimino('I',RED_SAND);}
     void reset(Tetrimino tetrimino)
     {
         this->tetrimino = tetrimino;

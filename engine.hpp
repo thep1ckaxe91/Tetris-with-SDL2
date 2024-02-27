@@ -2534,7 +2534,7 @@ namespace sdlgame
              * then will only endline when use endline character
              *
              */
-            sdlgame::surface::Surface render(std::string text, int antialias, sdlgame::color::Color color, uint32_t wrap_length = 0, sdlgame::color::Color background = sdlgame::color::Color(0, 0, 0, 0))
+            sdlgame::surface::Surface render(const std::string text, int antialias, sdlgame::color::Color color, uint32_t wrap_length = 0, sdlgame::color::Color background = sdlgame::color::Color(0, 0, 0, 0))
             {
                 SDL_Surface *surface;
                 if (!antialias)

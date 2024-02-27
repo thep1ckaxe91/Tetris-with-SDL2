@@ -1,6 +1,6 @@
 #include "engine.hpp"
-#include "Scene.hpp"
 #include "Game.hpp"
+#include "Scene.hpp"
 #include "constant.hpp"
 #include "scenes.hpp"
 using Event = sdlgame::event::Event;
@@ -19,20 +19,32 @@ class Sandtris : public Game
 {
 private:
     double refresh_cooldown = 1/refresh_rate;
-    std::vector<Scene *> scene_list;
 public:
     bool gameactive = 1;
-    Surface window = sdlgame::display::set_mode(RESOLUTION_WIDTH, RESOLUTION_HEIGHT,
-        sdlgame::RESIZABLE | sdlgame::MAXIMIZED 
-    );
-    sdlgame::time::Clock clock;
     int buffer_lost = 0;
-    Sandtris() : Game(){}
+    Sandtris() : Game(){
+        this->window = sdlgame::display::set_mode(RESOLUTION_WIDTH, RESOLUTION_HEIGHT,
+            sdlgame::RESIZABLE | sdlgame::MAXIMIZED 
+        );
+    }
     void update()
     {
         scene_list[scene_list.size()-1]->update();
-        if(this->in!=nullptr) in->update(clock.delta_time());
-        if(this->out!=nullptr) out->update(clock.delta_time());
+        if(this->in!=nullptr){
+            in->update(clock.delta_time());
+            if(in->isDone){
+                delete in;
+                in = nullptr;
+            }
+        }
+        if(this->out!=nullptr){
+            out->update(clock.delta_time());
+            if(out->isDone){
+                delete out;
+                out = nullptr;
+            }
+        }
+
         this->refresh_cooldown += this->clock.delta_time();
     }
     void draw() const
@@ -45,8 +57,7 @@ public:
     {
         Test *test_scene = new Test(*this);
         scene_list.push_back((Scene*)test_scene);
-
-
+        in = new InSwipeUp();
         while(true)
         {
             auto events = sdlgame::event::get();

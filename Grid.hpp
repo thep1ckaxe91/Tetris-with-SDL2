@@ -4,6 +4,7 @@
 #include "engine.hpp"
 #include "constant.hpp"
 #include "Tetrimino.hpp"
+#include "tetriminoes.hpp"
 #include "TetriminoController.hpp"
 #include "Game.hpp"
 using namespace std;
@@ -26,7 +27,7 @@ public:
     Grid(Game &game)
     {
         this->game = &game;
-        controller = TetriminoController(game,)
+        controller = TetriminoController(game,Tetriminoes::randomTetrimino());
         for(int i=0;i<GRID_HEIGHT+2;i++) grid[i][0] = grid[i][GRID_WIDTH+1] = Sand(STATIC_SAND);
         for(int i=0;i<GRID_WIDTH+2;i++)  grid[0][i] = grid[GRID_HEIGHT+1][i] = Sand(STATIC_SAND);
         for(int i=1;i<=GRID_HEIGHT;i++)

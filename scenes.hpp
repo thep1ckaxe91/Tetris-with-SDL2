@@ -35,8 +35,9 @@ public:
     void update()
     {
         string test_text = "";
-        int cnt = sdlgame::random::randint(0,25);
+        int cnt = sdlgame::random::randint(20,25);
         for(int i=0;i<cnt;i++) test_text+=char(sdlgame::random::randint('a','z'));
+
         font_surf = test_font.render(test_text,0,Color("black"));
     }
     void draw()

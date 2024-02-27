@@ -46,6 +46,35 @@ namespace Tetriminoes
         int shift = (1 << sdlgame::random::randint(0,3));
         return Tetrimino('L',SandShift(shift));
     }
+    Tetrimino randomTetrimino()
+    {
+        int shift = (1 << sdlgame::random::randint(0,3));
+        int r_num = sdlgame::random::randint(1,7);
+        switch (r_num)
+        {
+        case 1:
+            return I();
+            break;
+        case 2:
+            return O();
+            break;
+        case 3:
+            return T();
+            break;
+        case 4:
+            return S();
+            break;
+        case 5:
+            return Z();
+            break;
+        case 6:
+            return J();
+            break;
+        default:
+            return L();
+            break;
+        }
+    }
 }
 
 #endif 

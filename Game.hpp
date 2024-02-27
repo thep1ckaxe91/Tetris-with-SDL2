@@ -12,7 +12,6 @@ using Sound = sdlgame::mixer::Sound;
 using Channel = sdlgame::mixer::Channel;
 using Font = sdlgame::font::Font;
 using namespace std;
-class Scene;
 /**
  * This class have to be inherit and override
 
