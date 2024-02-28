@@ -3,8 +3,7 @@
 #include "Scene.hpp"
 #include "engine.hpp"
 #include "SceneTransition.hpp"
-#include <thread>
-#include <future>
+#include "Images.hpp"
 using Event = sdlgame::event::Event;
 using Rect = sdlgame::rect::Rect;
 using Vector2 = sdlgame::math::Vector2;
@@ -24,59 +23,25 @@ using namespace std;
 class Game
 {
 protected:
-    std::atomic_int_fast8_t gameactive=0;
+    bool gameactive=0;
     std::vector<Scene *> scene_list;
     SceneTransition *in = nullptr;
     SceneTransition *out = nullptr;
-    std::mutex mtx;
+    Scene *next = nullptr;
 public:
+    Images images;
     Surface window;
     sdlgame::time::Clock clock;
-
     Game() = default;
     virtual void draw() = 0;
     virtual void update() = 0;
     virtual void run() = 0;
-    template <class T1, class T2>
-    void add_scene(T1 *scene, T2 *in)
-    {
-        T1 *next = new T1(*this);
-        this->scene_list.push_back(scene);
-        this->in = in;
-    }
-    // template <class T1,class T2>
-    // void wait_for_scenetransition(double second,T1 *next, T2 *in){
-    //     std::this_thread::sleep_for(chrono::milliseconds(int(second*1000+200)));
-    //     delete scene_list[scene_list.size() - 1];
-    //     scene_list.pop_back();
-    //     this->add_scene(next, in);
-    // }
+    template <class T1, class T2, class T3>
+    void Game::add_scene(T3 *out, T1 *scene, T2 *in);
     // completely goback
-    void remove_scene()
-    {
-        if (scene_list.size() > 0)
-        {
-            delete scene_list[scene_list.size()-1];
-            scene_list.pop_back();
-        }
-    }
+    void Game::remove_scene();
     // remove a scene and add another
     template <class T1, class T2, class T3>
-    void pop_scene(T1* out, T2* next, T3* in) {
-        if (scene_list.size() > 0) {
-            this->out = out;
-            std::thread([this, next, in, out]() {
-                std::this_thread::sleep_for(chrono::milliseconds(int(out->time * 1000)));
-                mtx.lock();
-                this->gameactive = false;
-                delete scene_list.back(); 
-                scene_list.pop_back();
-                this->add_scene(next, in);
-                this->gameactive = true;
-                mtx.unlock();
-            }).detach();
-        }
-    }
-
+    void Game::pop_scene(T1* out, T2* next, T3* in);
 };
 #endif

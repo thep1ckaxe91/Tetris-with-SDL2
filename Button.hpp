@@ -11,41 +11,23 @@ using Channel = sdlgame::mixer::Channel;
 using Font = sdlgame::font::Font;
 using namespace std;
 
+//call handle event for button update, also, you need to add click to call function your self
 class Button : public sdlgame::sprite::Sprite
 {
 public:
     Surface idle, hover, click;
-    bool valid_click = 0;
+    bool hovering = 0,prev_hovered = 0;
     function<void()> onClickFunction;
-    Button(Surface idle, Surface hover, Surface click)
-    {
-        this->idle = this->image = idle;
-        this->hover = hover;
-        this->click = click;
-    }
-
+    Button::Button();
+    void Button::set_images(Surface idle, Surface hover, Surface click);
     template <typename... Args>
-    void setOnClick(function<void(Args...)> func)
-    {
-        onClickFunction = func;
-    }
-
+    void Button::setOnClick(function<void(Args...)> func);
     template <typename... Args>
-    void onClick(Args &&...args)
-    {
-        if (onClickFunction)
-        {
-            onClickFunction(std::forward<Args>(args)...); // Forward arguments
-        }
-        else
-        {
-            throw std::invalid_argument("onclickfunciton have not set, call setOnclick to set function\n");
-        }
-    }
+    void Button::onClick(Args &&...args);
 
-    virtual void handle_event(Event &event) = 0;
+    virtual void Button::handle_event(Event &event);
 
-    virtual void update() = 0;
+    void Button::update();
 
     virtual void draw() = 0;
 };

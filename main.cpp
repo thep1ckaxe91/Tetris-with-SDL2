@@ -2,7 +2,7 @@
 #include "Game.hpp"
 #include "Scene.hpp"
 #include "constant.hpp"
-#include "scenes.hpp"
+#include "MainMenu.hpp"
 using Event = sdlgame::event::Event;
 using Rect = sdlgame::rect::Rect;
 using Vector2 = sdlgame::math::Vector2;
@@ -22,48 +22,47 @@ public:
     int buffer_lost = 0;
     Sandtris() : Game(){
         this->window = sdlgame::display::set_mode(RESOLUTION_WIDTH, RESOLUTION_HEIGHT,
-            sdlgame::RESIZABLE | sdlgame::MAXIMIZED
+            sdlgame::RESIZABLE
         );
     }
     void update()
     {
-        mtx.lock();
         if(!scene_list.empty()) if(scene_list.back()){
             scene_list.back()->update();
-        }
-        if(this->in){
-            in->update(clock.delta_time());
-            if(in->isDone){
-                delete in;
-                in = nullptr;
-            }
         }
         if(this->out){
             out->update(clock.delta_time());
             if(out->isDone){
                 delete out;
                 out = nullptr;
-                window.fill("black");
-                sdlgame::display::flip();
             }
         }
-        mtx.unlock();
+        else if(this->in){
+            if(this->next){
+                delete scene_list.back();
+                scene_list.pop_back();
+                scene_list.push_back(this->next);
+                this->next = nullptr;
+            }
+            in->update(clock.delta_time());
+            if(in->isDone){
+                delete in;
+                in = nullptr;
+            }
+        }
     }
     void draw()
     {
-        mtx.lock();
         if(!scene_list.empty()) if(scene_list.back()){
             scene_list.back()->draw();
         }
-        if(this->in){in->draw();}
         if(this->out){out->draw();}
-        mtx.unlock();
+        else if(this->in){in->draw();}
     }
     void run()
     {
-        Test2 *test_scene = new Test2(*this);
-        scene_list.push_back((Scene*)test_scene);
-        in = new InSwipeDown();
+        MainMenu *mainmenu = new MainMenu(*this);
+        this->scene_list.push_back(mainmenu);
         while(true){
             auto events = sdlgame::event::get();
             for(auto& event : events)
@@ -77,11 +76,6 @@ public:
                 {
                     if(event["event"]==sdlgame::WINDOWFOCUSGAINED) gameactive = 1;
                     else if(event["event"]==sdlgame::WINDOWFOCUSLOST) gameactive = 0;
-                    else if(event["event"]==sdlgame::WINDOWRESIZED){
-                        printf("resized\n");
-                        gameactive = 0;
-                    }
-                    else gameactive = 1;
                 }
                 scene_list[scene_list.size()-1]->handle_event(event);
             }
@@ -90,8 +84,9 @@ public:
                 update();
                 draw();
                 sdlgame::display::flip();
+                sdlgame::display::set_caption((to_string(clock.get_fps())).c_str());
             }
-            clock.tick(refresh_rate);
+            clock.tick(MAXFPS);
         }
     }
 };
@@ -107,7 +102,6 @@ int main(int argc, char** argv)
     return 0;
 }
 /**
- * TODO: Discover of memory leak with scene_transition, solve it
- * Solve the problem where when resize the window, it appear nothing until it reload
- * APPROACH: check the resize window event and set gameactive as it do
+ * TODO: Discover of memory leak with scene_transition, solve it (unresolved)
+ * TODO: Make all file seperated declaration and definition
 */
