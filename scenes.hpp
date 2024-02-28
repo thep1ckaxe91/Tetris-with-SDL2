@@ -27,30 +27,29 @@ using namespace std;
 */ 
 class Test2 : public Scene {
 public:
-    Surface font_surf;
-    Rect font_rect;
-    Font test_font = Font(base_path + "data/fonts/arial.ttf");
-    Test2(Game &game) : Scene(game){}
+    Surface game_frame;
+    Test2(Game &game) : Scene(game){
+        game_frame = sdlgame::image::load(base_path + "data/image/background/game_frame.png");
+    }
     void handle_event(Event &event);
     void update()
     {
-        string test_text = "";
-        int cnt = sdlgame::random::randint(20,25);
-        for(int i=0;i<cnt;i++) test_text+=char(sdlgame::random::randint('a','z'));
-
-        font_surf = test_font.render(test_text,0,"white");
+        cout << "bruh" << endl;
     }
     void draw()
     {
         this->game->window.fill("black");
-        this->game->window.blit(font_surf,Vector2(RESOLUTION_WIDTH/2,RESOLUTION_HEIGHT/2)-font_surf.get_size()*0.5);
+        this->game->window.blit(this->game_frame,Vector2());
     }
 };
 class Test : public Scene
 {
 public:
+    Surface game_frame;
     Surface mask;
+    double deg=0;
     Test(Game &game) : Scene(game){
+        game_frame = sdlgame::image::load(base_path + "data/image/background/game_frame.png");
     }
     void handle_event(Event &event)
     {
@@ -67,13 +66,12 @@ public:
     }
     void update()
     {
+        deg+=1;
     }
     void draw()
     {
         this->game->window.fill("black");
-        sdlgame::draw::circle(this->game->window,Color("magenta"),
-            RESOLUTION_WIDTH/2 + sin(sdlgame::time::get_ticks()/500.0)*7, RESOLUTION_HEIGHT/2, 4
-        );
+        this->game->window.blit(sdlgame::transform::rotate(this->game_frame,deg,game_frame.getRect().getCenter()),Vector2(0,0));
     }
 };
 

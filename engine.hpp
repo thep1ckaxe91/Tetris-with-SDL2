@@ -277,7 +277,7 @@ namespace sdlgame
         private:
             Uint32 time;
             std::list<Uint32> elapsedTimes;
-            const int MAX_FPS = 1000;
+            const int MAX_FPS = 120;
             double bullet_time_multiplier = 1;
 
         public:
@@ -1542,7 +1542,7 @@ namespace sdlgame
                 printf("Failed to create a renderer\nErr: %s\n", SDL_GetError());
                 exit(0);
             }
-            SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
+            SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest");
             SDL_RenderSetLogicalSize(renderer, width, height);
             // printf("Initialize window and renderer: %p %p\n",window,renderer);
             win_surf.texture = null; // THIS IS INTENDED!

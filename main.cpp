@@ -17,8 +17,6 @@ using namespace std;
 
 class Sandtris : public Game
 {
-private:
-    double refresh_cooldown = 1/refresh_rate;
 public:
     bool gameactive = 1;
     int buffer_lost = 0;
@@ -29,10 +27,9 @@ public:
     }
     void update()
     {
+        mtx.lock();
         if(!scene_list.empty()) if(scene_list.back()){
-            mtx.lock();
             scene_list.back()->update();
-            mtx.unlock();
         }
         if(this->in){
             in->update(clock.delta_time());
@@ -46,20 +43,21 @@ public:
             if(out->isDone){
                 delete out;
                 out = nullptr;
+                window.fill("black");
+                sdlgame::display::flip();
             }
         }
-
-        this->refresh_cooldown += this->clock.delta_time();
+        mtx.unlock();
     }
     void draw()
     {
+        mtx.lock();
         if(!scene_list.empty()) if(scene_list.back()){
-            mtx.lock();
             scene_list.back()->draw();
-            mtx.unlock();
         }
-        if(this->in) in->draw();
-        if(this->out) out->draw();
+        if(this->in){in->draw();}
+        if(this->out){out->draw();}
+        mtx.unlock();
     }
     void run()
     {
@@ -79,20 +77,21 @@ public:
                 {
                     if(event["event"]==sdlgame::WINDOWFOCUSGAINED) gameactive = 1;
                     else if(event["event"]==sdlgame::WINDOWFOCUSLOST) gameactive = 0;
+                    else if(event["event"]==sdlgame::WINDOWRESIZED){
+                        printf("resized\n");
+                        gameactive = 0;
+                    }
+                    else gameactive = 1;
                 }
                 scene_list[scene_list.size()-1]->handle_event(event);
             }
             if(gameactive)
             {
                 update();
-                if(this->refresh_cooldown >= 1/refresh_rate){
-                    this->refresh_cooldown -= 1/refresh_rate;
-                    this->buffer_lost = this->refresh_cooldown*refresh_rate;
-                    draw();
-                }
+                draw();
                 sdlgame::display::flip();
             }
-            clock.tick();
+            clock.tick(refresh_rate);
         }
     }
 };
@@ -107,3 +106,8 @@ int main(int argc, char** argv)
     game.run();
     return 0;
 }
+/**
+ * TODO: Discover of memory leak with scene_transition, solve it
+ * Solve the problem where when resize the window, it appear nothing until it reload
+ * APPROACH: check the resize window event and set gameactive as it do
+*/

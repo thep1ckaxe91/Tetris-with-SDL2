@@ -67,15 +67,13 @@ public:
             this->out = out;
             std::thread([this, next, in, out]() {
                 std::this_thread::sleep_for(chrono::milliseconds(int(out->time * 1000)));
-                this->gameactive = false;
                 mtx.lock();
-                Scene *tmp = this->scene_list.back();
-                scene_list[scene_list.size()-1] = nullptr;
-                delete tmp; 
+                this->gameactive = false;
+                delete scene_list.back(); 
                 scene_list.pop_back();
-                mtx.unlock();
                 this->add_scene(next, in);
                 this->gameactive = true;
+                mtx.unlock();
             }).detach();
         }
     }
