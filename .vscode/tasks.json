@@ -8,6 +8,11 @@
                 "-fdiagnostics-color=always",
                 "-g",
                 "${file}",
+                "Game.cpp",
+                "Scene.cpp",
+                "MainMenu.cpp",
+                "Button.cpp",
+                ""
                 "-lmingw32",
                 "-lSDL2main",
                 "-lSDL2",

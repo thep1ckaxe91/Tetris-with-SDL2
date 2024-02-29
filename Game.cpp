@@ -1,4 +1,4 @@
-#include "../Game.hpp"
+#include "Game.hpp"
 
 template <class T1, class T2, class T3>
 void Game::add_scene(T3 *out, T1 *scene, T2 *in)
