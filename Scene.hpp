@@ -4,7 +4,6 @@
 #include "SceneTransition.hpp"
 using namespace std;
 class Game;
-class Event;
 /**
  * class manage a scene, all update, draw, handle_event should be override
 */
@@ -16,6 +15,7 @@ public:
     Scene(Game &game){this->game=&game;}
     virtual void update()=0;
     virtual void draw()=0;
-    virtual void handle_event(Event &event) = 0;
+    template<class Event>
+    void handle_event(Event &event);
 };
 #endif

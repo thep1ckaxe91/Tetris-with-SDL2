@@ -3,8 +3,7 @@
 #include "engine.hpp"
 using Color = sdlgame::color::Color;
 using Vector2 = sdlgame::math::Vector2;
-const sdlgame::math::Vector2 desktop_size = sdlgame::display::get_desktop_size();
-const string base_path = sdlgame::get_base_path();
+const std::string base_path = sdlgame::get_base_path();
 typedef enum
 {
     RESOLUTION_WIDTH = 160,

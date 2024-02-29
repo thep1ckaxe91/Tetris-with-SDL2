@@ -1,7 +1,7 @@
 #ifndef STARTBUTTON_HPP
 #define STARTBUTTON_HPP
-#include "Button.hpp"
 #include "Game.hpp"
+#include "Button.hpp"
 class StartButton : public Button
 {
 public:

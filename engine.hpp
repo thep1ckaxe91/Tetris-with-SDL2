@@ -50,12 +50,11 @@
 #include "SDL2/SDL_image.h"
 #include "SDL2/SDL_mixer.h"
 #include "SDL2/SDL_ttf.h"
-#include <windows.h>
 #define null NULL
 // request high performance gpu
 extern "C"
 {
-    __declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
+    __declspec(dllexport) int NvOptimusEnablement = 0x00000001;
     __declspec(dllexport) int AmdPowerXpressRequestHighPerformance = 1;
 }
 /**
@@ -1512,16 +1511,6 @@ namespace sdlgame
         sdlgame::surface::Surface win_surf = sdlgame::surface::Surface();
         bool isInit = false;
 
-        /**
-         * @return hardware resolution, if you have a fullHD monitor
-         * this should return a vector2 (1920,1080)
-         */
-        sdlgame::math::Vector2 get_desktop_size()
-        {
-            int w = GetSystemMetrics(SM_CXSCREEN);
-            int h = GetSystemMetrics(SM_CYSCREEN);
-            return sdlgame::math::Vector2(w, h);
-        }
         /**
          * Setup a window surface for use
          * @param width the resolution width of the window

@@ -15,6 +15,7 @@
                 "${fileDirname}\\StartButton.cpp",
                 "${fileDirname}\\InSwipeDown.cpp",
                 "${fileDirname}\\OutSwipeDown.cpp",
+                "${fileDirname}\\Images.cpp",
                 "-lmingw32",
                 "-lSDL2main",
                 "-lSDL2",

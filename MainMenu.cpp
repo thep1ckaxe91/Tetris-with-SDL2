@@ -10,7 +10,7 @@ void MainMenu::update(){
     
 }
 void MainMenu::draw(){
-    this->game->window.blit(this->game->images.mainmenu_background,Vector2());
+    this->game->window.blit(*this->game->images.mainmenu_background,Vector2());
 }
 MainMenu::~MainMenu()
 {

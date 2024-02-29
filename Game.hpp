@@ -1,9 +1,10 @@
 #ifndef GAME_HPP
 #define GAME_HPP
 #include "Scene.hpp"
-// #include "engine.hpp"
 #include "SceneTransition.hpp"
 #include "Images.hpp"
+#include "GameObject.hpp"
+#include "constant.hpp"
 using Event = sdlgame::event::Event;
 using Rect = sdlgame::rect::Rect;
 using Vector2 = sdlgame::math::Vector2;
@@ -30,7 +31,7 @@ protected:
     SceneTransition *out = nullptr;
     Scene *next = nullptr;
 public:
-    Images images;
+    GameObject *images;
     Surface window;
     sdlgame::time::Clock clock;
     Game() = default;
