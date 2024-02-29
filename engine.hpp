@@ -935,6 +935,14 @@ namespace sdlgame
             {
                 return !(left >= oth.getRight() || right <= oth.getLeft() || top >= oth.getBottom() || bottom <= oth.getTop());
             }
+
+            // bool collideline(const Vector2 start, const Vector2 end)
+            // {
+            //     double t = ((end.x - start.x) * (y - start.y) - (end.y - start.y) * (x - start.x)) / ((end.x - start.x) * (y + h - start.y) - (end.y - start.y) * (x + w - start.x));
+            //     double u = ((x - start.x) * (end.y - start.y) - (y - start.y) * (end.x - start.x)) / ((end.x - start.x) * (y + h - start.y) - (end.y - start.y) * (x + w - start.x));
+                
+            
+            // }
             /**
              * @return return whether the caller collide with any of the rect in the list
              */

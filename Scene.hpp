@@ -12,6 +12,7 @@ using Sound = sdlgame::mixer::Sound;
 using Channel = sdlgame::mixer::Channel;
 using Font = sdlgame::font::Font;
 using namespace std;
+class Game;
 /**
  * class manage a scene, all update, draw, handle_event should be override
 */

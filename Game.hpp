@@ -37,11 +37,11 @@ public:
     virtual void update() = 0;
     virtual void run() = 0;
     template <class T1, class T2, class T3>
-    void Game::add_scene(T3 *out, T1 *scene, T2 *in);
+    void add_scene(T3 *out, T1 *scene, T2 *in);
     // completely goback
-    void Game::remove_scene();
+    void remove_scene();
     // remove a scene and add another
     template <class T1, class T2, class T3>
-    void Game::pop_scene(T1* out, T2* next, T3* in);
+    void pop_scene(T1* out, T2* next, T3* in);
 };
 #endif

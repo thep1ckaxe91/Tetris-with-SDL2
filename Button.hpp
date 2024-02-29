@@ -18,18 +18,16 @@ public:
     Surface idle, hover, click;
     bool hovering = 0,prev_hovered = 0;
     function<void()> onClickFunction;
-    Button::Button();
-    void Button::set_images(Surface idle, Surface hover, Surface click);
+    Button();
+    void set_images(Surface idle, Surface hover, Surface click);
     template <typename... Args>
-    void Button::setOnClick(function<void(Args...)> func);
+    void setOnClick(function<void(Args...)> func);
     template <typename... Args>
-    void Button::onClick(Args &&...args);
+    void onClick(Args &&...args);
 
-    virtual void Button::handle_event(Event &event);
+    virtual void handle_event(Event &event);
 
-    void Button::update();
-
-    virtual void draw() = 0;
+    virtual void update();
 };
 
 #endif
