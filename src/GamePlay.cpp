@@ -1,5 +1,5 @@
-#include "GamePlay.hpp"
-#include "Game.hpp"
+#include "../GamePlay.hpp"
+#include "../Game.hpp"
 GamePlay::GamePlay(Game &game) : Scene(game)
 {
 

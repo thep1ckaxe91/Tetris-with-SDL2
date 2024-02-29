@@ -1,4 +1,4 @@
-#include "MainMenu.hpp"
+#include "../MainMenu.hpp"
 MainMenu::MainMenu(Game &game) : Scene(game){
     this->start_button = new StartButton(game);
 }

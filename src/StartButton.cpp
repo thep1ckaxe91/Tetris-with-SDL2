@@ -1,9 +1,9 @@
-#include "StartButton.hpp"
-#include "Game.hpp"
-#include "scene_transitions.hpp"
-#include ""
-#include "GamePlay.hpp"
-StartButton::StartButton(Game &game) : Button(game)
+#include "../StartButton.hpp"
+#include "../Game.hpp"
+#include "../scene_transitions.hpp"
+#include "../Button.hpp"
+#include "../GamePlay.hpp"
+StartButton::StartButton(Game &game) : Button()
 {
     this->game = &game;
     this->set_images(this->game->images.start_button_idle,this->game->images.start_button_hover,this->game->images.start_button_click);
