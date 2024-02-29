@@ -1,6 +1,8 @@
 #ifndef TETRIS_CONSTANT_HPP
 #define TETRIS_CONSTANT_HPP
 #include "engine.hpp"
+using Color = sdlgame::color::Color;
+using Vector2 = sdlgame::math::Vector2;
 const sdlgame::math::Vector2 desktop_size = sdlgame::display::get_desktop_size();
 const string base_path = sdlgame::get_base_path();
 typedef enum
@@ -32,4 +34,5 @@ const double fall_speed = 40; //pixel per second
 const double fast_fall_speed = 140; //pps
 const double sideway_move_speed = 120;//pps
 const int FONT_SIZE = 5;
+
 #endif

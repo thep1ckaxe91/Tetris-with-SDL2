@@ -1,7 +1,7 @@
 #ifndef GAME_HPP
 #define GAME_HPP
 #include "Scene.hpp"
-#include "engine.hpp"
+// #include "engine.hpp"
 #include "SceneTransition.hpp"
 #include "Images.hpp"
 using Event = sdlgame::event::Event;
@@ -13,6 +13,7 @@ using Sound = sdlgame::mixer::Sound;
 using Channel = sdlgame::mixer::Channel;
 using Font = sdlgame::font::Font;
 using namespace std;
+class Scene;
 /**
  * This class have to be inherit and override
 

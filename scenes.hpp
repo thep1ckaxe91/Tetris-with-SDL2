@@ -7,8 +7,6 @@
 #include "scene_transitions.hpp"
 #include "SceneTransition.hpp"
 #include "Button.hpp"
-#include "SFX.hpp"
-#include "Images.hpp"
 using Event = sdlgame::event::Event;
 using Rect = sdlgame::rect::Rect;
 using Vector2 = sdlgame::math::Vector2;

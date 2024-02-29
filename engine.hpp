@@ -1509,7 +1509,7 @@ namespace sdlgame
     {
         SDL_Window *window = nullptr;
         SDL_Renderer *renderer = nullptr;
-        sdlgame::surface::Surface win_surf;
+        sdlgame::surface::Surface win_surf = sdlgame::surface::Surface();
         bool isInit = false;
 
         /**
@@ -1579,6 +1579,11 @@ namespace sdlgame
         {
             SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
         }
+        sdlgame::surface::Surface &get_surf()
+        {
+            return win_surf;
+        }
+
         double get_width()
         {
             if(win_surf.getWidth()==0){

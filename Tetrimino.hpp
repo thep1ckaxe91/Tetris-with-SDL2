@@ -4,7 +4,6 @@
 #include "engine.hpp"
 #include "constant.hpp"
 using namespace std;
-
 typedef struct ShapeInfo {
     uint16_t mask[4];
     char type;
