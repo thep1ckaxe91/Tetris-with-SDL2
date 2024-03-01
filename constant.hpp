@@ -1,8 +1,7 @@
 #ifndef TETRIS_CONSTANT_HPP
 #define TETRIS_CONSTANT_HPP
-#include "engine.hpp"
-using Color = sdlgame::color::Color;
-using Vector2 = sdlgame::math::Vector2;
+class sdlgame::color::Color;
+class sdlgame::math::Vector2;
 const std::string base_path = sdlgame::get_base_path();
 typedef enum
 {
@@ -24,11 +23,11 @@ typedef enum
 {
     EDGE_SIZE = 32,
 } tetrimino_size;
-const Color RED_SAND_COLOR = Color("red");
-const Color GREEN_SAND_COLOR = Color("green");
-const Color YELLOW_SAND_COLOR = Color("yellow");
-const Color BLUE_SAND_COLOR = Color("blue");
-const Vector2 spawn_pos = Vector2(24,-32);
+const sdlgame::color::Color RED_SAND_COLOR = sdlgame::color::Color("red");
+const sdlgame::color::Color GREEN_SAND_COLOR = sdlgame::color::Color("green");
+const sdlgame::color::Color YELLOW_SAND_COLOR = sdlgame::color::Color("yellow");
+const sdlgame::color::Color BLUE_SAND_COLOR = sdlgame::color::Color("blue");
+const sdlgame::math::Vector2 spawn_pos = sdlgame::math::Vector2(24,-32);
 const double fall_speed = 40; //pixel per second
 const double fast_fall_speed = 140; //pps
 const double sideway_move_speed = 120;//pps

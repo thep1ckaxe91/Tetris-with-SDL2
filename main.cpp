@@ -1,4 +1,6 @@
+#include "MainMenu.hpp"
 #include "constant.hpp"
+#include "engine.hpp"
 using Event = sdlgame::event::Event;
 using Rect = sdlgame::rect::Rect;
 using Vector2 = sdlgame::math::Vector2;
@@ -8,8 +10,6 @@ using Sound = sdlgame::mixer::Sound;
 using Channel = sdlgame::mixer::Channel;
 using Font = sdlgame::font::Font;
 using namespace std;
-
-#include "MainMenu.hpp"
 //If global declare is bad, i make MY OWN global declare >:)
 
 class Sandtris : public Game

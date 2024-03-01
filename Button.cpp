@@ -1,15 +1,16 @@
 #include "Button.hpp"
+#include "engine.hpp"
 Button::Button()
 {
     this->rect = this->image.getRect();
 }
-void Button::set_images(Surface idle, Surface hover, Surface click){
+void Button::set_images(sdlgame::surface::Surface idle, sdlgame::surface::Surface hover, sdlgame::surface::Surface click){
     this->idle = this->image = idle;
     this->hover = hover;
     this->click = click;
 }
 template <typename... Args>
-void Button::setOnClick(function<void(Args...)> func)
+void Button::setOnClick(std::function<void(Args...)> func)
 {
     onClickFunction = func;
 }
@@ -27,7 +28,7 @@ void Button::onClick(Args &&...args)
     }
 }
 
-void Button::handle_event(Event &event){
+void Button::handle_event(sdlgame::event::Event &event){
     if(event.type == sdlgame::MOUSEBUTTONDOWN and this->hovering)
     {
         this->image = this->click;
@@ -35,7 +36,7 @@ void Button::handle_event(Event &event){
 }
 
 void Button::update(){
-    Vector2 mouse_pos = sdlgame::mouse::get_pos();
+    sdlgame::math::Vector2 mouse_pos = sdlgame::mouse::get_pos();
     if(this->rect.collidepoint(mouse_pos)) this->hovering = 1;
     else this->hovering = 0;
     if(!this->hovering and this->prev_hovered) this->image = this->idle;

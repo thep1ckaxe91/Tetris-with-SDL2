@@ -1,7 +1,6 @@
 #ifndef SCENE_HPP
 #define SCENE_HPP
 #include "Game.hpp"
-#include "SceneTransition.hpp"
 using namespace std;
 class Game;
 /**
@@ -15,7 +14,6 @@ public:
     Scene(Game &game){this->game=&game;}
     virtual void update()=0;
     virtual void draw()=0;
-    template<class Event>
-    void handle_event(Event &event);
+    void handle_event(std::any &event);
 };
 #endif

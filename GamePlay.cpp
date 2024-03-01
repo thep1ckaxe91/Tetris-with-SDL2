@@ -4,7 +4,7 @@ GamePlay::GamePlay(Game &game) : Scene(game)
 {
 
 }
-void GamePlay::handle_event(Event &event)
+void GamePlay::handle_event(sdlgame::event::Event &event)
 {
     
 }

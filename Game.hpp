@@ -1,20 +1,11 @@
 #ifndef GAME_HPP
 #define GAME_HPP
+#include "Images.hpp"
 #include "Scene.hpp"
 #include "SceneTransition.hpp"
-#include "Images.hpp"
-#include "GameObject.hpp"
-#include "constant.hpp"
-using Event = sdlgame::event::Event;
-using Rect = sdlgame::rect::Rect;
-using Vector2 = sdlgame::math::Vector2;
-using Surface = sdlgame::surface::Surface;
-using Color = sdlgame::color::Color;
-using Sound = sdlgame::mixer::Sound;
-using Channel = sdlgame::mixer::Channel;
-using Font = sdlgame::font::Font;
 using namespace std;
 class Scene;
+class sdlgame::surface::Surface;
 /**
  * This class have to be inherit and override
 
@@ -31,8 +22,8 @@ protected:
     SceneTransition *out = nullptr;
     Scene *next = nullptr;
 public:
-    GameObject *images;
-    Surface window;
+    Images images;
+    sdlgame::surface::Surface window;
     sdlgame::time::Clock clock;
     Game() = default;
     virtual void draw() = 0;
