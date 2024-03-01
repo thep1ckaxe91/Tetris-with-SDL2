@@ -11,5 +11,3 @@ Special Thanks To:
     DrPetter: SFXR's author
 
     Igara Studio: David Capello. Gaspar Capello : Asesprite's author
-
-    Ngo Hoan Tai: contributor
