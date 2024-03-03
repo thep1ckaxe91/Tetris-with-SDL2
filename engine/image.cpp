@@ -1,5 +1,5 @@
 #include "image.hpp"
-
+#include "surface.hpp"
 #include <stdio.h>
 #include <string>
 

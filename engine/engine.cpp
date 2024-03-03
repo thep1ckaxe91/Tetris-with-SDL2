@@ -12,7 +12,7 @@ void sdlgame::init()
         printf("SDL successfully initialized\n");
     }
     sdlgame::image::init();
-    
+    sdlgame::font::init();
 }
 void sdlgame::quit()
 {

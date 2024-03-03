@@ -1,9 +1,9 @@
 #ifndef SDLGAME_IMAGE_
 #define SDLGAME_IMAGE_
 #include "SDL2/SDL_image.h"
-namespace std{class string;}
+#include "surface.hpp"
+#include <string>
 namespace sdlgame{
-    namespace surface{class Surface;}
     namespace image
     {
         /**
