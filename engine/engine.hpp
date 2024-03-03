@@ -37,13 +37,12 @@
 
 namespace sdlgame
 {
-
     /**
      * @return base path to the exe file that call this function
      */
     std::string get_base_path();
     void init();
     void quit();
-};
+}
 
 #endif
