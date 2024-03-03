@@ -4,10 +4,10 @@
 namespace sdlgame{
     namespace color
     {
+        extern std::unordered_map<std::string, std::vector<uint8_t>> color_name;
         /**
          *  class for color, all values range from [0,255]
          */
-        std::unordered_map<std::string, std::vector<uint8_t>> color_name;
         class Color
         {
         public:

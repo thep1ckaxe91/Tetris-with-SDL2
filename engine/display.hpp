@@ -2,9 +2,9 @@
 #define SDLGAME_DISPLAY_
 #include "SDL2/SDL_video.h"
 #include "SDL2/SDL_render.h"
+#include "surface.hpp"
 namespace sdlgame
 {
-    namespace surface{class Surface;}
     typedef enum
     {
         FULLSCREEN = SDL_WINDOW_FULLSCREEN,
@@ -22,7 +22,7 @@ namespace sdlgame
         SDL_Window *window;
         SDL_Renderer *renderer;
         sdlgame::surface::Surface win_surf;
-        bool isInit = false;
+        bool isInit;
 
         /**
          * Setup a window surface for use
@@ -51,55 +51,18 @@ namespace sdlgame
          * this function get or set the state of mouse being confine or not
          *
          */
-        bool grab(int enable = -1)
-        {
-            if (enable == -1)
-                return SDL_GetWindowGrab(window);
-            SDL_SetWindowGrab(window, (enable ? SDL_TRUE : SDL_FALSE));
-            return enable;
-        }
+        bool grab(int enable = -1);
 
-        void set_icon(const char *icon_path)
-        {
-            SDL_Surface *icon = IMG_Load(icon_path);
-            SDL_SetWindowIcon(window, icon);
-        }
-
+        void set_icon(const char *icon_path);
         /**
          *  get and set the borderless state of the active window;
          */
-        bool borderless(int enable = -1)
-        {
-            if (enable == -1)
-                return (SDL_GetWindowFlags(window) & SDL_WINDOW_BORDERLESS);
-            SDL_SetWindowBordered(window, (enable ? SDL_FALSE : SDL_TRUE));
-            return (SDL_GetWindowFlags(window) & SDL_WINDOW_BORDERLESS) > 0;
-        }
-        void set_caption(const char *title)
-        {
-            SDL_SetWindowTitle(window, title);
-        }
-        SDL_Window *get_window()
-        {
-            return window;
-        }
-        SDL_Renderer *get_renderer()
-        {
-            return renderer;
-        }
-        void quit()
-        {
-            if (window)
-                SDL_DestroyWindow(window);
-            if (renderer)
-                SDL_DestroyRenderer(renderer);
-        }
-        void flip()
-        {
-            if (SDL_GetRenderTarget(renderer))
-                SDL_SetRenderTarget(renderer, NULL);
-            SDL_RenderPresent(renderer);
-        }
+        bool borderless(int enable = -1);
+        void set_caption(const char *title);
+        SDL_Window *get_window();
+        SDL_Renderer *get_renderer();
+        void quit();
+        void flip();
     }
 }
 

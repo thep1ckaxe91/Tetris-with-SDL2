@@ -1,6 +1,6 @@
 #ifndef SDLGAME_MATH_
 #define SDLGAME_MATH_
-
+#include <cmath>
 namespace sdlgame {
     /**
      * namespace for most use math functionality in game dev

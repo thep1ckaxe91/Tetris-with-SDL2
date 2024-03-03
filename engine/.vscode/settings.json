@@ -87,5 +87,7 @@
         "typeinfo": "cpp",
         "valarray": "cpp",
         "variant": "cpp"
-    }
+    },
+    "C_Cpp.default.compilerPath": "C:\\Program Files (x86)\\cpeditor\\mingw64\\bin\\g++.exe",
+    "C_Cpp.intelliSenseEngineFallback": "disabled"
 }

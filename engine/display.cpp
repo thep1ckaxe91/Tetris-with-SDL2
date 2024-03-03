@@ -2,10 +2,8 @@
 #include <stdio.h>
 #include "SDL2/SDL_hints.h"
 #include "SDL2/SDL_image.h"
-#include <iostream>
-SDL_Window *window=nullptr;
-SDL_Renderer *renderer=nullptr;
-sdlgame::surface::Surface win_surf;
+#include "surface.hpp"
+#include "math.hpp"
 /**
  * Setup a window surface for use
  * @param width the resolution width of the window
@@ -13,7 +11,7 @@ sdlgame::surface::Surface win_surf;
  * @param flags flags for the window, look for Window_Flags enum for more
  * @return a surface that represent the window, what action affect this window will affect what display on screen
  */
-sdlgame::surface::Surface &sdlgame::display::set_mode(int width = 0, int height = 0, Uint32 flags = 0)
+sdlgame::surface::Surface &sdlgame::display::set_mode(int width, int height, Uint32 flags)
 {
     if (width == 0 or height == 0)
     {
@@ -22,7 +20,7 @@ sdlgame::surface::Surface &sdlgame::display::set_mode(int width = 0, int height 
         width = DM.w;
         height = DM.h;
     }
-    window = SDL_CreateWindow("sdlgame Custom Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, flags);
+    window = SDL_CreateWindow("SDLgame Custom Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, flags);
     if (window == nullptr)
     {
         printf("Failed to create a window object\nErr: %s\n", SDL_GetError());
@@ -37,48 +35,46 @@ sdlgame::surface::Surface &sdlgame::display::set_mode(int width = 0, int height 
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest");
     SDL_RenderSetLogicalSize(renderer, width, height);
     // printf("Initialize window and renderer: %p %p\n",window,renderer);
-    win_surf.texture = null; // THIS IS INTENDED!
+    win_surf.texture = NULL; // THIS IS INTENDED!
     win_surf.size = sdlgame::math::Vector2(width, height);
     return win_surf;
 }
-/**
- * Maximize the active window
- */
-void maximize()
+
+void sdlgame::display::maximize()
 {
     SDL_MaximizeWindow(window);
 }
-/**
- * Minimize the active window
- */
-void minimize()
+
+void sdlgame::display::minimize()
 {
     SDL_MinimizeWindow(window);
 }
-void fullscreen()
+void sdlgame::display::fullscreen()
 {
     SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
 }
-void fullscreen_desktop()
+void sdlgame::display::fullscreen_desktop()
 {
     SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
 }
-sdlgame::surface::Surface &get_surf()
+sdlgame::surface::Surface &sdlgame::display::get_surf()
 {
     return win_surf;
 }
 
-double get_width()
+double sdlgame::display::get_width()
 {
-    if(win_surf.getWidth()==0){
+    if (win_surf.getWidth() == 0)
+    {
         printf("Display not yet set mode\n");
         exit(0);
     }
     return win_surf.getWidth();
 }
-double get_height()
+double sdlgame::display::get_height()
 {
-    if(win_surf.getHeight()==0){
+    if (win_surf.getHeight() == 0)
+    {
         printf("Display not yet set mode\n");
         exit(0);
     }
@@ -89,7 +85,7 @@ double get_height()
  * this function get or set the state of mouse being confine or not
  *
  */
-bool grab(int enable = -1)
+bool sdlgame::display::grab(int enable = -1)
 {
     if (enable == -1)
         return SDL_GetWindowGrab(window);
@@ -97,7 +93,7 @@ bool grab(int enable = -1)
     return enable;
 }
 
-void set_icon(const char *icon_path)
+void sdlgame::display::set_icon(const char *icon_path)
 {
     SDL_Surface *icon = IMG_Load(icon_path);
     SDL_SetWindowIcon(window, icon);
@@ -106,33 +102,33 @@ void set_icon(const char *icon_path)
 /**
  *  get and set the borderless state of the active window;
  */
-bool borderless(int enable = -1)
+bool sdlgame::display::borderless(int enable = -1)
 {
     if (enable == -1)
         return (SDL_GetWindowFlags(window) & SDL_WINDOW_BORDERLESS);
     SDL_SetWindowBordered(window, (enable ? SDL_FALSE : SDL_TRUE));
     return (SDL_GetWindowFlags(window) & SDL_WINDOW_BORDERLESS) > 0;
 }
-void set_caption(const char *title)
+void sdlgame::display::set_caption(const char *title)
 {
     SDL_SetWindowTitle(window, title);
 }
-SDL_Window *get_window()
+SDL_Window *sdlgame::display::get_window()
 {
     return window;
 }
-SDL_Renderer *get_renderer()
+SDL_Renderer *sdlgame::display::get_renderer()
 {
     return renderer;
 }
-void quit()
+void sdlgame::display::quit()
 {
     if (window)
         SDL_DestroyWindow(window);
     if (renderer)
         SDL_DestroyRenderer(renderer);
 }
-void flip()
+void sdlgame::display::flip()
 {
     if (SDL_GetRenderTarget(renderer))
         SDL_SetRenderTarget(renderer, NULL);
