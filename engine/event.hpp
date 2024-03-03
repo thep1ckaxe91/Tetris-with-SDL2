@@ -2,6 +2,7 @@
 #define SDLGAME_EVENT_
 #include "SDL2/SDL_events.h"
 #include <string>
+#include <vector>
 #include <map>
 namespace sdlgame{
     enum class Event_Code;
