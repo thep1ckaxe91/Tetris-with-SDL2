@@ -16,25 +16,25 @@ class Scene;
 class Game
 {
 protected:
-    bool gameactive=0;
+    bool gameactive;
     std::vector<Scene *> scene_list;
-    SceneTransition *in = nullptr;
-    SceneTransition *out = nullptr;
-    Scene *next = nullptr;
+    SceneTransition *in;
+    SceneTransition *out;
+    Scene *next;
 public:
     Images images;
     sdlgame::surface::Surface window;
     sdlgame::time::Clock clock;
-    Game() = default;
+    Game();
     virtual void draw() = 0;
     virtual void update() = 0;
     virtual void run() = 0;
-    template <class T1, class T2, class T3>
-    void add_scene(T3 *out, T1 *scene, T2 *in);
+    // template <class T1, class T2, class T3>
+    void add_scene(SceneTransition *out, Scene *scene, SceneTransition *in);
     // completely goback
     void remove_scene();
     // remove a scene and add another
-    template <class T1, class T2, class T3>
-    void pop_scene(T1* out, T2* next, T3* in);
+    // template <class T1, class T2, class T3>
+    void pop_scene(SceneTransition* out, Scene* next, SceneTransition* in);
 };
 #endif

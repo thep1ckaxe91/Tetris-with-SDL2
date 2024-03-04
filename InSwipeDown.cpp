@@ -11,6 +11,7 @@ using Font = sdlgame::font::Font;
 using namespace std;
 InSwipeDown::InSwipeDown(double time) : SceneTransition(time)
 {
+    vel=cur_height=0;
     this->accelerate = (sdlgame::display::get_height()*2)/time/time;
 }
 void InSwipeDown::update(double delta_time)

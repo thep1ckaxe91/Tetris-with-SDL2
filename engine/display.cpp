@@ -41,7 +41,7 @@ sdlgame::surface::Surface &sdlgame::display::set_mode(int width, int height, Uin
     SDL_RenderSetLogicalSize(renderer, width, height);
     // printf("Initialize window and renderer: %p %p\n",window,renderer);
     win_surf.texture = NULL; // THIS IS INTENDED!
-    win_surf.size = sdlgame::math::Vector2(width, height);
+    win_surf.size.x=width; win_surf.size.y=height;
     return win_surf;
 }
 

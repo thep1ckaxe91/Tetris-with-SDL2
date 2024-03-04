@@ -1,5 +1,4 @@
 #include "StartButton.hpp"
-#include "Game.hpp"
 #include "scene_transitions.hpp"
 #include "GamePlay.hpp"
 #include "InSwipeDown.hpp"
@@ -11,6 +10,8 @@ StartButton::StartButton(Game &game) : Button()
     this->set_images(this->game->images.start_button_idle,this->game->images.start_button_hover,this->game->images.start_button_click);
     
 }
+StartButton::StartButton() : Button()
+{}
 void StartButton::handle_event(Event &event)
 {
     // if(event.type == sdlgame::MOUSEBUTTONUP and this->hovering){

@@ -26,8 +26,7 @@ sdlgame::math::Vector2::Vector2(const Vector2 &oth)
     x = oth.x;
     y = oth.y;
 }
-template <class T>
-sdlgame::math::Vector2::Vector2(T _x, T _y)
+sdlgame::math::Vector2::Vector2(double _x, double _y)
 {
     x = _x;
     y = _y;

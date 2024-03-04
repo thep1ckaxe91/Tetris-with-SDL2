@@ -27,8 +27,7 @@ namespace sdlgame {
             Vector2();
             Vector2(const SDL_Point &p);
             Vector2(const Vector2 &oth);
-            template <class T>
-            Vector2(T _x, T _y);
+            Vector2(double _x, double _y);
             Vector2 &operator=(const Vector2 &oth);
             sdlgame::math::Vector2 &operator+=(const sdlgame::math::Vector2 &oth);
             sdlgame::math::Vector2 &operator-=(const sdlgame::math::Vector2 &oth);

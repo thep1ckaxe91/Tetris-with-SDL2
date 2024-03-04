@@ -1,10 +1,9 @@
-#include "surface.hpp"
 #include "rect.hpp"
 #include "display.hpp"
 #include "color.hpp"
 #include "math.hpp"
 #include "stdio.h"
-
+#include "surface.hpp"
 sdlgame::surface::Surface::Surface()
 {
     flags = 0;
@@ -19,7 +18,7 @@ sdlgame::surface::Surface::Surface(int width, int height, Uint32 _flags)
         printf("Failed to create texture\nErr: %s\n", SDL_GetError());
         exit(0);
     }
-    size = sdlgame::math::Vector2(width, height);
+    size.x=width; size.y=height;
     if(SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND));
     SDL_SetRenderTarget(sdlgame::display::renderer, texture);
     SDL_SetRenderDrawColor(sdlgame::display::renderer, 0, 0, 0, 0);
@@ -38,7 +37,7 @@ sdlgame::surface::Surface::Surface(const Surface &oth)
     SDL_RenderClear(sdlgame::display::renderer);
     SDL_RenderCopy(sdlgame::display::renderer, oth.texture, NULL, NULL);
     SDL_SetRenderTarget(sdlgame::display::renderer, NULL);
-    size = sdlgame::math::Vector2(w, h);
+    size.x=w; size.y=h;
 }
 
 sdlgame::surface::Surface::Surface(SDL_Texture *oth)
@@ -52,7 +51,7 @@ sdlgame::surface::Surface::Surface(SDL_Texture *oth)
     SDL_RenderClear(sdlgame::display::renderer);
     SDL_RenderCopy(sdlgame::display::renderer, oth, NULL, NULL);
     SDL_SetRenderTarget(sdlgame::display::renderer, NULL);
-    size = sdlgame::math::Vector2(w, h);
+    size.x=w; size.y=h;
 }
 
 sdlgame::surface::Surface::Surface(SDL_Surface *surf)
@@ -64,7 +63,7 @@ sdlgame::surface::Surface::Surface(SDL_Surface *surf)
         printf("Failed to create texture form surface\nErr:%s\n", SDL_GetError());
         exit(0);
     }
-    size = sdlgame::math::Vector2(surf->w, surf->h);
+    size.x=surf->w; size.y=surf->h;
 }
 
 sdlgame::surface::Surface &sdlgame::surface::Surface::operator=(const sdlgame::surface::Surface &other)

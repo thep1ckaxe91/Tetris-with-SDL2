@@ -2,6 +2,7 @@
 #define SDLGAME_SPRITE_
 #include <vector>
 #include <set>
+#include "math.hpp"
 #include "surface.hpp"
 namespace sdlgame
 {

@@ -1,9 +1,8 @@
-#include "sprite.hpp"
 #include "rect.hpp"
 #include "surface.hpp"
 #include <set>
 #include <vector>
-
+#include "sprite.hpp"
 
 sdlgame::sprite::Group::Group(std::vector<Sprite *> sprites)
 {

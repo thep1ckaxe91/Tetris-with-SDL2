@@ -1,7 +1,12 @@
 #include "Game.hpp"
 #include "engine/engine.hpp"
-template <class T1, class T2, class T3>
-void Game::add_scene(T3 *out, T1 *scene, T2 *in)
+Game::Game()
+{
+    gameactive = 1;
+    in = out = nullptr;
+    next = nullptr;
+}
+void Game::add_scene(SceneTransition *out, Scene *scene, SceneTransition *in)
 {
     this->out = out;
     this->next = scene;
@@ -17,8 +22,8 @@ void Game::remove_scene()
     }
 }
 // remove a scene and add another
-template <class T1, class T2, class T3>
-void Game::pop_scene(T1* out, T2* next, T3* in) {
+void Game::pop_scene(SceneTransition* out, Scene* next, SceneTransition* in)
+{
     if (scene_list.size() > 0) {
         this->out = out;
         this->in = in;

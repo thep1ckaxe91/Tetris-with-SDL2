@@ -5,8 +5,8 @@ class OutSwipeDown : public SceneTransition
 {
 public:
     double accelerate;
-    double vel = 0;
-    double cur_height = 0;
+    double vel;
+    double cur_height;
     OutSwipeDown(double time = 1);
     void update(double delta_time);
     void draw();

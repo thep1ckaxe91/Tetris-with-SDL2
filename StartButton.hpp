@@ -6,8 +6,8 @@ class StartButton : public Button
 {
 public:
     Game* game;
-    bool hovering = 0;
     StartButton(Game &game);
+    StartButton();
     void handle_event(Event &event);
     void update();
 };

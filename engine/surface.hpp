@@ -4,6 +4,7 @@
 #include "SDL2/SDL.h"
 #include "color.hpp"
 #include "rect.hpp"
+#include "math.hpp"
 namespace sdlgame
 {
     namespace surface

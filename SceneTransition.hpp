@@ -10,9 +10,8 @@ class SceneTransition
 {
 public:
     double time; //time in second, the length of the animation
-    bool isDone = 1;
-    SceneTransition(double time=1){this->time = time; this->isDone = 0;}
-    void play(){this->isDone = 0;}
+    bool isDone;
+    SceneTransition(double time=1);
     virtual void update(double delta_time) = 0;
     virtual void draw() = 0;
 };
