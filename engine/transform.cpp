@@ -1,4 +1,5 @@
 #include "transform.hpp"
+#include "display.hpp"
 sdlgame::surface::Surface sdlgame::transform::flip(sdlgame::surface::Surface surface, bool flip_x, bool flip_y)
 {
     sdlgame::surface::Surface res = surface;

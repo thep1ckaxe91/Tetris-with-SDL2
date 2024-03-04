@@ -26,7 +26,7 @@ sdlgame::time::Clock::Clock()
      * @return the time has passed since the last call to this function
      * @param fps desired FPS, if the fps is too high, it just run as fast as possible
      */
-Uint32 sdlgame::time::Clock::tick(double fps = 0)
+Uint32 sdlgame::time::Clock::tick(double fps)
 {
     if (fps == 0)
         fps = MAX_FPS;

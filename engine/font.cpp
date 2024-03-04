@@ -18,7 +18,7 @@ void sdlgame::font::init()
         return;
     }
 }
-sdlgame::font::Font::Font(std::string path, int size = 12)
+sdlgame::font::Font::Font(std::string path, int size)
 {
     this->height = size;
     this->font = TTF_OpenFont(path.c_str(), size);
@@ -40,7 +40,7 @@ sdlgame::font::Font::Font(std::string path, int size = 12)
      * then will only endline when use endline character
      *
      */
-sdlgame::surface::Surface sdlgame::font::Font::render(const std::string text, int antialias, sdlgame::color::Color color, uint32_t wrap_length = 0, sdlgame::color::Color background = sdlgame::color::Color(0, 0, 0, 0))
+sdlgame::surface::Surface sdlgame::font::Font::render(const std::string text, int antialias, sdlgame::color::Color color, uint32_t wrap_length, sdlgame::color::Color background)
 {
     SDL_Surface *surface;
     if (!antialias)

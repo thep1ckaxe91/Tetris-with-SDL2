@@ -2,7 +2,8 @@
 #include "SDL2/SDL_mouse.h"
 #include "math.hpp"
 #include <vector>
-
+sdlgame::math::Vector2 sdlgame::mouse::last_mouse_pos;
+bool sdlgame::mouse::isVisible;
 sdlgame::math::Vector2 sdlgame::mouse::get_pos()
 {
     int x, y;

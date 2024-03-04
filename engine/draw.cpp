@@ -1,10 +1,11 @@
 #include "draw.hpp"
 #include "surface.hpp"
+#include "display.hpp"
 #include "color.hpp"
 #include "stdio.h"
 #include "rect.hpp"
 #include <bits/stdc++.h>
-void sdlgame::draw::rect(sdlgame::surface::Surface &surface, sdlgame::color::Color color, sdlgame::rect::Rect rect, int width = 0)
+void sdlgame::draw::rect(sdlgame::surface::Surface &surface, sdlgame::color::Color color, sdlgame::rect::Rect rect, int width)
 {
     // std::cout << surface.texture << " color: "<<color.toString() << " rect: "<<rect.toString()<<std::endl;
     if (SDL_SetRenderTarget(sdlgame::display::renderer, surface.texture))
@@ -80,7 +81,7 @@ void sdlgame::draw::line(sdlgame::surface::Surface &surface, sdlgame::color::Col
         printf("Failed to set target: %s\n", SDL_GetError());
     }
 }
-void sdlgame::draw::circle(sdlgame::surface::Surface &surface, sdlgame::color::Color color, int centerX, int centerY, int radius, int width = 0)
+void sdlgame::draw::circle(sdlgame::surface::Surface &surface, sdlgame::color::Color color, int centerX, int centerY, int radius, int width)
 {
     if (SDL_SetRenderTarget(sdlgame::display::renderer, surface.texture))
     {

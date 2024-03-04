@@ -1,6 +1,11 @@
+#pragma once
 #ifndef SDLGAME_COLOR_
 #define SDLGAME_COLOR_
 #include "SDL2/SDL.h"
+#include <unordered_map>
+#include <string>
+#include <vector>
+#include <iostream>
 namespace sdlgame{
     namespace color
     {

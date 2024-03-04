@@ -1,3 +1,4 @@
+#pragma once
 #ifndef SDLGAME_EVENT_
 #define SDLGAME_EVENT_
 #include "SDL2/SDL_events.h"
@@ -5,9 +6,6 @@
 #include <vector>
 #include <map>
 namespace sdlgame{
-    enum class Event_Code;
-
-    enum class Window_Event;
     namespace event
     {
         /**
@@ -26,9 +24,9 @@ namespace sdlgame{
             Event(SDL_Event e);
             Uint32 operator[](std::string key);
         };
-        std::vector<Event> current_events;
+        extern std::vector<Event> current_events;
+        extern Event tmp;
         std::vector<Event> &get();
-        Event tmp;
         /**please only use this for user event*/
         void post(Uint32 event_type);
     }

@@ -13,12 +13,15 @@
  *
  * @copyright if you want to use this file, please contact for permission, after that, feel free to use and modify this file
  */
+#pragma once
 #ifndef ENGINE_HPP
 #define ENGINE_HPP
 #include <bits/stdc++.h>
 #include "math.hpp"
 #include "rect.hpp"
 #include "surface.hpp"
+#include "display.hpp"
+#include "event.hpp"
 #include "time.hpp"
 #include "music.hpp"
 #include "random.hpp"
@@ -31,10 +34,16 @@
 #include "key.hpp"
 #include "color.hpp"
 #include "image.hpp"
-#include "display.hpp"
-#include "event.hpp"
+#include "constants.hpp"
 #define null NULL
-
+using Event = sdlgame::event::Event;
+using Rect = sdlgame::rect::Rect;
+using Vector2 = sdlgame::math::Vector2;
+using Surface = sdlgame::surface::Surface;
+using Color = sdlgame::color::Color;
+using Sound = sdlgame::mixer::Sound;
+using Channel = sdlgame::mixer::Channel;
+using Font = sdlgame::font::Font;
 namespace sdlgame
 {
     /**

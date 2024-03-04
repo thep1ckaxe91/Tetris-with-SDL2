@@ -1,9 +1,10 @@
 #include "MainMenu.hpp"
-#include "engine.hpp"
+#include "StartButton.hpp"
+#include "engine/engine.hpp"
 MainMenu::MainMenu(Game &game) : Scene(game){
-    this->start_button = new StartButton(game);
+    this->start_button = StartButton(game);
 }
-void MainMenu::handle_event(sdlgame::event::Event &event)
+void MainMenu::handle_event(Event &event)
 {
 
 }
@@ -15,5 +16,5 @@ void MainMenu::draw(){
 }
 MainMenu::~MainMenu()
 {
-    delete start_button;
+    
 }

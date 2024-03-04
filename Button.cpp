@@ -1,34 +1,17 @@
 #include "Button.hpp"
-#include "engine.hpp"
+#include "engine/engine.hpp"
 Button::Button()
 {
     this->rect = this->image.getRect();
+    hovering = prev_hovered = 0;
 }
-void Button::set_images(sdlgame::surface::Surface idle, sdlgame::surface::Surface hover, sdlgame::surface::Surface click){
+void Button::set_images(Surface &idle, Surface &hover,Surface &click){
     this->idle = this->image = idle;
     this->hover = hover;
     this->click = click;
 }
-template <typename... Args>
-void Button::setOnClick(std::function<void(Args...)> func)
-{
-    onClickFunction = func;
-}
 
-template <typename... Args>
-void Button::onClick(Args &&...args)
-{
-    if (onClickFunction)
-    {
-        onClickFunction(std::forward<Args>(args)...); // Forward arguments
-    }
-    else
-    {
-        throw std::invalid_argument("onclickfunciton have not set, call setOnclick to set function\n");
-    }
-}
-
-void Button::handle_event(sdlgame::event::Event &event){
+void Button::handle_event(Event &event){
     if(event.type == sdlgame::MOUSEBUTTONDOWN and this->hovering)
     {
         this->image = this->click;

@@ -402,7 +402,7 @@ void sdlgame::rect::Rect::setMidBottom(const sdlgame::math::Vector2 &pos)
     this->move_ip(pos.x - centerx, pos.y - bottom);
 }
 template <class T>
-void setMidLeft(T _x, T _y)
+void sdlgame::rect::Rect::setMidLeft(T _x, T _y)
 {
     this->move_ip(_x - x, _y - centery);
 }

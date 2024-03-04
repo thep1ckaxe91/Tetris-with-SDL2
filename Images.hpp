@@ -1,7 +1,6 @@
 #ifndef IMAGES_HPP
 #define IMAGES_HPP
-#include "engine.hpp"
-class sdlgame::surface::Surface;
+#include "engine/engine.hpp"
 
 class Images
 {

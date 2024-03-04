@@ -1,5 +1,6 @@
 #include "image.hpp"
 #include "surface.hpp"
+#include "display.hpp"
 #include <stdio.h>
 #include <string>
 

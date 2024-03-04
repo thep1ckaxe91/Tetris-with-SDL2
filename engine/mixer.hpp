@@ -1,7 +1,8 @@
+#pragma once
 #ifndef SDLGAME_MIXER_
 #define SDLGAME_MIXER_
 #include "SDL2/SDL_mixer.h"
-
+#include <string>
 
 namespace sdlgame 
 {

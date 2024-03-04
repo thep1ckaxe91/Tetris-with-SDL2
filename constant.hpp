@@ -1,7 +1,6 @@
 #ifndef TETRIS_CONSTANT_HPP
 #define TETRIS_CONSTANT_HPP
-class sdlgame::color::Color;
-class sdlgame::math::Vector2;
+#include "engine/engine.hpp"
 const std::string base_path = sdlgame::get_base_path();
 typedef enum
 {

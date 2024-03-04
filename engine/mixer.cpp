@@ -13,7 +13,7 @@ void sdlgame::mixer::set_num_channels(int count)
  * @param devicename name of the device, leave it as empty to be default system
  * Init the mixer module, it not guarantee that all flag can be sucessfully init since it depend on what in the os
  */
-void sdlgame::mixer::init(int freq = 44100, Uint16 size = 16, int channels = 2, int buffer = 512)
+void sdlgame::mixer::init(int freq, Uint16 size, int channels, int buffer)
 {
     size = (size == 16 ? AUDIO_S16SYS : AUDIO_F32SYS);
     if (Mix_Init(MIX_INIT_MP3) & MIX_INIT_MP3 != MIX_INIT_MP3)
@@ -42,7 +42,6 @@ int sdlgame::mixer::get_num_channels()
 {
     return Mix_AllocateChannels(-1);
 }
-class sdlgame::mixer::Sound;
 
 int sdlgame::mixer::convert_volume_value(float value)
 {
@@ -54,7 +53,7 @@ sdlgame::mixer::Channel::Channel(int id)
     this->id = id;
     this->volume = 1;
 }
-void sdlgame::mixer::Channel::play(Sound sound, int loops = 0, int maxtime_ms = -1, int fade_ms = 0){
+void sdlgame::mixer::Channel::play(Sound sound, int loops, int maxtime_ms, int fade_ms){
     if(Mix_FadeInChannelTimed(this->id,sound.chunk,loops,fade_ms,maxtime_ms)==-1){
         printf("Cant play sound\nErr:%s\n",Mix_GetError());
         exit(0);
@@ -82,7 +81,7 @@ sdlgame::mixer::Sound::Sound(std::string path)
  * @param maxtime_ms maximum time in miliseconds the sound will be play in ms until it stop
  * @param fade_ms fade in time in miliseconds
  */
-sdlgame::mixer::Channel sdlgame::mixer::Sound::play(int loops = 0, int maxtime_ms = -1, int fade_ms = 0)
+sdlgame::mixer::Channel sdlgame::mixer::Sound::play(int loops, int maxtime_ms, int fade_ms)
 {
     int channel = Mix_FadeInChannelTimed(-1, chunk, loops, fade_ms, maxtime_ms);
     if (channel == -1)

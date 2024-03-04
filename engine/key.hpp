@@ -7,14 +7,10 @@
 
 
 namespace sdlgame{
-    enum class K_Code;
     namespace key
     {
-        namespace
-        {
-            const Uint8 *keyState;
-            std::vector<bool> keys;
-        }
+        extern const Uint8 *keyState;
+        extern std::vector<bool> keys;
         /**
          *  assume that you called the SDL_PumpEvents function before calling this, this funciton should work fine
          */

@@ -1,3 +1,4 @@
+#pragma once
 #ifndef SDLGAME_IMAGE_
 #define SDLGAME_IMAGE_
 #include "SDL2/SDL_image.h"

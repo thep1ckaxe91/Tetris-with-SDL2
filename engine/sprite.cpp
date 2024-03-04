@@ -5,7 +5,7 @@
 #include <vector>
 
 
-sdlgame::sprite::Group::Group(std::vector<Sprite *> sprites = std::vector<Sprite *>())
+sdlgame::sprite::Group::Group(std::vector<Sprite *> sprites)
 {
     for (auto sprite : sprites)
         this->add(sprite);
@@ -16,7 +16,7 @@ sdlgame::sprite::Group &sdlgame::sprite::Group::operator=(Group oth)
     return *this;
 }
 
-sdlgame::sprite::Sprite::Sprite(std::vector<Group *> groups = std::vector<Group *>())
+sdlgame::sprite::Sprite::Sprite(std::vector<Group *> groups)
 {
     for (Group *group : groups)
         this->add(group);
@@ -144,7 +144,7 @@ void sdlgame::sprite::Group::draw(sdlgame::surface::Surface &surface)
     }
 }
 
-sdlgame::sprite::GroupSingle::GroupSingle(Sprite *sprite = NULL)
+sdlgame::sprite::GroupSingle::GroupSingle(Sprite *sprite)
 {
     this->sprite = sprite;
 }
@@ -165,7 +165,7 @@ void sdlgame::sprite::GroupSingle::draw(sdlgame::surface::Surface &surface)
     surface.blit(sprite->image, sprite->rect.getTopLeft());
 }
 
-std::vector<sdlgame::sprite::Sprite *> spritecollide(sdlgame::sprite::Sprite *sprite, sdlgame::sprite::Group *group, bool dokill = false)
+std::vector<sdlgame::sprite::Sprite *> spritecollide(sdlgame::sprite::Sprite *sprite, sdlgame::sprite::Group *group, bool dokill)
 {
     std::vector<sdlgame::sprite::Sprite *> res;
     for (auto &img : group->sprite_list)
@@ -182,7 +182,7 @@ std::vector<sdlgame::sprite::Sprite *> spritecollide(sdlgame::sprite::Sprite *sp
 /**
  * @return if 2 sprite is collide or not, but using 2 sprite, both must have rect attr defined
  */
-bool collide_rect(sdlgame::sprite::Sprite *left, sdlgame::sprite::Sprite *right)
+bool sdlgame::sprite::collide_rect(sdlgame::sprite::Sprite *left, sdlgame::sprite::Sprite *right)
 {
     return left->rect.colliderect(right->rect);
 }
@@ -192,7 +192,7 @@ bool collide_rect(sdlgame::sprite::Sprite *left, sdlgame::sprite::Sprite *right)
  * If the radius value is passed, it will check if 2 circle center at the both rect center is collide with that center and that radius or not
  * otherwise a circle is created that is big enough to completely enclose the sprites rect as given by the "rect" attribute.
  */
-bool collide_circle(sdlgame::sprite::Sprite *left,sdlgame::sprite::Sprite *right, double left_radius = 0, double right_radius = 0)
+bool sdlgame::sprite::collide_circle(sdlgame::sprite::Sprite *left,sdlgame::sprite::Sprite *right, double left_radius, double right_radius)
 {
     left_radius = (left_radius == 0 ? (left->rect.getTopLeft() - left->rect.getBottomRight()).magnitude() / 2 : left_radius);
     right_radius = (right_radius == 0 ? (right->rect.getTopLeft() - right->rect.getBottomRight()).magnitude() / 2 : right_radius);

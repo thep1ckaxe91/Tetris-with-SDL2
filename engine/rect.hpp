@@ -1,6 +1,8 @@
+#pragma once
 #ifndef SDLGAME_RECT_
 #define SDLGAME_RECT_
 #include "math.hpp"
+#include "SDL2/SDL.h"
 #include <vector>
 #include <string>
 

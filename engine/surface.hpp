@@ -1,9 +1,9 @@
+#pragma once
 #ifndef SDLGAME_SURFACE_
 #define SDLGAME_SURFACE_
 #include "SDL2/SDL.h"
 #include "color.hpp"
 #include "rect.hpp"
-#include "display.hpp"
 namespace sdlgame
 {
     namespace surface

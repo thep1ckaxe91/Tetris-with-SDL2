@@ -1,8 +1,4 @@
 #include "color.hpp"
-#include <unordered_map>
-#include <string>
-#include <vector>
-#include <iostream>
 
 namespace sdlgame{
     namespace color{

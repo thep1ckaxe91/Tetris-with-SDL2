@@ -1,6 +1,9 @@
+#pragma once
 #ifndef SDLGAME_MATH_
 #define SDLGAME_MATH_
 #include <cmath>
+#include "SDL2/SDL.h"
+#include <string>
 namespace sdlgame {
     /**
      * namespace for most use math functionality in game dev

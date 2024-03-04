@@ -1,6 +1,6 @@
 #include "surface.hpp"
-#include "display.hpp"
 #include "rect.hpp"
+#include "display.hpp"
 #include "color.hpp"
 #include "math.hpp"
 #include "stdio.h"
@@ -11,7 +11,7 @@ sdlgame::surface::Surface::Surface()
     texture = NULL;
 }
 
-sdlgame::surface::Surface::Surface(int width, int height, Uint32 _flags = 0)
+sdlgame::surface::Surface::Surface(int width, int height, Uint32 _flags)
 {
     flags = _flags;
     if (!(texture = SDL_CreateTexture(sdlgame::display::renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, width, height)))
@@ -97,7 +97,7 @@ sdlgame::rect::Rect sdlgame::surface::Surface::getRect() const
  * Blit a surface onto this surface with position and size, leave size be -1,-1 will be its original size
  * the surface or image will stretch or shrink acoording to the size
  */
-void sdlgame::surface::Surface::blit(const Surface &source, sdlgame::math::Vector2 pos, sdlgame::math::Vector2 size = sdlgame::math::Vector2(-1, -1), sdlgame::rect::Rect area = sdlgame::rect::Rect())
+void sdlgame::surface::Surface::blit(const Surface &source, sdlgame::math::Vector2 pos, sdlgame::math::Vector2 size, sdlgame::rect::Rect area)
 {
     if (area == sdlgame::rect::Rect())
     {

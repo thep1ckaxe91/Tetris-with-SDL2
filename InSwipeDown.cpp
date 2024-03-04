@@ -1,5 +1,5 @@
 #include "InSwipeDown.hpp"
-#include "engine.hpp"
+#include "engine/engine.hpp"
 using Event = sdlgame::event::Event;
 using Rect = sdlgame::rect::Rect;
 using Vector2 = sdlgame::math::Vector2;

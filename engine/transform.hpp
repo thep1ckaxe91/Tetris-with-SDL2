@@ -1,3 +1,4 @@
+#pragma once
 #ifndef SDLGAME_TRANSFORM_
 #define SDLGAME_TRANSFORM_
 #include "surface.hpp"

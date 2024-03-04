@@ -14,6 +14,6 @@ public:
     Scene(Game &game){this->game=&game;}
     virtual void update()=0;
     virtual void draw()=0;
-    void handle_event(std::any &event);
+    virtual void handle_event(Event &event);
 };
 #endif

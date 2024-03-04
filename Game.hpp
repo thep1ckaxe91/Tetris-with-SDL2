@@ -1,11 +1,11 @@
 #ifndef GAME_HPP
 #define GAME_HPP
+#include "engine/engine.hpp"
 #include "Images.hpp"
 #include "Scene.hpp"
 #include "SceneTransition.hpp"
 using namespace std;
 class Scene;
-class sdlgame::surface::Surface;
 /**
  * This class have to be inherit and override
 

@@ -1,28 +1,19 @@
+#pragma once
 #ifndef SDLGAME_DISPLAY_
 #define SDLGAME_DISPLAY_
 #include "SDL2/SDL_video.h"
 #include "SDL2/SDL_render.h"
+#include <stdio.h>
 #include "surface.hpp"
+#include "math.hpp"
 namespace sdlgame
 {
-    typedef enum
-    {
-        FULLSCREEN = SDL_WINDOW_FULLSCREEN,
-        NO_FRAME = SDL_WINDOW_BORDERLESS,
-        RESIZABLE = SDL_WINDOW_RESIZABLE,
-        HIDDEN = SDL_WINDOW_HIDDEN,
-        SKIP_TASK_BAR = SDL_WINDOW_SKIP_TASKBAR,
-        POPUP_MENU = SDL_WINDOW_POPUP_MENU,
-        ALWAYS_ON_TOP = SDL_WINDOW_ALWAYS_ON_TOP,
-        MAXIMIZED = SDL_WINDOW_MAXIMIZED,
-        MINIMIZED = SDL_WINDOW_MINIMIZED,
-    } Window_Flag;
     namespace display
     {
-        SDL_Window *window;
-        SDL_Renderer *renderer;
-        sdlgame::surface::Surface win_surf;
-        bool isInit;
+        extern SDL_Window *window;
+        extern SDL_Renderer *renderer;
+        extern sdlgame::surface::Surface win_surf;
+        extern bool isInit;
 
         /**
          * Setup a window surface for use

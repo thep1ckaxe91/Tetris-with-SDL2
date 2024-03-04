@@ -4,6 +4,11 @@
 #include "SDL2/SDL_image.h"
 #include "surface.hpp"
 #include "math.hpp"
+SDL_Window *sdlgame::display::window;
+SDL_Renderer *sdlgame::display::renderer;
+sdlgame::surface::Surface sdlgame::display::win_surf;
+bool sdlgame::display::isInit;
+
 /**
  * Setup a window surface for use
  * @param width the resolution width of the window
@@ -85,7 +90,7 @@ double sdlgame::display::get_height()
  * this function get or set the state of mouse being confine or not
  *
  */
-bool sdlgame::display::grab(int enable = -1)
+bool sdlgame::display::grab(int enable)
 {
     if (enable == -1)
         return SDL_GetWindowGrab(window);
@@ -102,7 +107,7 @@ void sdlgame::display::set_icon(const char *icon_path)
 /**
  *  get and set the borderless state of the active window;
  */
-bool sdlgame::display::borderless(int enable = -1)
+bool sdlgame::display::borderless(int enable)
 {
     if (enable == -1)
         return (SDL_GetWindowFlags(window) & SDL_WINDOW_BORDERLESS);

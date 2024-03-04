@@ -1,6 +1,7 @@
 #include"music.hpp"
 #include <string>
 #include "SDL2/SDL_mixer.h"
+Mix_Music *sdlgame::music::music;
 void sdlgame::music::load(std::string path)
 {
     if (music != NULL)
@@ -12,7 +13,7 @@ void sdlgame::music::load(std::string path)
         exit(0);
     }
 }
-void sdlgame::music::play(int loop = 0)
+void sdlgame::music::play(int loop)
 {
     if (Mix_PlayMusic(music, loop))
     {
