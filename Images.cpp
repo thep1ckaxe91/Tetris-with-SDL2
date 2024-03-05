@@ -2,6 +2,10 @@
 #include "engine/engine.hpp"
 Images::Images()
 {
+    
+}
+void Images::load()
+{
     std::string base_path = sdlgame::get_base_path();
     start_button_idle = sdlgame::image::load(base_path+"data/image/ui/start_button/start_button_idle.png");
     start_button_hover = sdlgame::image::load(base_path+"data/image/ui/start_button/start_button_hover.png");

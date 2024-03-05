@@ -1,7 +1,8 @@
 #include "color.hpp"
-#include <map>
-namespace sdlgame::color{
-    std::map<std::string, std::vector<uint8_t>> color_name={
+std::map<std::string, std::vector<uint8_t>> sdlgame::color::color_name;
+void sdlgame::color::init()
+{
+    color_name={
         {"maroon", {128, 0, 0}},
         {"dark red", {139, 0, 0}},
         {"brown", {165, 42, 42}},
@@ -168,6 +169,7 @@ sdlgame::color::Color::Color(const char *c_name)
     }
     for (char &c : name)
         c = std::tolower(c);
+    if(color_name.size()==0) sdlgame::color::init();
     if (color_name.find(name) == color_name.end())
     {
         if(color_name.size()>0){
@@ -198,6 +200,7 @@ sdlgame::color::Color::Color(std::string name)
     }
     for (char &c : name)
         c = std::tolower(c);
+    if(color_name.size()==0) sdlgame::color::init();
     if (color_name.find(name) == color_name.end())
     {
         std::cout << "no such color: " << name << "\n";

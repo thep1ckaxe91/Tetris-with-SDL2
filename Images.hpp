@@ -20,6 +20,7 @@ public:
     sdlgame::surface::Surface mainmenu_background;
     sdlgame::surface::Surface game_frame;
     Images();
+    void load();
 };
 
 #endif

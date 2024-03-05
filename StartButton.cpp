@@ -14,14 +14,15 @@ StartButton::StartButton() : Button()
 {}
 void StartButton::handle_event(Event &event)
 {
-    // if(event.type == sdlgame::MOUSEBUTTONUP and this->hovering){
-    //     OutSwipeDown *out = new OutSwipeDown();
-    //     InSwipeDown *in = new InSwipeDown();
-    //     GamePlay *next = new GamePlay(*this->game);
-    //     this->game->pop_scene(out,next,in);
-    // }
+    Button::handle_event(event);
+    if(event.type == sdlgame::MOUSEBUTTONUP and this->hovering){
+        OutSwipeDown *out = new OutSwipeDown();
+        InSwipeDown *in = new InSwipeDown();
+        GamePlay *next = new GamePlay(*this->game);
+        this->game->pop_scene(out,next,in);
+    }
 }
 void StartButton::update()
 {
-
+    Button::update();
 }

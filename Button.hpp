@@ -1,7 +1,7 @@
 #ifndef BUTTON_HPP
 #define BUTTON_HPP
 #include "engine/engine.hpp"
-class Button : sdlgame::sprite::Sprite
+class Button : public sdlgame::sprite::Sprite
 {
 public:
     Surface idle;

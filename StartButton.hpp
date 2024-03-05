@@ -13,7 +13,3 @@ public:
 };
 
 #endif
-/**
- * TODO: Decide between redesign Button or make a Pimpl for Surface
- * APPROACH: remake the engine by seperate the file into cpp and hpp into a engine folder
-*/

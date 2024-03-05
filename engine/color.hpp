@@ -5,9 +5,12 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <map>
 namespace sdlgame{
     namespace color
     {
+        extern std::map<std::string, std::vector<uint8_t>> color_name;
+        void init();
         /**
          *  class for color, all values range from [0,255]
          */

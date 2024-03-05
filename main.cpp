@@ -12,8 +12,9 @@ public:
     int buffer_lost = 0;
     Sandtris() : Game(){
         this->window = sdlgame::display::set_mode(RESOLUTION_WIDTH, RESOLUTION_HEIGHT,
-            sdlgame::RESIZABLE
+            sdlgame::RESIZABLE | sdlgame::MAXIMIZED
         );
+        images.load();
     }
     void update()
     {
@@ -84,8 +85,6 @@ public:
 int main(int argc, char** argv)
 {
     sdlgame::init();
-    sdlgame::font::init();
-    sdlgame::image::init();
     sdlgame::mixer::init();
     Sandtris game;
     game.run();
