@@ -15,7 +15,7 @@ void MainMenu::update(){
 }
 void MainMenu::draw(){
     this->game->window.blit(this->game->images.mainmenu_background,sdlgame::math::Vector2());
-    this->game->window.blit(this->start_button.image,this->start_button_pos)
+    this->game->window.blit(this->start_button.image,this->start_button_pos);
 }
 MainMenu::~MainMenu()
 {

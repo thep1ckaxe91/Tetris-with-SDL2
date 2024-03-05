@@ -2,10 +2,11 @@
 #ifndef SDLGAME_DRAW_
 #define SDLGAME_DRAW_
 #include "surface.hpp"
+#include "display.hpp"
 #include "color.hpp"
+#include "stdio.h"
 #include "rect.hpp"
-#include "math.hpp"
-#include <vector>
+#include <bits/stdc++.h>
 namespace sdlgame{
     namespace draw
     {
