@@ -7,6 +7,7 @@ class QuitButton : public Button
 public:
     Game *game;
     QuitButton(Game &game);
+    QuitButton();
     void handle_event(Event &event);
     void update();
 };

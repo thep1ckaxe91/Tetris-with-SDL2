@@ -14,5 +14,6 @@ void GamePlay::update()
 }
 void GamePlay::draw()
 {
-
+    this->game->window.fill("orange");
+    this->game->window.blit(this->game->images.game_frame,Vector2());
 }
