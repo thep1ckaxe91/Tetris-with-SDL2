@@ -2,7 +2,6 @@
 #include "engine/engine.hpp"
 Button::Button()
 {
-    this->rect = this->image.getRect();
     hovering = prev_hovered = 0;
 }
 void Button::set_images(Surface &idle, Surface &hover,Surface &click){

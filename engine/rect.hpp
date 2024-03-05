@@ -37,12 +37,12 @@ namespace sdlgame
 
         public:
             Rect();
-            template <class T>
-            Rect(T _left, T _top, T _w, T _h);
-            template <class T>
-            Rect(T _left, T _top, sdlgame::math::Vector2 _size);
-            template <class T>
-            Rect(sdlgame::math::Vector2 pos, T _w, T _h);
+            
+            Rect(double _left, double _top, double _w, double _h);
+            
+            Rect(double _left, double _top, sdlgame::math::Vector2 _size);
+            
+            Rect(sdlgame::math::Vector2 pos, double _w, double _h);
             Rect(sdlgame::math::Vector2 pos, sdlgame::math::Vector2 size);
             /**
              * @return a new rectangle that have been moved by given OFFSET x and y
@@ -53,15 +53,15 @@ namespace sdlgame
             /**
              * TEST: Approved
              */
-            template <class T>
-            Rect move(T offset_x, T offset_y) const;
+            
+            Rect move(double offset_x, double offset_y) const;
 
             /**
              *  instead of a new one, this just move the rect that called this function
              * TEST: Approved
              */
-            template <class T>
-            void move_ip(T offset_x, T offset_y);
+            
+            void move_ip(double offset_x, double offset_y);
             /**
              * @return a new rectangle that have been moved by given OFFSET x and y
              */
@@ -74,25 +74,25 @@ namespace sdlgame
             /**
              * @return a new rectangle that changed the size to given OFFSET, the topleft of the rectangle is remain still
              */
-            template <class T>
-            Rect inflate(T offset_w, T offset_h) const;
+            
+            Rect inflate(double offset_w, double offset_h) const;
             Rect inflate(sdlgame::math::Vector2 offset) const;
             /**
              *  resize current rectangle with given offset, the topleft of the rectangle is remain still
              */
-            template <class T>
-            void inflate_ip(T offset_w, T offset_h);
+            
+            void inflate_ip(double offset_w, double offset_h);
             void inflate_ip(const sdlgame::math::Vector2 &offset);
 
             /**
              *  to update the current rectangle that call the function
              */
-            template <class T>
-            void update(T _left, T _top, T _w, T _h);
-            template <class T>
-            void update(T _left, T _top, sdlgame::math::Vector2 _size);
-            template <class T>
-            void update(sdlgame::math::Vector2 pos, T _w, T _h);
+            
+            void update(double _left, double _top, double _w, double _h);
+            
+            void update(double _left, double _top, sdlgame::math::Vector2 _size);
+            
+            void update(sdlgame::math::Vector2 pos, double _w, double _h);
             void update(sdlgame::math::Vector2 pos, sdlgame::math::Vector2 _size);
             /**
              *  return a new rectangle that fit another rect but keep the aspect ratio of the caller
@@ -107,8 +107,8 @@ namespace sdlgame
             /**
              * TEST: approved
              */
-            template <class T>
-            bool collidepoint(T _x, T _y) const;
+            
+            bool collidepoint(double _x, double _y) const;
             /**
              * @return return whether the point in param is inside the caller or not
              */
@@ -131,35 +131,35 @@ namespace sdlgame
              */
             bool collidelist(std::vector<Rect> &rect_list) const;
             // Under is mostly get and set func
-            template <class T>
-            void setWidth(T _w);
-            template <class T>
-            void setHeight(T _h);
-            template <class T>
-            void setSize(T _w, T _h);
+            
+            void setWidth(double _w);
+            
+            void setHeight(double _h);
+            
+            void setSize(double _w, double _h);
             void setSize(const sdlgame::math::Vector2 &_size);
-            template <class T>
-            void setTop(T _y);
-            template <class T>
-            void setLeft(T _x);
-            template <class T>
-            void setRight(T _x);
-            template <class T>
-            void setBottom(T _y);
-            template <class T>
-            void setCenter(T _x, T _y);
+            
+            void setTop(double _y);
+            
+            void setLeft(double _x);
+            
+            void setRight(double _x);
+            
+            void setBottom(double _y);
+            
+            void setCenter(double _x, double _y);
             void setCenter(sdlgame::math::Vector2 pos);
-            template <class T>
-            void setMidTop(T _x, T _y);
+            
+            void setMidTop(double _x, double _y);
             void setMidTop(const sdlgame::math::Vector2 &pos);
-            template <class T>
-            void setMidBottom(T _x, T _y);
+            
+            void setMidBottom(double _x, double _y);
             void setMidBottom(const sdlgame::math::Vector2 &pos);
-            template <class T>
-            void setMidLeft(T _x, T _y);
+            
+            void setMidLeft(double _x, double _y);
             void setMidLeft(const sdlgame::math::Vector2 &pos);
-            template <class T>
-            void setMidRight(T _x, T _y);
+            
+            void setMidRight(double _x, double _y);
             void setMidRight(const sdlgame::math::Vector2 &pos);
             double getWidth() const;
             double getHeight() const;

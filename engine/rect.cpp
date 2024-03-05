@@ -4,10 +4,9 @@ sdlgame::rect::Rect::Rect()
 {
     x = y = left = top = bottom = right = w = h = width = height = centerx = centery = 0;
 }
-template <class T>
-sdlgame::rect::Rect::Rect(T _left, T _top, T _w, T _h)
+
+sdlgame::rect::Rect::Rect(double _left, double _top, double _w, double _h)
 {
-    static_assert(std::is_arithmetic<T>::value, "Invalid type for Rect param");
     x = left = _left;
     y = top = _top;
     w = width = _w;
@@ -27,10 +26,9 @@ sdlgame::rect::Rect::Rect(T _left, T _top, T _w, T _h)
     // midbottom = sdlgame::math::Vector2(centerx, bottom);
     // midright = sdlgame::math::Vector2(right, centery);
 }
-template <class T>
-sdlgame::rect::Rect::Rect(T _left, T _top, sdlgame::math::Vector2 _size)
+
+sdlgame::rect::Rect::Rect(double _left, double _top, sdlgame::math::Vector2 _size)
 {
-    static_assert(std::is_arithmetic<T>::value, "Invalid type for Rect param");
     x = left = _left;
     y = top = _top;
     w = width = _size.x;
@@ -50,10 +48,9 @@ sdlgame::rect::Rect::Rect(T _left, T _top, sdlgame::math::Vector2 _size)
     // midbottom = sdlgame::math::Vector2(centerx, bottom);
     // midright = sdlgame::math::Vector2(right, centery);
 }
-template <class T>
-sdlgame::rect::Rect::Rect(sdlgame::math::Vector2 pos, T _w, T _h)
+
+sdlgame::rect::Rect::Rect(sdlgame::math::Vector2 pos, double _w, double _h)
 {
-    static_assert(std::is_arithmetic<T>::value, "Invalid type for Rect param");
     x = left = pos.x;
     y = top = pos.y;
     w = width = _w;
@@ -133,10 +130,9 @@ SDL_FRect sdlgame::rect::Rect::to_SDL_FRect() const
 /**
  * TEST: Approved
  */
-template <class T>
-sdlgame::rect::Rect sdlgame::rect::Rect::move(T offset_x, T offset_y) const
+
+sdlgame::rect::Rect sdlgame::rect::Rect::move(double offset_x, double offset_y) const
 {
-    static_assert(std::is_arithmetic<T>::value, "Invalid type for Rect param");
     Rect res(x, y, w, h);
     res.x = res.left += offset_x;
     res.y = res.top += offset_y;
@@ -151,10 +147,9 @@ sdlgame::rect::Rect sdlgame::rect::Rect::move(T offset_x, T offset_y) const
  *  instead of a new one, this just move the rect that called this function
  * TEST: Approved
  */
-template <class T>
-void sdlgame::rect::Rect::move_ip(T offset_x, T offset_y)
+
+void sdlgame::rect::Rect::move_ip(double offset_x, double offset_y)
 {
-    static_assert(std::is_arithmetic<T>::value, "Invalid type for Rect param");
     *this = this->move(offset_x, offset_y);
 }
 /**
@@ -175,10 +170,9 @@ void sdlgame::rect::Rect::move_ip(sdlgame::math::Vector2 offset)
 /**
  * @return a new rectangle that changed the size to given OFFSET, the topleft of the rectangle is remain still
  */
-template <class T>
-sdlgame::rect::Rect sdlgame::rect::Rect::inflate(T offset_w, T offset_h) const
+
+sdlgame::rect::Rect sdlgame::rect::Rect::inflate(double offset_w, double offset_h) const
 {
-    static_assert(std::is_arithmetic<T>::value, "Invalid type for Rect param");
     Rect res(x, y, w, h);
     // res.size += sdlgame::math::Vector2(offset_w, offset_h);
     res.w = res.width += offset_w;
@@ -196,8 +190,8 @@ sdlgame::rect::Rect sdlgame::rect::Rect::inflate(sdlgame::math::Vector2 offset) 
 /**
  *  resize current rectangle with given offset, the topleft of the rectangle is remain still
  */
-template <class T>
-void sdlgame::rect::Rect::inflate_ip(T offset_w, T offset_h)
+
+void sdlgame::rect::Rect::inflate_ip(double offset_w, double offset_h)
 {
     *this = this->inflate(offset_w, offset_h);
 }
@@ -209,10 +203,9 @@ void sdlgame::rect::Rect::inflate_ip(const sdlgame::math::Vector2 &offset)
 /**
  *  to update the current rectangle that call the function
  */
-template <class T>
-void sdlgame::rect::Rect::update(T _left, T _top, T _w, T _h)
+
+void sdlgame::rect::Rect::update(double _left, double _top, double _w, double _h)
 {
-    static_assert(std::is_arithmetic<T>::value, "Invalid type for Rect param");
     x = left = _left;
     y = top = _top;
     w = width = _w;
@@ -222,10 +215,9 @@ void sdlgame::rect::Rect::update(T _left, T _top, T _w, T _h)
     centerx = x + width / 2;
     centery = y + height / 2;
 }
-template <class T>
-void sdlgame::rect::Rect::update(T _left, T _top, sdlgame::math::Vector2 _size)
+
+void sdlgame::rect::Rect::update(double _left, double _top, sdlgame::math::Vector2 _size)
 {
-    static_assert(std::is_arithmetic<T>::value, "Invalid type for Rect param");
     x = left = _left;
     y = top = _top;
     w = width = _size.x;
@@ -245,10 +237,9 @@ void sdlgame::rect::Rect::update(T _left, T _top, sdlgame::math::Vector2 _size)
     // midbottom = sdlgame::math::Vector2(centerx, bottom);
     // midright = sdlgame::math::Vector2(right, centery);
 }
-template <class T>
-void sdlgame::rect::Rect::update(sdlgame::math::Vector2 pos, T _w, T _h)
+
+void sdlgame::rect::Rect::update(sdlgame::math::Vector2 pos, double _w, double _h)
 {
-    static_assert(std::is_arithmetic<T>::value, "Invalid type for Rect param");
     x = left = pos.x;
     y = top = pos.y;
     w = width = _w;
@@ -290,10 +281,9 @@ bool sdlgame::rect::Rect::contains(const Rect oth) const
 /**
  * TEST: approved
  */
-template <class T>
-bool sdlgame::rect::Rect::collidepoint(T _x, T _y) const
+
+bool sdlgame::rect::Rect::collidepoint(double _x, double _y) const
 {
-    static_assert(std::is_arithmetic<T>::value, "Invalid type for Rect param");
     return left < _x and _x < right and top < _y and _y < bottom;
 }
 /**
@@ -331,18 +321,18 @@ bool sdlgame::rect::Rect::collidelist(std::vector<Rect> &rect_list) const
 }
 
 // Under is mostly get and set func
-template <class T>
-void sdlgame::rect::Rect::setWidth(T _w)
+
+void sdlgame::rect::Rect::setWidth(double _w)
 {
     this->inflate_ip(_w - w, 0);
 }
-template <class T>
-void sdlgame::rect::Rect::setHeight(T _h)
+
+void sdlgame::rect::Rect::setHeight(double _h)
 {
     this->inflate_ip(0, _h - h);
 }
-template <class T>
-void sdlgame::rect::Rect::setSize(T _w, T _h)
+
+void sdlgame::rect::Rect::setSize(double _w, double _h)
 {
     this->inflate_ip(_w - w, _h - h);
 }
@@ -350,32 +340,32 @@ void sdlgame::rect::Rect::setSize(const sdlgame::math::Vector2 &_size)
 {
     this->inflate_ip(_size - sdlgame::math::Vector2(w, h));
 }
-template <class T>
-void sdlgame::rect::Rect::setTop(T _y)
+
+void sdlgame::rect::Rect::setTop(double _y)
 {
-    // std::cout << "Moved the rect by " << T(_y - y) << " in y axis\n";
-    this->move_ip(T(0), T(_y - y));
+    // std::cout << "Moved the rect by " << _y - y << " in y axis\n";
+    this->move_ip(0, _y - y);
 }
-template <class T>
-void sdlgame::rect::Rect::setLeft(T _x)
+
+void sdlgame::rect::Rect::setLeft(double _x)
 {
-    // std::cout << "Moved the rect by " << T(_x - x) << " in x axis\n";
-    this->move_ip(T(_x - x), T(0));
+    // std::cout << "Moved the rect by " << _x - x << " in x axis\n";
+    this->move_ip(_x - x, 0);
 }
-template <class T>
-void sdlgame::rect::Rect::setRight(T _x)
+
+void sdlgame::rect::Rect::setRight(double _x)
 {
-    // std::cout << "Moved the rect by " << T(_x - x) << " in x axis\n";
-    this->move_ip(T(_x - right), T(0));
+    // std::cout << "Moved the rect by " << _x - x << " in x axis\n";
+    this->move_ip(_x - right,0);
 }
-template <class T>
-void sdlgame::rect::Rect::setBottom(T _y)
+
+void sdlgame::rect::Rect::setBottom(double _y)
 {
-    // std::cout << "Moved the rect by " << T(_y - y) << " in y axis\n";
-    this->move_ip(T(0), T(_y - bottom));
+    // std::cout << "Moved the rect by " << _y - y << " in y axis\n";
+    this->move_ip(0, _y - bottom);
 }
-template <class T>
-void sdlgame::rect::Rect::setCenter(T _x, T _y)
+
+void sdlgame::rect::Rect::setCenter(double _x, double _y)
 {
     this->move_ip(_x - centerx, _y - centery);
 }
@@ -383,8 +373,8 @@ void sdlgame::rect::Rect::setCenter(sdlgame::math::Vector2 pos)
 {
     this->move_ip(pos.x - centerx, pos.y - centery);
 }
-template <class T>
-void sdlgame::rect::Rect::setMidTop(T _x, T _y)
+
+void sdlgame::rect::Rect::setMidTop(double _x, double _y)
 {
     this->move_ip(_x - centerx, _y - y);
 }
@@ -392,8 +382,8 @@ void sdlgame::rect::Rect::setMidTop(const sdlgame::math::Vector2 &pos)
 {
     this->move_ip(pos.x - centerx, pos.y - y);
 }
-template <class T>
-void sdlgame::rect::Rect::setMidBottom(T _x, T _y)
+
+void sdlgame::rect::Rect::setMidBottom(double _x, double _y)
 {
     this->move_ip(_x - centerx, _y - bottom);
 }
@@ -401,8 +391,8 @@ void sdlgame::rect::Rect::setMidBottom(const sdlgame::math::Vector2 &pos)
 {
     this->move_ip(pos.x - centerx, pos.y - bottom);
 }
-template <class T>
-void sdlgame::rect::Rect::setMidLeft(T _x, T _y)
+
+void sdlgame::rect::Rect::setMidLeft(double _x, double _y)
 {
     this->move_ip(_x - x, _y - centery);
 }
@@ -410,8 +400,8 @@ void sdlgame::rect::Rect::setMidLeft(const sdlgame::math::Vector2 &pos)
 {
     this->move_ip(pos.x - x, pos.y - centery);
 }
-template <class T>
-void sdlgame::rect::Rect::setMidRight(T _x, T _y)
+
+void sdlgame::rect::Rect::setMidRight(double _x, double _y)
 {
     this->move_ip(_x - right, _y - centery);
 }
