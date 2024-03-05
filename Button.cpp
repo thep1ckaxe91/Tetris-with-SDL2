@@ -5,9 +5,10 @@ Button::Button()
     hovering = prev_hovered = 0;
 }
 void Button::set_images(Surface &idle, Surface &hover,Surface &click){
-    this->idle = this->image = idle;
+    this->idle = idle;
     this->hover = hover;
     this->click = click;
+    this->image = idle;
 }
 
 void Button::handle_event(Event &event){

@@ -5,6 +5,7 @@
 MainMenu::MainMenu(Game &game) : Scene(game){
     this->start_button = StartButton(game);
     this->start_button.rect.setTopLeft(8,RESOLUTION_HEIGHT-8*3-16*3);
+
 }
 void MainMenu::handle_event(Event &event)
 {
@@ -15,7 +16,7 @@ void MainMenu::update(){
 }
 void MainMenu::draw(){
     this->game->window.blit(this->game->images.mainmenu_background,sdlgame::math::Vector2());
-    this->game->window.blit(this->start_button.image,this->start_button_pos);
+    this->game->window.blit(this->start_button.image,this->start_button.rect.getTopLeft());
 }
 MainMenu::~MainMenu()
 {

@@ -15,6 +15,8 @@ public:
             sdlgame::RESIZABLE | sdlgame::MAXIMIZED
         );
         images.load();
+        // cout<<this->images.start_button_idle.texture<<" "<<this->images.start_button_hover.texture<<" "<<this->images.start_button_click.texture<<endl;
+        // exit(0);
     }
     void update()
     {
@@ -67,6 +69,9 @@ public:
                 {
                     if(event["event"]==sdlgame::WINDOWFOCUSGAINED) gameactive = 1;
                     else if(event["event"]==sdlgame::WINDOWFOCUSLOST) gameactive = 0;
+                    else if(event["event"]==sdlgame::WINDOWRESIZED){
+                        sdlgame::display::get_window_size();
+                    }
                 }
                 scene_list[scene_list.size()-1]->handle_event(event);
             }
@@ -86,11 +91,13 @@ int main(int argc, char** argv)
 {
     sdlgame::init();
     sdlgame::mixer::init();
-    Sandtris game;
+    Sandtris game; 
     game.run();
     return 0;
 }
 /**
- * TODO: Discover of memory leak with scene_transition, solve it (unresolved)
- * TODO: Make all file seperated declaration and definition
+ * TODO: the scale is not right,
+ * all position is start from the topleft of the window with remain height,
+ * not start at topleft where it display and the pixel is fucked up
+ * -> scale some how?
 */

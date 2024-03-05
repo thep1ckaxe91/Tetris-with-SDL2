@@ -1,4 +1,5 @@
 #include "mouse.hpp"
+#include "display.hpp"
 #include "SDL2/SDL_mouse.h"
 #include "math.hpp"
 #include <vector>
@@ -8,7 +9,15 @@ sdlgame::math::Vector2 sdlgame::mouse::get_pos()
 {
     int x, y;
     SDL_GetMouseState(&x, &y);
-    return sdlgame::math::Vector2(x, y);
+    double reso_ratio = sdlgame::display::resolution.x / sdlgame::display::resolution.y;
+    double win_ratio = sdlgame::display::win_surf.size.x / sdlgame::display::win_surf.size.y;
+    sdlgame::math::Vector2 offset(
+        (win_ratio>reso_ratio)*(sdlgame::display::win_surf.size.x-sdlgame::display::win_surf.size.y*reso_ratio)/2,
+        (win_ratio<reso_ratio)*(sdlgame::display::win_surf.size.y-sdlgame::display::win_surf.size.x*reso_ratio)/2
+    );
+    //how much did the window grow 
+    double scale = (win_ratio > reso_ratio ? sdlgame::display::win_surf.size.y / sdlgame::display::resolution.y : sdlgame::display::win_surf.size.x / sdlgame::display::resolution.x);
+    return (sdlgame::math::Vector2(x,y) - offset) * (1/scale);
 }
 std::vector<bool> sdlgame::mouse::get_pressed()
 {
