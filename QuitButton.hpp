@@ -4,6 +4,7 @@
 #include "Game.hpp"
 class QuitButton : public Button
 {
+public:
     Game *game;
     QuitButton(Game &game);
     void handle_event(Event &event);
