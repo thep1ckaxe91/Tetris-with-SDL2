@@ -147,6 +147,18 @@ namespace sdlgame
             
             void setBottom(double _y);
             
+            void setTopLeft(double _x, double _y);
+            void setTopLeft(const sdlgame::math::Vector2 &pos);
+
+            void setBottomLeft(double _x, double _y);
+            void setBottomLeft(const sdlgame::math::Vector2 &pos);
+
+            void setTopRight(double _x, double _y);
+            void setTopRight(const sdlgame::math::Vector2 &pos);
+            
+            void setBottomRight(double _x, double _y);
+            void setBottomRight(const sdlgame::math::Vector2 &pos);
+
             void setCenter(double _x, double _y);
             void setCenter(sdlgame::math::Vector2 pos);
             

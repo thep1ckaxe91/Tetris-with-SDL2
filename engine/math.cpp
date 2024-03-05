@@ -58,10 +58,8 @@ sdlgame::math::Vector2 &sdlgame::math::Vector2::operator-=(const sdlgame::math::
     }
     return *this;
 }
-template <class T>
-sdlgame::math::Vector2 &sdlgame::math::Vector2::operator*=(const T &scalar)
+sdlgame::math::Vector2 &sdlgame::math::Vector2::operator*=(const double &scalar)
 {
-    static_assert(std::is_arithmetic<T>::value, "Invalid type to multiply with vector");
     x *= scalar;
     y *= scalar;
     return *this;
@@ -78,10 +76,8 @@ sdlgame::math::Vector2 sdlgame::math::Vector2::operator-(const sdlgame::math::Ve
 {
     return sdlgame::math::Vector2(x - oth.x, y - oth.y);
 }
-template <class T>
-sdlgame::math::Vector2 sdlgame::math::Vector2::operator*(const T &scalar) const
+sdlgame::math::Vector2 sdlgame::math::Vector2::operator*(const double &scalar) const
 {
-    static_assert(std::is_arithmetic<T>::value, "Invalid type to multiply with vector");
     return sdlgame::math::Vector2(scalar * x, scalar * y);
 }
 
@@ -191,9 +187,7 @@ std::string sdlgame::math::Vector2::toString() const
     return "Vector2<" + std::to_string(x) + " , " + std::to_string(y) + ">";
 }
 
-template <class T>
-sdlgame::math::Vector2 operator*(const T &scalar, const sdlgame::math::Vector2 &v)
+sdlgame::math::Vector2 operator*(const double &scalar, const sdlgame::math::Vector2 &v)
 {
-    static_assert(std::is_arithmetic<T>::value, "Invalid type to multiply with vector");
     return sdlgame::math::Vector2(scalar * v.x, scalar * v.y);
 }

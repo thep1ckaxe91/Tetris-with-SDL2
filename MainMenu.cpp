@@ -4,8 +4,7 @@
 #include "constant.hpp"
 MainMenu::MainMenu(Game &game) : Scene(game){
     this->start_button = StartButton(game);
-    this->start_button.rect.setTop(RESOLUTION_HEIGHT-8*3-16*3);
-    this->start_button.rect.setLeft(8);
+    this->start_button.rect.setTopLeft(8,RESOLUTION_HEIGHT-8*3-16*3);
 }
 void MainMenu::handle_event(Event &event)
 {

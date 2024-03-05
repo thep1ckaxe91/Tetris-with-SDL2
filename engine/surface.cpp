@@ -6,13 +6,11 @@
 #include "surface.hpp"
 sdlgame::surface::Surface::Surface()
 {
-    flags = 0;
     texture = NULL;
 }
 
-sdlgame::surface::Surface::Surface(int width, int height, Uint32 _flags)
+sdlgame::surface::Surface::Surface(int width, int height)
 {
-    flags = _flags;
     if (!(texture = SDL_CreateTexture(sdlgame::display::renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, width, height)))
     {
         printf("Failed to create texture\nErr: %s\n", SDL_GetError());
@@ -68,10 +66,9 @@ sdlgame::surface::Surface::Surface(SDL_Surface *surf)
 
 sdlgame::surface::Surface &sdlgame::surface::Surface::operator=(const sdlgame::surface::Surface &other)
 {
-    if (this->texture != other.texture and this != &other)
+    if (this != &other and &other!=NULL)
     {
         if(texture!=NULL) SDL_DestroyTexture(texture);
-        flags = other.flags;
         int w, h;
         SDL_QueryTexture(other.texture, NULL, NULL, &w, &h);
         texture = SDL_CreateTexture(sdlgame::display::renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, w, h);

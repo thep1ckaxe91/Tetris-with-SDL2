@@ -306,7 +306,6 @@ bool sdlgame::rect::Rect::colliderect(const Rect oth) const
 // {
 //     double t = ((end.x - start.x) * (y - start.y) - (end.y - start.y) * (x - start.x)) / ((end.x - start.x) * (y + h - start.y) - (end.y - start.y) * (x + w - start.x));
 //     double u = ((x - start.x) * (end.y - start.y) - (y - start.y) * (end.x - start.x)) / ((end.x - start.x) * (y + h - start.y) - (end.y - start.y) * (x + w - start.x));
-    
 
 // }
 /**
@@ -356,7 +355,7 @@ void sdlgame::rect::Rect::setLeft(double _x)
 void sdlgame::rect::Rect::setRight(double _x)
 {
     // std::cout << "Moved the rect by " << _x - x << " in x axis\n";
-    this->move_ip(_x - right,0);
+    this->move_ip(_x - right, 0);
 }
 
 void sdlgame::rect::Rect::setBottom(double _y)
@@ -365,6 +364,39 @@ void sdlgame::rect::Rect::setBottom(double _y)
     this->move_ip(0, _y - bottom);
 }
 
+void sdlgame::rect::Rect::setTopLeft(double _x, double _y)
+{
+    this->move_ip(_x - x, _y - y);
+}
+void sdlgame::rect::Rect::setBottomLeft(double _x, double _y)
+{
+    this->move_ip(_x - x, _y - bottom);
+}
+void sdlgame::rect::Rect::setTopRight(double _x, double _y)
+{
+    this->move_ip(_x - right, _y - y);
+}
+void sdlgame::rect::Rect::setBottomRight(double _x, double _y)
+{
+    this->move_ip(_x - right, _y - bottom);
+}
+
+void sdlgame::rect::Rect::setTopLeft(const sdlgame::math::Vector2 &pos)
+{
+    this->move_ip(pos - this->getTopLeft());
+}
+void sdlgame::rect::Rect::setBottomLeft(const sdlgame::math::Vector2 &pos)
+{
+    this->move_ip(pos - this->getBottomLeft());
+}
+void sdlgame::rect::Rect::setTopRight(const sdlgame::math::Vector2 &pos)
+{
+    this->move_ip(pos - this->getTopRight());
+}
+void sdlgame::rect::Rect::setBottomRight(const sdlgame::math::Vector2 &pos)
+{
+    this->move_ip(pos - this->getBottomRight());
+}
 void sdlgame::rect::Rect::setCenter(double _x, double _y)
 {
     this->move_ip(_x - centerx, _y - centery);
