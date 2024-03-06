@@ -1,8 +1,9 @@
 #include "GamePlay.hpp"
 #include "Game.hpp"
+#include "constant.hpp"
 GamePlay::GamePlay(Game &game) : Scene(game)
 {
-
+    background = Surface(RESOLUTION_WIDTH,RESOLUTION_HEIGHT);
 }
 void GamePlay::handle_event(sdlgame::event::Event &event)
 {

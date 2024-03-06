@@ -29,4 +29,5 @@ void Images::load()
     
     mainmenu_background = sdlgame::image::load(base_path+"data/image/background/mainmenu_sand_background.png");
     game_frame = sdlgame::image::load(base_path+"data/image/background/game_frame.png");
+    credit_image = sdlgame::image::load(base_path+"data/image/background/credit_image.png");
 }

@@ -21,7 +21,6 @@ void MainMenu::update(){
     this->start_button.update();
     this->quit_button.update();
     this->option_button.update();
-    cout << option_button.rect.toString()<<endl;
 }
 void MainMenu::draw(){
     this->game->window.blit(this->game->images.mainmenu_background,sdlgame::math::Vector2());
