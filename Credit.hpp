@@ -5,6 +5,7 @@
 class Credit : public Scene
 {
 public:
+    BackButton back_button;
     Game *game;
     Credit(Game &game);
     void handle_event(Event &event);

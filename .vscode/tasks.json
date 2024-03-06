@@ -32,6 +32,7 @@
                 "${fileDirname}\\MainMenu.cpp",
                 "${fileDirname}\\GamePlay.cpp",
                 "${fileDirname}\\StartButton.cpp",
+                "${fileDirname}\\OptionButton.cpp",
                 "${fileDirname}\\QuitButton.cpp",
                 "${fileDirname}\\InSwipeDown.cpp",
                 "${fileDirname}\\OutSwipeDown.cpp",

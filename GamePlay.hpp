@@ -4,6 +4,8 @@
 #include "Scene.hpp"
 class GamePlay : public Scene
 {
+private:
+    Surface background;
 public:
     GamePlay(Game &game);
     void update();
