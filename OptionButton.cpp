@@ -12,7 +12,7 @@ void OptionButton::handle_event(Event &event){
     Button::handle_event(event);
     if(event.type == sdlgame::MOUSEBUTTONUP and this->hovering)
     {
-        
+        printf("clicking\n");
     }
 }
 void OptionButton::update()

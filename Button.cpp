@@ -22,7 +22,11 @@ void Button::update(){
     sdlgame::math::Vector2 mouse_pos = sdlgame::mouse::get_pos();
     if(this->rect.collidepoint(mouse_pos)) this->hovering = 1;
     else this->hovering = 0;
-    if(!this->hovering and this->prev_hovered) this->image = this->idle;
-    else if(this->hovering and !this->prev_hovered) this->image = this->hover;
+    if(!this->hovering and this->prev_hovered){
+        this->image = this->idle;
+    }
+    else if(this->hovering and !this->prev_hovered){
+        this->image = this->hover;
+    }
     this->prev_hovered = this->hovering;
 }

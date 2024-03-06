@@ -12,7 +12,8 @@ public:
     int buffer_lost = 0;
     Sandtris() : Game(){
         this->window = sdlgame::display::set_mode(RESOLUTION_WIDTH, RESOLUTION_HEIGHT,
-            sdlgame::RESIZABLE | sdlgame::MAXIMIZED
+            sdlgame::RESIZABLE
+            // | sdlgame::MAXIMIZED
         );
         images.load();
         // cout<<this->images.start_button_idle.texture<<" "<<this->images.start_button_hover.texture<<" "<<this->images.start_button_click.texture<<endl;
@@ -73,7 +74,7 @@ public:
                         sdlgame::display::get_window_size();
                     }
                 }
-                scene_list[scene_list.size()-1]->handle_event(event);
+                if(gameactive) scene_list[scene_list.size()-1]->handle_event(event);
             }
             if(gameactive)
             {
@@ -96,8 +97,8 @@ int main(int argc, char** argv)
     return 0;
 }
 /**
- * TODO: the scale is not right,
- * all position is start from the topleft of the window with remain height,
- * not start at topleft where it display and the pixel is fucked up
- * -> scale some how?
+ * TODO: the image was change when window resize, related to somehow all image located in images was swap? offset memory? 
+ * whatever the case TRY:
+ * blit all image at the same time
+ * check texture memory, everything around Images.cpp/hpp
 */
