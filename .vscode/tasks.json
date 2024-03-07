@@ -48,6 +48,7 @@
                 "-lSDL2_mixer",
                 "-lSDL2_ttf",
                 "-lmpg123-0",
+                "-lwavpackdll",
                 "-o",
                 "D:\\Repos\\Tetris-with-SDL2\\Sandtris.exe"
             ],
