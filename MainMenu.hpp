@@ -4,7 +4,6 @@
 #include "StartButton.hpp"
 #include "QuitButton.hpp"
 #include "OptionButton.hpp"
-#include "CreditButton.hpp" 
 #include "engine/engine.hpp"
 class MainMenu : public Scene
 {
@@ -12,7 +11,6 @@ public:
     StartButton start_button;
     QuitButton quit_button;
     OptionButton option_button;
-    CreditButton credit_button;
     MainMenu(Game &game);
     void handle_event(Event &event);
     void update();

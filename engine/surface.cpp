@@ -42,13 +42,14 @@ sdlgame::surface::Surface::Surface(SDL_Texture *oth)
 {
     int w, h;
     SDL_QueryTexture(oth, NULL, NULL, &w, &h);
-    texture = SDL_CreateTexture(sdlgame::display::renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, w, h);
-    SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
-    SDL_SetRenderTarget(sdlgame::display::renderer, texture);
-    SDL_SetRenderDrawColor(sdlgame::display::renderer, 0, 0, 0, 0);
-    SDL_RenderClear(sdlgame::display::renderer);
-    SDL_RenderCopy(sdlgame::display::renderer, oth, NULL, NULL);
-    SDL_SetRenderTarget(sdlgame::display::renderer, NULL);
+    texture = oth;
+    // texture = SDL_CreateTexture(sdlgame::display::renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, w, h);
+    // SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
+    // SDL_SetRenderTarget(sdlgame::display::renderer, texture);
+    // SDL_SetRenderDrawColor(sdlgame::display::renderer, 0, 0, 0, 0);
+    // SDL_RenderClear(sdlgame::display::renderer);
+    // SDL_RenderCopy(sdlgame::display::renderer, oth, NULL, NULL);
+    // SDL_SetRenderTarget(sdlgame::display::renderer, NULL);
     size.x=w; size.y=h;
 }
 

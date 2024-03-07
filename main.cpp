@@ -1,7 +1,7 @@
 #include "engine/engine.hpp"
 #include "MainMenu.hpp"
 #include "constant.hpp"
-#include "engine/gpu_optimize.hpp"
+// #include "engine/gpu_optimize.hpp"
 using namespace std;
 //If global declare is bad, i make MY OWN global declare >:)
 
