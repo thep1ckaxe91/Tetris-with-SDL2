@@ -16,15 +16,15 @@ void sdlgame::mixer::set_num_channels(int count)
 void sdlgame::mixer::init(int freq, Uint16 size, int channels, int buffer)
 {
     size = (size == 16 ? AUDIO_S16SYS : AUDIO_F32SYS);
-    if (Mix_Init(MIX_INIT_MP3) & MIX_INIT_MP3 != MIX_INIT_MP3)
+    if ((Mix_Init(MIX_INIT_MP3) & MIX_INIT_MP3) != MIX_INIT_MP3)
     {
         printf("Failed to init mp3 type\nErr:%s\n", Mix_GetError());
     }
-    else if (Mix_Init(MIX_INIT_OGG) & MIX_INIT_OGG != MIX_INIT_OGG)
+    else if ((Mix_Init(MIX_INIT_OGG) & MIX_INIT_OGG) != MIX_INIT_OGG)
     {
         printf("Failed to init ogg type\nErr:%s\n", Mix_GetError());
     }
-    else if (Mix_Init(MIX_INIT_WAVPACK) & MIX_INIT_WAVPACK != MIX_INIT_WAVPACK)
+    else if ((Mix_Init(MIX_INIT_WAVPACK) & MIX_INIT_WAVPACK) != MIX_INIT_WAVPACK)
     {
         printf("Failed to init wav pack\nErr:%s\n", Mix_GetError());
     }

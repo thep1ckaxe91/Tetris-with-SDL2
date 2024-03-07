@@ -66,7 +66,7 @@ sdlgame::surface::Surface::Surface(SDL_Surface *surf)
 
 sdlgame::surface::Surface &sdlgame::surface::Surface::operator=(const sdlgame::surface::Surface &other)
 {
-    if (this != &other and &other!=NULL)
+    if (this != &other)
     {
         if(texture!=NULL) SDL_DestroyTexture(texture);
         int w, h;

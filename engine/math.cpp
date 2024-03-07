@@ -158,7 +158,6 @@ double sdlgame::math::Vector2::distance_to(const sdlgame::math::Vector2 &oth) co
  */
 sdlgame::math::Vector2 sdlgame::math::Vector2::reflect(const sdlgame::math::Vector2 &normal) const
 {
-    double dotProduct = this->dot(normal);
     return (*this) - normal * 2 * (this->dot(normal));
 }
 /**
