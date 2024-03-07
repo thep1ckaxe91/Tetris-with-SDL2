@@ -6,6 +6,7 @@ Credit::Credit(Game &game) : Scene(game)
 {
     back_button = BackButton(game);
     back_button.rect.setTopRight(0,RESOLUTION_WIDTH);
+    this->image = this->game->images.credit_image;
 }
 void Credit::handle_event(Event &event)
 {
@@ -18,6 +19,6 @@ void Credit::update()
 }
 void Credit::draw()
 {
-    this->game->window.blit(this->game->images.credit_image,Vector2());
+    this->game->window.blit(this->image,Vector2());
     this->game->window.blit(back_button.image,back_button.rect.getTopLeft());
 }

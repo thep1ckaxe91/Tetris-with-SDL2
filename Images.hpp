@@ -26,8 +26,8 @@ public:
     sdlgame::surface::Surface back_button_click;
 
     sdlgame::surface::Surface mainmenu_background;
-    sdlgame::surface::Surface game_frame;
     sdlgame::surface::Surface credit_image;
+    sdlgame::surface::Surface game_frame;
     Images();
     void load();
 };

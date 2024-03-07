@@ -27,8 +27,9 @@ void Images::load()
     back_button_click = sdlgame::image::load(base_path + "data/image/ui/back_button/back_button_click.png");
 
     mainmenu_background = sdlgame::image::load(base_path + "data/image/background/mainmenu_sand_background.png");
-    game_frame = sdlgame::image::load(base_path + "data/image/background/game_frame.png");
     credit_image = sdlgame::image::load(base_path + "data/image/background/credit_image.png");
+    game_frame = sdlgame::image::load(base_path + "data/image/background/game_frame.png");
+    // Surface tmp = sdlgame::image::load(base_path + "data/image/background/credit_image.png");
 }
 /*
 start_button_idle ,

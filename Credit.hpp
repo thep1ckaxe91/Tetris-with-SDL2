@@ -5,6 +5,7 @@
 class Credit : public Scene
 {
 public:
+    Surface image;
     BackButton back_button;
     Game *game;
     Credit(Game &game);

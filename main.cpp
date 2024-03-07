@@ -13,8 +13,8 @@ public:
     Sandtris() : Game(){
         this->window = sdlgame::display::set_mode(RESOLUTION_WIDTH, RESOLUTION_HEIGHT,
             sdlgame::RESIZABLE
-            // | sdlgame::MAXIMIZED
         );
+        sdlgame::display::fullscreen_desktop();
         images.load();
         // cout<<this->images.start_button_idle.texture<<" "<<this->images.start_button_hover.texture<<" "<<this->images.start_button_click.texture<<endl;
         // exit(0);
