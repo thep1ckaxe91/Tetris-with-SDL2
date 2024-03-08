@@ -2,10 +2,15 @@
 #define MAINMENU_HPP
 #include "Game.hpp"
 #include "Scene.hpp"
+#include "TetriminoController.hpp"
+#include "Grid.hpp"
 class GamePlay : public Scene
 {
 private:
     Surface background;
+    Rect next_shape_area;
+    Color next_color;
+    Grid grid;
 public:
     GamePlay(Game &game);
     void update();

@@ -27,6 +27,15 @@ const sdlgame::color::Color GREEN_SAND_COLOR = sdlgame::color::Color("green");
 const sdlgame::color::Color YELLOW_SAND_COLOR = sdlgame::color::Color("yellow");
 const sdlgame::color::Color BLUE_SAND_COLOR = sdlgame::color::Color("blue");
 const sdlgame::math::Vector2 spawn_pos = sdlgame::math::Vector2(24,-32);
+typedef enum
+{
+    EMPTY_SAND = 0x0,  //0000 0000
+    RED_SAND = 0x1,    //0000 0001
+    YELLOW_SAND = 0x2, //0000 0010
+    BLUE_SAND = 0x4,   //0000 0100
+    GREEN_SAND = 0x8,  //0000 1000 
+    STATIC_SAND = 0x80,//1000 0000 
+} SandShift;
 const double fall_speed = 40; //pixel per second
 const double fast_fall_speed = 140; //pps
 const double sideway_move_speed = 120;//pps

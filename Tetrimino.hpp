@@ -2,19 +2,12 @@
 #define TETRIMINO_HPP
 #include "Sand.hpp"
 #include "engine.hpp"
-#include "constant.hpp"
 using namespace std;
 typedef struct ShapeInfo {
     uint16_t mask[4];
     char type;
 
-    ShapeInfo(uint16_t m0, uint16_t m1, uint16_t m2, uint16_t m3, char shape) {
-        mask[0] = m0;
-        mask[1] = m1;
-        mask[2] = m2;
-        mask[3] = m3;
-        type = shape;
-    }
+    ShapeInfo(uint16_t m0, uint16_t m1, uint16_t m2, uint16_t m3, char shape);
 } ShapeInfo;
 const ShapeInfo I_info={
     0xf0,
@@ -65,7 +58,7 @@ const ShapeInfo L_info={
     0x4460,
     'L'
 };
-static map<char,ShapeInfo> ShapeInfoList = {
+const map<char,ShapeInfo> ShapeInfoList = {
     {'I', I_info},
     {'O', O_info},
     {'T', T_info},
@@ -100,20 +93,10 @@ struct Tetrimino
      * @param shape the character stand for the shape
      * @param color SandShift color for the shape
     */
-    Tetrimino(char shape, SandShift color)
-    {
-        this->type = shape;
-        this->color = color;
-        this->mask = ShapeInfoList[this->type].mask[0];
-    }
-    Tetrimino() = default;
+    Tetrimino(char shape, SandShift color);
+    Tetrimino();
 
-    void rotate()
-    {
-        this->current_rotation++;
-        this->current_rotation%=4;
-        this->mask = ShapeInfoList[this->type].mask[this->current_rotation];
-    }
+    void rotate();
 };
 
 #endif

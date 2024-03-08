@@ -3,18 +3,19 @@
 #include "constant.hpp"
 GamePlay::GamePlay(Game &game) : Scene(game)
 {
-    background = Surface(RESOLUTION_WIDTH,RESOLUTION_HEIGHT);
+    background = this->game->images.mainmenu_background;
 }
 void GamePlay::handle_event(sdlgame::event::Event &event)
 {
-    
+    this->grid.handle_event(event);
 }
 void GamePlay::update()
 {
-    this->background.fill("orange");
+    this->grid.update();
 }
 void GamePlay::draw()
 {
     this->game->window.blit(this->background,Vector2());
     this->game->window.blit(this->game->images.game_frame,Vector2());
+    this->grid.draw();
 }

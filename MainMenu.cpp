@@ -2,37 +2,23 @@
 #include "constant.hpp"
 MainMenu::MainMenu(Game &game) : Scene(game){
     this->start_button = StartButton(game);
-    this->start_button.rect.setTopLeft(8,RESOLUTION_HEIGHT-6-16*3);
-    this->option_button = OptionButton(game);
-    this->option_button.rect.setTopLeft(8,RESOLUTION_HEIGHT-4-16*2);
+    this->start_button.rect.setTopLeft(8,RESOLUTION_HEIGHT-16*3);
     this->quit_button = QuitButton(game);
-    this->quit_button.rect.setTopLeft(8,RESOLUTION_HEIGHT-2-16);
+    this->quit_button.rect.setTopLeft(8,RESOLUTION_HEIGHT-8-16);
 }
 void MainMenu::handle_event(Event &event)
 {
     this->start_button.handle_event(event);
     this->quit_button.handle_event(event);
-    this->option_button.handle_event(event);
 }
 void MainMenu::update(){
     this->start_button.update();
     this->quit_button.update();
-    this->option_button.update();
 }
 void MainMenu::draw(){
     this->game->window.blit(this->game->images.mainmenu_background,sdlgame::math::Vector2());
     this->game->window.blit(this->start_button.image,this->start_button.rect.getTopLeft());
     this->game->window.blit(this->quit_button.image,this->quit_button.rect.getTopLeft());
-    this->game->window.blit(this->option_button.image,this->option_button.rect.getTopLeft());
-    // this->game->window.blit(this->game->images.start_button_idle,Vector2(0,0));
-    // this->game->window.blit(this->game->images.start_button_hover,Vector2(32,0));
-    // this->game->window.blit(this->game->images.start_button_click,Vector2(64,0));
-    // this->game->window.blit(this->game->images.option_button_idle,Vector2(0,16));
-    // this->game->window.blit(this->game->images.option_button_hover,Vector2(32,16));
-    // this->game->window.blit(this->game->images.option_button_click,Vector2(64,16));
-    // this->game->window.blit(this->game->images.quit_button_idle,Vector2(0,32));
-    // this->game->window.blit(this->game->images.quit_button_hover,Vector2(32,32));
-    // this->game->window.blit(this->game->images.quit_button_click,Vector2(64,32));
 }
 MainMenu::~MainMenu()
 {

@@ -7,7 +7,7 @@ public:
     double accelerate;
     double vel;
     double cur_height;
-    OutSwipeDown(double time = 1);
+    OutSwipeDown(double time = 2);
     void update(double delta_time);
     void draw();
 };
