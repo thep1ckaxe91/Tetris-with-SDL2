@@ -26,10 +26,6 @@ Grid &Grid::operator=(const Grid &other)
 void Grid::handle_event(Event &event)
 {
     controller.handle_event(event);
-    if(event.type == sdlgame::KEYDOWN and (event["key"]==sdlgame::K_w or event["key"]==sdlgame::K_UP))
-    {
-        normalize_tetrimino();
-    }
 }
 void Grid::normalize_tetrimino()
 {
@@ -38,13 +34,25 @@ void Grid::normalize_tetrimino()
     {
         if(controller.tetrimino.mask>>shift & 1)
         {
-            while(Rect(controller.topleft+Vector2(3-shift%4,3-shift/4),8,8).colliderect(Rect(8,0,8,RESOLUTION_HEIGHT)))
+            Rect tmp = Rect(controller.topleft+Vector2((3-shift%4)*8,(3-shift/4)*8),8,8);
+            /**
+             * TODO: jittering when collide with side panel, try exact match with tmp rect
+            */
+            for(int i=0;i<2;i++) 
             {
-                controller.topleft.x += 8;
+                if(tmp.colliderect(Rect(8,0,8,RESOLUTION_HEIGHT)))
+                {
+                    // printf("collide left\n");
+                    controller.topleft.x += GRID_X-tmp.getLeft();
+                }
             }
-            while(Rect(controller.topleft+Vector2(3-shift%4,3-shift/4),8,8).colliderect(Rect(8+GRID_WIDTH,0,8,RESOLUTION_HEIGHT)))
+            for(int i=0;i<2;i++)
             {
-                controller.topleft.x -= 8;
+                if(tmp.colliderect(Rect(16+GRID_WIDTH,0,8,RESOLUTION_HEIGHT)))
+                {
+                    // printf("collide right\n");
+                    controller.topleft.x += GRID_X+GRID_WIDTH-tmp.getRight();
+                }
             }
         }
     }
@@ -56,7 +64,7 @@ void Grid::merge()
     {
         if(controller.tetrimino.mask>>shift & 1)
         {
-            Vector2 topleft = (controller.topleft+Vector2(3-shift%4,3-shift/4)) - Vector2(GRID_X,GRID_Y);
+            Vector2 topleft = (controller.topleft+Vector2(3-shift%4,3-shift/4)*8) - Vector2(GRID_X,GRID_Y);
             for(int i=topleft.y-GRID_Y;i<=topleft.y-GRID_Y+8;i++)
             {
                 for(int j=topleft.x;j<=topleft.x;j++)
@@ -83,7 +91,7 @@ void Grid::collision_check()
                 {
                     if(controller.tetrimino.mask>>shift & 1)
                     {
-                        if(Rect(controller.topleft+Vector2(3-shift%4,3-shift/4),8,8).collidepoint(j+GRID_Y,i+GRID_X-1))
+                        if(Rect(controller.topleft+Vector2((3-shift%4)*8,(3-shift/4)*8),8,8).collidepoint(j+GRID_Y,i+GRID_X-1))
                         {
                             called=1;
                             merge();
@@ -115,6 +123,7 @@ void Grid::update()
             }
         }
         controller.update();
+        normalize_tetrimino();
         collision_check();
     }
 }
@@ -131,4 +140,16 @@ void Grid::draw()
     auto keys = sdlgame::key::get_pressed();
     if(keys[sdlgame::K_r])controller.reset(Tetriminoes::randomTetrimino());
     sdlgame::draw::rect(this->game->window,"red",Rect(controller.topleft,32,32),1);
+
+    
+    // sdlgame::draw::rect(this->game->window,"red",Rect(16+GRID_WIDTH,0,8,RESOLUTION_HEIGHT),1);
+    // sdlgame::draw::rect(this->game->window,"red",Rect(8,0,8,RESOLUTION_HEIGHT),1);
+    // for(int shift=0;shift<16;shift++)
+    // {
+    //     if(controller.tetrimino.mask>>shift & 1)
+    //     {
+    //         Rect tmp = Rect(controller.topleft+Vector2((3-shift%4)*8,(3-shift/4)*8),8,8);
+    //         sdlgame::draw::rect(this->game->window,"white",tmp,1);
+    //     }
+    // }
 }
