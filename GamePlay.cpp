@@ -3,6 +3,7 @@
 #include "constant.hpp"
 GamePlay::GamePlay(Game &game) : Scene(game)
 {
+    grid = Grid(game);
     background = this->game->images.mainmenu_background;
 }
 void GamePlay::handle_event(sdlgame::event::Event &event)

@@ -26,7 +26,9 @@ public:
     TetriminoController controller;
     Grid(Game &game);
     Grid();
+    Grid &operator=(const Grid& other);
     void collision_check();
+    void normalize_tetrimino();
     void merge();
     void handle_event(Event &event);
     void update();

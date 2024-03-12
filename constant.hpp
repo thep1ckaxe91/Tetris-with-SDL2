@@ -27,6 +27,7 @@ const sdlgame::color::Color GREEN_SAND_COLOR = sdlgame::color::Color("green");
 const sdlgame::color::Color YELLOW_SAND_COLOR = sdlgame::color::Color("yellow");
 const sdlgame::color::Color BLUE_SAND_COLOR = sdlgame::color::Color("blue");
 const sdlgame::math::Vector2 spawn_pos = sdlgame::math::Vector2(24,-32);
+const sdlgame::rect::Rect next_shape_display = sdlgame::rect::Rect(119,29,26,25);
 typedef enum
 {
     EMPTY_SAND = 0x0,  //0000 0000

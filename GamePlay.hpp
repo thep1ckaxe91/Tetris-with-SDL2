@@ -8,7 +8,6 @@ class GamePlay : public Scene
 {
 private:
     Surface background;
-    Rect next_shape_area;
     Color next_color;
     Grid grid;
 public:
