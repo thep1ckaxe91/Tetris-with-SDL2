@@ -1,5 +1,6 @@
 #include "Grid.hpp"
-
+#include "engine/engine.hpp"
+#include "tetriminoes.hpp"
 Grid::Grid(Game &game)
 {
     this->game = &game;
@@ -13,12 +14,14 @@ Grid::Grid(Game &game)
 Grid::Grid() = default;
 Grid &Grid::operator=(const Grid &other)
 {
+    this->game = other.game;
     for(int i=0;i<GRID_HEIGHT+2;i++) grid[i][0] = grid[i][GRID_WIDTH+1] = Sand(STATIC_SAND);
     for(int i=0;i<GRID_WIDTH+2;i++)  grid[0][i] = grid[GRID_HEIGHT+1][i] = Sand(STATIC_SAND);
     for(int i=1;i<=GRID_HEIGHT;i++)
         for(int j=1;j<=GRID_WIDTH;j++)
             grid[i][j] = other.grid[i][j];
     controller = other.controller;
+    return *this;
 }
 void Grid::handle_event(Event &event)
 {
@@ -125,4 +128,7 @@ void Grid::draw()
         }
     }
     controller.draw();
+    auto keys = sdlgame::key::get_pressed();
+    if(keys[sdlgame::K_r])controller.reset(Tetriminoes::randomTetrimino());
+    sdlgame::draw::rect(this->game->window,"red",Rect(controller.topleft,32,32),1);
 }

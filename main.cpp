@@ -47,6 +47,7 @@ public:
     }
     void draw()
     {
+        window.fill(Color(0,0,0));
         if(!scene_list.empty()) if(scene_list.back()){
             scene_list.back()->draw();
         }

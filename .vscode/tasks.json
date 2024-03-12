@@ -32,6 +32,7 @@
                 "D:\\Repos\\Tetris-with-SDL2\\MainMenu.cpp",
                 "D:\\Repos\\Tetris-with-SDL2\\GamePlay.cpp",
                 "D:\\Repos\\Tetris-with-SDL2\\Tetrimino.cpp",
+                "D:\\Repos\\Tetris-with-SDL2\\tetriminoes.cpp",
                 "D:\\Repos\\Tetris-with-SDL2\\TetriminoController.cpp",
                 "D:\\Repos\\Tetris-with-SDL2\\Sand.cpp",
                 "D:\\Repos\\Tetris-with-SDL2\\Grid.cpp",
@@ -49,7 +50,6 @@
                 "-lSDL2_mixer",
                 "-lSDL2_ttf",
                 "-lmpg123-0",
-                "-lwavpackdll",
                 "-o",
                 "D:\\Repos\\Tetris-with-SDL2\\Sandtris.exe"
             ],

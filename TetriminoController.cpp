@@ -10,7 +10,7 @@ TetriminoController::TetriminoController(Game &game, Tetrimino tetrimino)
         for(int j=0;j<4;j++)
             sdlgame::draw::rect(
                 draw_surf,
-                (this->tetrimino.mask>>(15-i*4+j)&1 ? SandShiftColor[this->tetrimino.color] : Color()),
+                (this->tetrimino.mask>>(15-i*4-j)&1 ? SandShiftColor[this->tetrimino.color] : Color()),
                 Rect(8*j,8*i,8,8)
             );
 }
@@ -23,7 +23,7 @@ void TetriminoController::reset(Tetrimino tetrimino)
         for(int j=0;j<4;j++)
             sdlgame::draw::rect(
                 draw_surf,
-                (this->tetrimino.mask>>(15-i*4+j)&1 ? SandShiftColor[this->tetrimino.color] : Color()),
+                (this->tetrimino.mask>>(15-i*4-j)&1 ? SandShiftColor[this->tetrimino.color] : Color()),
                 Rect(8*j,8*i,8,8)
             );
 }
@@ -49,7 +49,7 @@ void TetriminoController::rotate()
         for(int j=0;j<4;j++)
             sdlgame::draw::rect(
                 draw_surf,
-                (this->tetrimino.mask>>(15-i*4+j)&1 ? SandShiftColor[this->tetrimino.color] : Color()),
+                (this->tetrimino.mask>>(15-i*4-j)&1 ? SandShiftColor[this->tetrimino.color] : Color()),
                 Rect(8*j,8*i,8,8)
             );
 }
