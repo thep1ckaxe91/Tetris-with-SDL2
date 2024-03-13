@@ -10,6 +10,7 @@ Grid::Grid(Game &game)
     for(int i=1;i<=GRID_HEIGHT;i++)
         for(int j=1;j<=GRID_WIDTH;j++)
             grid[i][j] = Sand();
+    debug_surf = Surface(RESOLUTION_WIDTH,RESOLUTION_HEIGHT);
 }
 Grid::Grid() = default;
 Grid &Grid::operator=(const Grid &other)
@@ -21,6 +22,7 @@ Grid &Grid::operator=(const Grid &other)
         for(int j=1;j<=GRID_WIDTH;j++)
             grid[i][j] = other.grid[i][j];
     controller = other.controller;
+    debug_surf = other.debug_surf;
     return *this;
 }
 void Grid::handle_event(Event &event)
@@ -40,18 +42,20 @@ void Grid::normalize_tetrimino()
             */
             for(int i=0;i<2;i++) 
             {
-                if(tmp.colliderect(Rect(8,0,8,RESOLUTION_HEIGHT)))
+                if(tmp.colliderect(left_barrier))
                 {
                     // printf("collide left\n");
-                    controller.topleft.x += GRID_X-tmp.getLeft();
+                    tmp.setLeft(left_barrier.getRight());
+                    controller.topleft.x = tmp.getLeft() - (3-shift%4)*8;
                 }
             }
             for(int i=0;i<2;i++)
             {
-                if(tmp.colliderect(Rect(16+GRID_WIDTH,0,8,RESOLUTION_HEIGHT)))
+                if(tmp.colliderect(right_barrier))
                 {
                     // printf("collide right\n");
-                    controller.topleft.x += GRID_X+GRID_WIDTH-tmp.getRight();
+                    tmp.setRight(right_barrier.getLeft());
+                    controller.topleft.x = tmp.getLeft() - (3-shift%4)*8;
                 }
             }
         }
@@ -74,14 +78,16 @@ void Grid::merge()
             }
         }
     }
+    controller.reset(Tetriminoes::randomTetrimino());
 }
 void Grid::collision_check()
 {
     //check collision if the tetrimino is collided with the grid
     /*
     */
+    
     bool called=0;
-    for(int i=1;i<=GRID_HEIGHT;i++){
+    for(int i=1;i<=GRID_HEIGHT+1;i++){
         if(!called)
         for(int j=1;j<=GRID_WIDTH;j++){
             if(!called)
@@ -91,7 +97,8 @@ void Grid::collision_check()
                 {
                     if(controller.tetrimino.mask>>shift & 1)
                     {
-                        if(Rect(controller.topleft+Vector2((3-shift%4)*8,(3-shift/4)*8),8,8).collidepoint(j+GRID_Y,i+GRID_X-1))
+                        Rect tmp = Rect(controller.topleft+Vector2((3-shift%4)*8,(3-shift/4)*8),8,8);
+                        if(tmp.collidepoint(j+GRID_X,i+GRID_Y-1))
                         {
                             called=1;
                             merge();
@@ -102,13 +109,14 @@ void Grid::collision_check()
             }
         }
     }
+    // exit(0);
 }
 void Grid::update()
 {
     this->update_timer += this->game->clock.delta_time();
     if(this->update_timer>=this->fixed_delta_time){
         this->update_timer -= this->fixed_delta_time;
-        for(int i=GRID_HEIGHT;i>=1;i--){
+        for(int i=1;i<=GRID_HEIGHT;i++){
             for(int j=1;j<=GRID_WIDTH;j++){
                 if(!grid[i+1][j].mask)
                 {
@@ -122,10 +130,10 @@ void Grid::update()
                 }
             }
         }
-        controller.update();
-        normalize_tetrimino();
-        collision_check();
     }
+    controller.update();
+    normalize_tetrimino();
+    collision_check();
 }
 void Grid::draw()
 {
@@ -139,11 +147,16 @@ void Grid::draw()
     controller.draw();
     auto keys = sdlgame::key::get_pressed();
     if(keys[sdlgame::K_r])controller.reset(Tetriminoes::randomTetrimino());
-    sdlgame::draw::rect(this->game->window,"red",Rect(controller.topleft,32,32),1);
 
+    this->game->window.blit(debug_surf,Vector2());
+
+    // sdlgame::draw::rect(this->game->window,"red",Rect(controller.topleft,32,32),1);
     
-    // sdlgame::draw::rect(this->game->window,"red",Rect(16+GRID_WIDTH,0,8,RESOLUTION_HEIGHT),1);
-    // sdlgame::draw::rect(this->game->window,"red",Rect(8,0,8,RESOLUTION_HEIGHT),1);
+    // sdlgame::draw::rect(this->game->window,"red",left_barrier,1);
+    // sdlgame::draw::rect(this->game->window,"red",right_barrier,1);
+
+    // sdlgame::draw::line(this->game->window,"blue",Vector2(GRID_X,0),Vector2(GRID_X,GRID_HEIGHT));
+    // sdlgame::draw::line(this->game->window,"blue",Vector2(GRID_X+GRID_WIDTH,0),Vector2(GRID_X+GRID_WIDTH,GRID_HEIGHT));
     // for(int shift=0;shift<16;shift++)
     // {
     //     if(controller.tetrimino.mask>>shift & 1)

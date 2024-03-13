@@ -16,6 +16,7 @@ public:
         );
         sdlgame::display::fullscreen_desktop();
         images.load();
+        sdlgame::display::set_caption("Sandtris - Made by thep1ckaxe");
         // cout<<this->images.start_button_idle.texture<<" "<<this->images.start_button_hover.texture<<" "<<this->images.start_button_click.texture<<endl;
         // exit(0);
     }
@@ -59,7 +60,7 @@ public:
         MainMenu *mainmenu = new MainMenu(*this);
         this->scene_list.push_back(mainmenu);
         while(true){
-            auto events = sdlgame::event::get();
+            vector<Event> events = sdlgame::event::get();
             for(auto& event : events)
             {
                 if(event.type == sdlgame::QUIT)
@@ -82,7 +83,7 @@ public:
                 update();
                 draw();
                 sdlgame::display::flip();
-                sdlgame::display::set_caption((to_string(clock.get_fps())).c_str());
+                // sdlgame::display::set_caption((to_string(clock.get_fps())).c_str());
             }
             clock.tick(MAXFPS);
         }
