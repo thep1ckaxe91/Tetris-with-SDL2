@@ -37,9 +37,6 @@ void Grid::normalize_tetrimino()
         if(controller.tetrimino.mask>>shift & 1)
         {
             Rect tmp = Rect(controller.topleft+Vector2((3-shift%4)*8,(3-shift/4)*8),8,8);
-            /**
-             * TODO: jittering when collide with side panel, try exact match with tmp rect
-            */
             for(int i=0;i<2;i++) 
             {
                 if(tmp.colliderect(left_barrier))
@@ -78,6 +75,10 @@ void Grid::merge()
             }
         }
     }
+    /**
+     * TODO: collision is good now, the thing that not good is the merge, nothing merged when collide
+     * TODO: fix merge
+    */
     controller.reset(Tetriminoes::randomTetrimino());
 }
 void Grid::collision_check()
@@ -93,6 +94,7 @@ void Grid::collision_check()
             if(!called)
             if(grid[i][j].mask)
             {
+                cout << i << j << endl;
                 for(int shift=0;shift<16;shift++)
                 {
                     if(controller.tetrimino.mask>>shift & 1)
