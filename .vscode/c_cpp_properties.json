@@ -4,7 +4,8 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}/**",
-                "D:/Repos/Tetris-with-SDL2/"
+                "D:/Repos/Tetris-with-SDL2/",
+                "${workspaceFolder}/header"
             ],
             "defines": [
                 "_DEBUG",
