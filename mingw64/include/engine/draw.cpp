@@ -44,8 +44,7 @@ void sdlgame::draw::rect(sdlgame::surface::Surface &surface, sdlgame::color::Col
     }
 }
 
-template <class T>
-void sdlgame::draw::line(sdlgame::surface::Surface &surface, sdlgame::color::Color color, T x1, T y1, T x2, T y2)
+void sdlgame::draw::line(sdlgame::surface::Surface &surface, sdlgame::color::Color color, double x1, double y1, double x2, double y2)
 {
     if (SDL_SetRenderTarget(sdlgame::display::renderer, surface.texture))
     {
@@ -128,8 +127,7 @@ void sdlgame::draw::polygon(sdlgame::surface::Surface &surface, sdlgame::color::
     sdlgame::draw::line(surface, color, points[0], points[points.size() - 1]);
 }
 
-template <class T>
-void sdlgame::draw::point(sdlgame::surface::Surface &surface, sdlgame::color::Color color, T x, T y)
+void sdlgame::draw::point(sdlgame::surface::Surface &surface, sdlgame::color::Color color, double x, double y)
 {
     if (SDL_SetRenderTarget(sdlgame::display::renderer, surface.texture))
     {

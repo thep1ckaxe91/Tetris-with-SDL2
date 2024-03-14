@@ -19,10 +19,9 @@ namespace sdlgame
         public:
             sdlgame::math::Vector2 size;
             SDL_Texture *texture;
-            Uint32 flags;
             Surface();
 
-            Surface(int width, int height, Uint32 _flags = 0);
+            Surface(int width, int height);
 
             Surface(const Surface &oth);
 

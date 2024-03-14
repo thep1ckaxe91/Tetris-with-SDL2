@@ -6,12 +6,12 @@
 
 void sdlgame::image::init()
 {
-    if (IMG_Init(IMG_INIT_JPG) & IMG_INIT_JPG != IMG_INIT_JPG)
+    if ((IMG_Init(IMG_INIT_JPG) & IMG_INIT_JPG) != IMG_INIT_JPG)
     {
         printf("Failed to init JPG image flags\n%s\n", IMG_GetError());
         exit(0);
     }
-    else if (IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG != IMG_INIT_PNG)
+    else if ((IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG) != IMG_INIT_PNG)
     {
         printf("Failed to init PNG image flags\n%s\n", IMG_GetError());
         exit(0);

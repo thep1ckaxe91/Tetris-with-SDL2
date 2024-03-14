@@ -27,6 +27,8 @@
                 // "D:\\Repos\\Tetris-with-SDL2\\engine\\engine.cpp",
                 "D:\\Repos\\Tetris-with-SDL2\\engine\\*.cpp",
                 "D:\\Repos\\Tetris-with-SDL2\\src\\*.cpp",
+                "-ID:\\Repos\\Tetris-with-SDL2\\header\\",
+                "-ID:\\Repos\\Tetris-with-SDL2\\engine\\",
                 // "D:\\Repos\\Tetris-with-SDL2\\main.cpp",
                 // "D:\\Repos\\Tetris-with-SDL2\\Game.cpp",
                 // "D:\\Repos\\Tetris-with-SDL2\\Scene.cpp",

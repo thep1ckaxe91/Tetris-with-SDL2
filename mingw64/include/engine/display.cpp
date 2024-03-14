@@ -8,6 +8,7 @@ SDL_Window *sdlgame::display::window;
 SDL_Renderer *sdlgame::display::renderer;
 sdlgame::surface::Surface sdlgame::display::win_surf;
 bool sdlgame::display::isInit;
+sdlgame::math::Vector2 sdlgame::display::resolution;
 
 /**
  * Setup a window surface for use
@@ -25,6 +26,7 @@ sdlgame::surface::Surface &sdlgame::display::set_mode(int width, int height, Uin
         width = DM.w;
         height = DM.h;
     }
+    resolution = sdlgame::math::Vector2(width,height);
     window = SDL_CreateWindow("SDLgame Custom Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, flags);
     if (window == nullptr)
     {
@@ -58,6 +60,13 @@ void sdlgame::display::fullscreen()
 {
     SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
 }
+
+sdlgame::math::Vector2 sdlgame::display::get_window_size(){
+    int w,h;
+    SDL_GetWindowSize(sdlgame::display::window,&w,&h);
+    return win_surf.size = sdlgame::math::Vector2(w,h);
+}
+
 void sdlgame::display::fullscreen_desktop()
 {
     SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);

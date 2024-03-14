@@ -31,13 +31,11 @@ namespace sdlgame {
             Vector2 &operator=(const Vector2 &oth);
             sdlgame::math::Vector2 &operator+=(const sdlgame::math::Vector2 &oth);
             sdlgame::math::Vector2 &operator-=(const sdlgame::math::Vector2 &oth);
-            template <class T>
-            sdlgame::math::Vector2 &operator*=(const T &scalar);
+            sdlgame::math::Vector2 &operator*=(const double &scalar);
             sdlgame::math::Vector2 operator+(const sdlgame::math::Vector2 &oth) const;
             sdlgame::math::Vector2 operator-() const;
             sdlgame::math::Vector2 operator-(const sdlgame::math::Vector2 &oth) const;
-            template <class T>
-            sdlgame::math::Vector2 operator*(const T &scalar) const;
+            sdlgame::math::Vector2 operator*(const double &scalar) const;
 
             bool operator==(const sdlgame::math::Vector2 &oth) const;
             /**
@@ -96,8 +94,7 @@ namespace sdlgame {
             std::string toString() const;
         };
 
-        template <class T>
-        sdlgame::math::Vector2 operator*(const T &scalar, const sdlgame::math::Vector2 &v);
+        sdlgame::math::Vector2 operator*(const double &scalar, const sdlgame::math::Vector2 &v);
     }
 }
 

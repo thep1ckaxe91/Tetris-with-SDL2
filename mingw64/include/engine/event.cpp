@@ -63,7 +63,6 @@ Uint32 sdlgame::event::Event::operator[](std::string key)
 }
 std::vector<Event> &sdlgame::event::get()
 {
-    SDL_PumpEvents();
     current_events.clear();
     SDL_Event e;
     while (SDL_PollEvent(&e))

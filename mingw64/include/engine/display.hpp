@@ -13,6 +13,7 @@ namespace sdlgame
         extern SDL_Window *window;
         extern SDL_Renderer *renderer;
         extern sdlgame::surface::Surface win_surf;
+        extern sdlgame::math::Vector2 resolution;
         extern bool isInit;
 
         /**
@@ -34,7 +35,8 @@ namespace sdlgame
         void fullscreen();
         void fullscreen_desktop();
         sdlgame::surface::Surface &get_surf();
-
+        //get the actual size in pixel of the window
+        sdlgame::math::Vector2 get_window_size();
         double get_width();
         double get_height();
         /**
