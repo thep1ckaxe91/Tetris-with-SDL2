@@ -22,10 +22,10 @@ typedef enum
 {
     EDGE_SIZE = 32,
 } tetrimino_size;
-const sdlgame::color::Color RED_SAND_COLOR = sdlgame::color::Color("red");
-const sdlgame::color::Color GREEN_SAND_COLOR = sdlgame::color::Color("green");
-const sdlgame::color::Color YELLOW_SAND_COLOR = sdlgame::color::Color("yellow");
-const sdlgame::color::Color BLUE_SAND_COLOR = sdlgame::color::Color("blue");
+const sdlgame::color::Color RED_SAND_COLOR = sdlgame::color::Color("crimson");
+const sdlgame::color::Color GREEN_SAND_COLOR = sdlgame::color::Color("forest green");
+const sdlgame::color::Color YELLOW_SAND_COLOR = sdlgame::color::Color("gold");
+const sdlgame::color::Color BLUE_SAND_COLOR = sdlgame::color::Color("dodger blue");
 const sdlgame::math::Vector2 spawn_pos = sdlgame::math::Vector2(40,-32);
 const sdlgame::rect::Rect next_shape_display = sdlgame::rect::Rect(119,29,26,25);
 const sdlgame::rect::Rect left_barrier = sdlgame::rect::Rect(8,0,8,int(RESOLUTION_HEIGHT));
@@ -39,9 +39,9 @@ typedef enum
     GREEN_SAND = 0x8,  //0000 1000 
     STATIC_SAND = 0x80,//1000 0000 
 } SandShift;
-const double fall_speed = 40; //pixel per second
-const double fast_fall_speed = 140; //pps
-const double sideway_move_speed = 120;//pps
+const double fall_speed = 35; //pixel per second
+const double fast_fall_speed = 120; //pps
+const double sideway_move_speed = 100;//pps
 const int FONT_SIZE = 5;
 
 #endif

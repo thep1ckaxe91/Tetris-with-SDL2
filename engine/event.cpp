@@ -65,14 +65,18 @@ std::vector<Event> &sdlgame::event::get()
 {
     current_events.clear();
     SDL_Event e;
-    while (SDL_PollEvent(&e))
-        current_events.push_back(Event(e));
-    return current_events;
-    }
-    Event tmp;
-    /**please only use this for user event*/
-    void post(Uint32 event_type)
+    // while (SDL_PollEvent(&e))
+    for(int i=1;i<=20;i++)
     {
+        if(!SDL_PollEvent(&e)) break;
+        current_events.push_back(Event(e));
+    }
+    return current_events;
+}
+Event tmp;
+/**please only use this for user event*/
+void post(Uint32 event_type)
+{
     tmp.tmp_e.type = event_type;
     SDL_PushEvent(&tmp.tmp_e);
 }

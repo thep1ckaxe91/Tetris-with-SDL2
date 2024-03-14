@@ -66,20 +66,23 @@ void Grid::merge()
         if(controller.tetrimino.mask>>shift & 1)
         {
             Vector2 topleft = (controller.topleft+Vector2(3-shift%4,3-shift/4)*8) - Vector2(GRID_X,GRID_Y);
-            for(int i=topleft.y-GRID_Y;i<=topleft.y-GRID_Y+8;i++)
+            topleft.x = int(topleft.x); topleft.y = int(topleft.y);
+            topleft.x+=1; topleft.y+=1;
+            for(int i=topleft.y;i<topleft.y+8;i++)
             {
-                for(int j=topleft.x;j<=topleft.x;j++)
+                for(int j=topleft.x;j<topleft.x+8;j++)
                 {
                     grid[i][j].mask = controller.tetrimino.color;
                 }
             }
         }
     }
+    controller.reset(Tetriminoes::randomTetrimino());
+    merged = 1;
     /**
      * TODO: collision is good now, the thing that not good is the merge, nothing merged when collide
      * TODO: fix merge
     */
-    controller.reset(Tetriminoes::randomTetrimino());
 }
 void Grid::collision_check()
 {
@@ -94,7 +97,6 @@ void Grid::collision_check()
             if(!called)
             if(grid[i][j].mask)
             {
-                cout << i << j << endl;
                 for(int shift=0;shift<16;shift++)
                 {
                     if(controller.tetrimino.mask>>shift & 1)
@@ -118,17 +120,20 @@ void Grid::update()
     this->update_timer += this->game->clock.delta_time();
     if(this->update_timer>=this->fixed_delta_time){
         this->update_timer -= this->fixed_delta_time;
-        for(int i=1;i<=GRID_HEIGHT;i++){
+        for(int i=GRID_HEIGHT;i>=1;i--){
             for(int j=1;j<=GRID_WIDTH;j++){
-                if(!grid[i+1][j].mask)
+                if(grid[i][j].mask)
                 {
-                    swap(grid[i][j],grid[i+1][j]);
-                }
-                else if(!grid[i+1][j-1].mask){
-                    swap(grid[i][j],grid[i+1][j-1]);
-                }
-                else if(!grid[i+1][j+1].mask){
-                    swap(grid[i+1][j+1],grid[i][j]);
+                    if(!grid[i+1][j].mask)
+                    {
+                        swap(grid[i][j],grid[i+1][j]);
+                    }
+                    else if(!grid[i+1][j-1].mask and !grid[i][j-1].mask){
+                        swap(grid[i][j],grid[i+1][j-1]);
+                    }
+                    else if(!grid[i+1][j+1].mask and !grid[i][j+1].mask){
+                        swap(grid[i+1][j+1],grid[i][j]);
+                    }
                 }
             }
         }
@@ -143,29 +148,9 @@ void Grid::draw()
     {
         for(int j=1;j<=GRID_WIDTH;j++)
         {
-            sdlgame::draw::point(this->game->window,SandShiftColor.at(grid[i][j].mask),j+GRID_X,i+GRID_Y);
-            cout << j+GRID_X << " " << i+GRID_Y << endl;
+            if(grid[i][j].mask) sdlgame::draw::point(this->game->window,SandShiftColor.at(grid[i][j].mask),j+GRID_X,i+GRID_Y);
             // sdlgame::draw::rect(this->game->window,SandShiftColor.at(grid[i][j].mask),Rect(j+GRID_X,i+GRID_Y,1,1));
         }
     }
-    exit(0);
     controller.draw();
-
-    this->game->window.blit(debug_surf,Vector2());
-
-    // sdlgame::draw::rect(this->game->window,"red",Rect(controller.topleft,32,32),1);
-    
-    // sdlgame::draw::rect(this->game->window,"red",left_barrier,1);
-    // sdlgame::draw::rect(this->game->window,"red",right_barrier,1);
-
-    // sdlgame::draw::line(this->game->window,"blue",Vector2(GRID_X,0),Vector2(GRID_X,GRID_HEIGHT));
-    // sdlgame::draw::line(this->game->window,"blue",Vector2(GRID_X+GRID_WIDTH,0),Vector2(GRID_X+GRID_WIDTH,GRID_HEIGHT));
-    // for(int shift=0;shift<16;shift++)
-    // {
-    //     if(controller.tetrimino.mask>>shift & 1)
-    //     {
-    //         Rect tmp = Rect(controller.topleft+Vector2((3-shift%4)*8,(3-shift/4)*8),8,8);
-    //         sdlgame::draw::rect(this->game->window,"white",tmp,1);
-    //     }
-    // }
 }

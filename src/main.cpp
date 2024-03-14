@@ -60,8 +60,7 @@ public:
         MainMenu *mainmenu = new MainMenu(*this);
         this->scene_list.push_back(mainmenu);
         while(true){
-            vector<Event> events = sdlgame::event::get();
-            for(auto& event : events)
+            for(auto& event : sdlgame::event::get())
             {
                 if(event.type == sdlgame::QUIT)
                 {

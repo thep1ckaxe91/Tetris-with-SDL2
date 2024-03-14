@@ -17,13 +17,14 @@ class Grid
 private:
     double update_timer = 0;
     Surface debug_surf;
+    bool merged=0;
 public:
     /*
     Array for grid control
     */
     Sand grid[GRID_HEIGHT+2][GRID_WIDTH+2];
     Game* game;
-    const double fixed_delta_time = 0.1;
+    const double fixed_delta_time = 0.07;
     TetriminoController controller;
     Grid(Game &game);
     Grid();
