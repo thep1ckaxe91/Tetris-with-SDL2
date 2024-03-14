@@ -18,6 +18,7 @@ private:
     double update_timer = 0;
     Surface debug_surf;
     bool merged=0;
+    int score=0;
 public:
     /*
     Array for grid control
@@ -32,6 +33,9 @@ public:
     void collision_check();
     void normalize_tetrimino();
     void merge();
+    int get_score();
+    int check_scoring(int cposi,int cposj);
+
     void handle_event(Event &event);
     void update();
     void draw();

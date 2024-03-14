@@ -30,6 +30,8 @@ const sdlgame::math::Vector2 spawn_pos = sdlgame::math::Vector2(40,-32);
 const sdlgame::rect::Rect next_shape_display = sdlgame::rect::Rect(119,29,26,25);
 const sdlgame::rect::Rect left_barrier = sdlgame::rect::Rect(8,0,8,int(RESOLUTION_HEIGHT));
 const sdlgame::rect::Rect right_barrier = sdlgame::rect::Rect(16+GRID_WIDTH,0,8,int(RESOLUTION_HEIGHT));
+const int dx[] = {0,0,1,-1};
+const int dy[] = {1,-1,0,0};
 typedef enum
 {
     EMPTY_SAND = 0x0,  //0000 0000

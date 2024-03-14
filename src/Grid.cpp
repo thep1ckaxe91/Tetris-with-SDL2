@@ -58,6 +58,49 @@ void Grid::normalize_tetrimino()
         }
     }
 }
+int Grid::get_score(){return score;}
+int Grid::check_scoring(int cposi, int cposj)
+{
+    /**
+     * TODO: the check scoring only happen when the controller is collided, not when the sand fall and update with it
+     * APPROACH: 1 more array check 
+     * 
+    */
+    queue<pair<Uint8,Uint8>> q;
+    bitset<GRID_WIDTH+2> visited[GRID_HEIGHT+2];
+    q.push({cposi,cposj});
+    vector<pair<Uint8,Uint8>> pos; 
+    int cnt=0;
+    bool touchleft=0,touchright=0;
+    visited[cposi][cposj]=1;
+    while(!q.empty())
+    {
+        auto u = q.front();
+        pos.push_back(u);
+        if(u.second==1) touchleft=1;
+        else if(u.second==GRID_WIDTH) touchright=1;
+        visited[u.first][u.second]=1;
+        cnt++;
+        q.pop();
+        for(int i=0;i<4;i++)
+        {
+            int x = dx[i]+u.first;
+            int y = dy[i]+u.second;
+            if(visited[x][y]==0 and grid[x][y].mask==controller.tetrimino.color)
+            {
+                visited[x][y]=1;
+                q.push({x,y});
+            }
+        }
+    }
+    if(touchleft and touchright)
+    {
+        for(auto& val : pos)
+            grid[val.first][val.second] = Sand();
+        return cnt;
+    }
+    return 0;
+}
 void Grid::merge()
 {
     //merge if collided
@@ -77,8 +120,6 @@ void Grid::merge()
             }
         }
     }
-    controller.reset(Tetriminoes::randomTetrimino());
-    merged = 1;
     /**
      * TODO: collision is good now, the thing that not good is the merge, nothing merged when collide
      * TODO: fix merge
@@ -106,6 +147,8 @@ void Grid::collision_check()
                         {
                             called=1;
                             merge();
+                            score += check_scoring(i,j);
+                            controller.reset(Tetriminoes::randomTetrimino());
                             break;
                         }
                     }
