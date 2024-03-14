@@ -35,6 +35,7 @@ public:
     void merge();
     int get_score();
     int check_scoring(int cposi,int cposj);
+    void game_over();
 
     void handle_event(Event &event);
     void update();

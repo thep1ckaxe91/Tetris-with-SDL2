@@ -63,9 +63,15 @@ int Grid::check_scoring(int cposi, int cposj)
 {
     /**
      * TODO: the check scoring only happen when the controller is collided, not when the sand fall and update with it
-     * APPROACH: 1 more array check 
+     * APPROACH: nvm, it fast enough
      * 
     */
+    SandShift check_color = grid[cposi][cposj].mask;
+    
+    if(check_color==EMPTY_SAND or check_color==STATIC_SAND)
+    {
+        return 0;
+    }
     queue<pair<Uint8,Uint8>> q;
     bitset<GRID_WIDTH+2> visited[GRID_HEIGHT+2];
     q.push({cposi,cposj});
@@ -86,7 +92,7 @@ int Grid::check_scoring(int cposi, int cposj)
         {
             int x = dx[i]+u.first;
             int y = dy[i]+u.second;
-            if(visited[x][y]==0 and grid[x][y].mask==controller.tetrimino.color)
+            if(visited[x][y]==0 and grid[x][y].mask==check_color)
             {
                 visited[x][y]=1;
                 q.push({x,y});
@@ -101,8 +107,21 @@ int Grid::check_scoring(int cposi, int cposj)
     }
     return 0;
 }
+void Grid::game_over()
+{
+    /**
+     * TODO: do a proper game over
+    */
+    for(int i=1;i<=GRID_HEIGHT;i++) for(int j=1;j<=GRID_WIDTH;j++) grid[i][j].mask = EMPTY_SAND;
+    controller.reset(Tetriminoes::randomTetrimino());
+}
 void Grid::merge()
 {
+    //if merge at wrong place, game over
+    if(controller.topleft.y < 0)
+    {
+        game_over();
+    }
     //merge if collided
     for(int shift=0;shift<16;shift++)
     {
@@ -170,12 +189,15 @@ void Grid::update()
                     if(!grid[i+1][j].mask)
                     {
                         swap(grid[i][j],grid[i+1][j]);
+                        check_scoring(i+1,j);
                     }
                     else if(!grid[i+1][j-1].mask and !grid[i][j-1].mask){
                         swap(grid[i][j],grid[i+1][j-1]);
+                        check_scoring(i+1,j-1);
                     }
                     else if(!grid[i+1][j+1].mask and !grid[i][j+1].mask){
                         swap(grid[i+1][j+1],grid[i][j]);
+                        check_scoring(i+1,j+1);
                     }
                 }
             }
@@ -191,7 +213,7 @@ void Grid::draw()
     {
         for(int j=1;j<=GRID_WIDTH;j++)
         {
-            if(grid[i][j].mask) sdlgame::draw::point(this->game->window,SandShiftColor.at(grid[i][j].mask),j+GRID_X,i+GRID_Y);
+            if(grid[i][j].mask) sdlgame::draw::point(this->game->window,SandShiftColor.at(grid[i][j].mask),j+GRID_X-1,i+GRID_Y);
             // sdlgame::draw::rect(this->game->window,SandShiftColor.at(grid[i][j].mask),Rect(j+GRID_X,i+GRID_Y,1,1));
         }
     }

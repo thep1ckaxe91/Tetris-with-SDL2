@@ -7,7 +7,7 @@ typedef enum
     RESOLUTION_WIDTH = 160,
     RESOLUTION_HEIGHT = 144
 } Window_Constant;
-const int MAXFPS = 60;
+const int MAXFPS = 30;
 typedef enum
 {
     GRID_WIDTH = 80,
@@ -42,7 +42,7 @@ typedef enum
     STATIC_SAND = 0x80,//1000 0000 
 } SandShift;
 const double fall_speed = 35; //pixel per second
-const double fast_fall_speed = 120; //pps
+const double fast_fall_speed = 70; //pps
 const double sideway_move_speed = 100;//pps
 const int FONT_SIZE = 5;
 
