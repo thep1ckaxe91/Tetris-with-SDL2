@@ -18,6 +18,11 @@ void sdlgame::font::init()
         return;
     }
 }
+sdlgame::font::Font::Font()
+{
+    this->font = nullptr;
+    height = 0;
+}
 sdlgame::font::Font::Font(std::string path, int size)
 {
     this->height = size;
@@ -28,7 +33,6 @@ sdlgame::font::Font::Font(std::string path, int size)
         exit(0);
     }
 }
-
     /**
      * @return a surface that only contain the text
      * @param antialias = 0 no antialiasing fastest
@@ -71,4 +75,8 @@ sdlgame::surface::Surface sdlgame::font::Font::render(const std::string text, in
     }
     SDL_SetRenderTarget(sdlgame::display::renderer, NULL);
     return res;
+}
+sdlgame::font::Font::~Font()
+{
+    if(this->font!=NULL) TTF_CloseFont(this->font);
 }

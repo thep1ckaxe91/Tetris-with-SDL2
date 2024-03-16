@@ -1,9 +1,10 @@
-#ifndef MAINMENU_HPP
-#define MAINMENU_HPP
+#ifndef GAMEPLAY_HPP
+#define GAMEPLAY_HPP
 #include "Game.hpp"
 #include "Scene.hpp"
 #include "TetriminoController.hpp"
 #include "Grid.hpp"
+#include "engine/engine.hpp"
 class GamePlay : public Scene
 {
 private:

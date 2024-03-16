@@ -7,7 +7,7 @@ typedef enum
     RESOLUTION_WIDTH = 160,
     RESOLUTION_HEIGHT = 144
 } Window_Constant;
-const int MAXFPS = 30;
+const int MAXFPS = 50;
 typedef enum
 {
     GRID_WIDTH = 80,
@@ -22,14 +22,15 @@ typedef enum
 {
     EDGE_SIZE = 32,
 } tetrimino_size;
-const sdlgame::color::Color RED_SAND_COLOR = sdlgame::color::Color("crimson");
-const sdlgame::color::Color GREEN_SAND_COLOR = sdlgame::color::Color("forest green");
-const sdlgame::color::Color YELLOW_SAND_COLOR = sdlgame::color::Color("gold");
-const sdlgame::color::Color BLUE_SAND_COLOR = sdlgame::color::Color("dodger blue");
+const Color RED_SAND_COLOR = Color("crimson");
+const Color GREEN_SAND_COLOR = Color("forest green");
+const Color YELLOW_SAND_COLOR = Color("gold");
+const Color BLUE_SAND_COLOR = Color("dodger blue");
 const sdlgame::math::Vector2 spawn_pos = sdlgame::math::Vector2(40,-32);
-const sdlgame::rect::Rect next_shape_display = sdlgame::rect::Rect(119,29,26,25);
-const sdlgame::rect::Rect left_barrier = sdlgame::rect::Rect(8,0,8,int(RESOLUTION_HEIGHT));
-const sdlgame::rect::Rect right_barrier = sdlgame::rect::Rect(16+GRID_WIDTH,0,8,int(RESOLUTION_HEIGHT));
+const Rect next_shape_display = Rect(119,29,26,25);
+const Rect left_barrier = Rect(8,0,8,int(RESOLUTION_HEIGHT));
+const Rect right_barrier = Rect(16+GRID_WIDTH,0,8,int(RESOLUTION_HEIGHT));
+const Rect next_color_display_rect = Rect(160,144,7,23);
 const int dx[] = {0,0,1,-1};
 const int dy[] = {1,-1,0,0};
 typedef enum
@@ -44,7 +45,7 @@ typedef enum
 const double fall_speed = 35; //pixel per second
 const double fast_fall_speed = 70; //pps
 const double sideway_move_speed = 100;//pps
-const int FONT_SIZE = 5;
+const int FONT_SIZE = 7;
 const Vector2 score_display_center = Vector2(132,120);
 
 #endif

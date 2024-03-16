@@ -1,4 +1,3 @@
-#pragma once
 #ifndef SDLGAME_FONT_
 #define SDLGAME_FONT_
 #include "SDL2/SDL_ttf.h"
@@ -21,7 +20,7 @@ namespace sdlgame {
             TTF_Font *font;
 
             Font(std::string path, int size = 12);
-
+            Font();
             /**
              * @return a surface that only contain the text
              * @param antialias = 0 no antialiasing fastest
@@ -38,6 +37,7 @@ namespace sdlgame {
                 sdlgame::color::Color color, uint32_t wrap_length = 0,
                 sdlgame::color::Color background = sdlgame::color::Color(0, 0, 0, 0)
             );
+            ~Font();
         };
     }
 }
