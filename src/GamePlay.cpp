@@ -5,8 +5,8 @@ GamePlay::GamePlay(Game &game) : Scene(game)
 {
     grid = Grid(game);
     background = this->game->images.mainmenu_background;
-    // score_font = Font(base_path+"data/fonts/Minecraft.ttf");
-    this->score_font = Font(base_path+"data/fonts/basis33.ttf",FONT_SIZE);
+    this->score_font = Font(base_path+"data/fonts/ARCADECLASSIC.TTF",FONT_SIZE);
+    this->score_surf = score_font.render("0",0,"white");
 }
 void GamePlay::handle_event(sdlgame::event::Event &event)
 {
@@ -25,4 +25,4 @@ void GamePlay::draw()
     this->game->window.blit(this->game->images.game_frame,Vector2());
     this->grid.draw();
     this->game->window.blit(this->score_surf,this->score_rect.getTopLeft());
-}
+ }

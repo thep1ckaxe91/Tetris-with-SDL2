@@ -163,7 +163,6 @@ void Grid::collision_check()
                         {
                             called=1;
                             merge();
-                            score += check_scoring(i,j);
                             controller.reset(Tetriminoes::randomTetrimino());
                             break;
                         }
@@ -186,15 +185,15 @@ void Grid::update()
                     if(!grid[i+1][j].mask)
                     {
                         swap(grid[i][j],grid[i+1][j]);
-                        check_scoring(i+1,j);
+                        score+=check_scoring(i+1,j);
                     }
                     else if(!grid[i+1][j-1].mask and !grid[i][j-1].mask){
                         swap(grid[i][j],grid[i+1][j-1]);
-                        check_scoring(i+1,j-1);
+                        score+=check_scoring(i+1,j-1);
                     }
                     else if(!grid[i+1][j+1].mask and !grid[i][j+1].mask){
                         swap(grid[i+1][j+1],grid[i][j]);
-                        check_scoring(i+1,j+1);
+                        score+=check_scoring(i+1,j+1);
                     }
                 }
             }

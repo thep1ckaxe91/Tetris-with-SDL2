@@ -19,7 +19,8 @@ public:
     );
     sdlgame::time::Clock clock;
 
-    Game(){
+    Game()
+    {
         sdlgame::display::fullscreen_desktop();
     }
 
@@ -27,6 +28,7 @@ public:
     {
         window.fill("black");
         sdlgame::draw::point(window,"white",50,50);
+
     }
     void update()
     {

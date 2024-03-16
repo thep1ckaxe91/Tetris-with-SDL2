@@ -5,6 +5,7 @@
 #include "color.hpp"
 #include "display.hpp"
 
+std::map<TTF_Font *,int> sdlgame::font::__font_pool;
 void sdlgame::font::init()
 {
     if (TTF_Init())
@@ -32,6 +33,7 @@ sdlgame::font::Font::Font(std::string path, int size)
         printf("Cant load font\n%s\n", TTF_GetError());
         exit(0);
     }
+    __font_pool[this->font]=1;
 }
     /**
      * @return a surface that only contain the text
@@ -64,19 +66,40 @@ sdlgame::surface::Surface sdlgame::font::Font::render(const std::string text, in
         printf("Error render font\n%s\n", TTF_GetError());
         exit(0);
     }
-    sdlgame::surface::Surface res(surface->w, surface->h);
+    res = sdlgame::surface::Surface(surface->w,surface->h);
     res.fill(background);
+    SDL_Texture *tmp = SDL_CreateTextureFromSurface(sdlgame::display::renderer, surface);
+    if(tmp == NULL)
+    {
+        printf("Error convert surf to texture\n%s\n",SDL_GetError());
+        exit(0);
+    }
     SDL_SetRenderTarget(sdlgame::display::renderer, res.texture);
-    if (SDL_RenderCopy(sdlgame::display::renderer,
-                        SDL_CreateTextureFromSurface(sdlgame::display::renderer, surface), NULL, NULL))
+    if (SDL_RenderCopy(sdlgame::display::renderer,tmp, NULL, NULL))
     {
         printf("Error create a rendered font\n%s\n", SDL_GetError());
         exit(0);
     }
     SDL_SetRenderTarget(sdlgame::display::renderer, NULL);
+    SDL_DestroyTexture(tmp);
+    SDL_FreeSurface(surface);
     return res;
+}
+int sdlgame::font::Font::get_height()const{return height;}
+sdlgame::font::Font &sdlgame::font::Font::operator = (const sdlgame::font::Font &other)
+{
+    this->height = other.get_height();
+    this->font = other.font;
+    __font_pool[this->font]++;
+    return *this;
 }
 sdlgame::font::Font::~Font()
 {
-    if(this->font!=NULL) TTF_CloseFont(this->font);
+    __font_pool[this->font]--;
+    if(__font_pool[this->font]<=0)
+    {
+        __font_pool.erase(this->font);
+        TTF_CloseFont(this->font);
+    }
+    this->font = 0;
 }
