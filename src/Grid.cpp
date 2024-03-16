@@ -121,6 +121,7 @@ void Grid::merge()
     if(controller.topleft.y < 0)
     {
         game_over();
+        return;
     }
     //merge if collided
     for(int shift=0;shift<16;shift++)
@@ -134,15 +135,11 @@ void Grid::merge()
             {
                 for(int j=topleft.x;j<topleft.x+8;j++)
                 {
-                    grid[i][j].mask = controller.tetrimino.color;
+                    if(i<=GRID_HEIGHT) grid[i][j].mask = controller.tetrimino.color;
                 }
             }
         }
     }
-    /**
-     * TODO: collision is good now, the thing that not good is the merge, nothing merged when collide
-     * TODO: fix merge
-    */
 }
 void Grid::collision_check()
 {

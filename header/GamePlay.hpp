@@ -10,6 +10,9 @@ private:
     Surface background;
     Color next_color;
     Grid grid;
+    Surface score_surf;
+    Font score_font;
+    Rect score_rect;
 public:
     GamePlay(Game &game);
     void update();
