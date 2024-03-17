@@ -22,7 +22,11 @@ void GamePlay::update()
 void GamePlay::draw()
 {
     this->game->window.blit(this->background,Vector2());
+    sdlgame::draw::rect(this->game->window,SandShiftColor.at(this->grid.next.color),next_color_display_rect);
     this->game->window.blit(this->game->images.game_frame,Vector2());
+    /**
+     * TODO: draw next shape
+    */
     this->grid.draw();
     this->game->window.blit(this->score_surf,this->score_rect.getTopLeft());
  }
