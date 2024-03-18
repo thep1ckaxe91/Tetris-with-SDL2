@@ -30,7 +30,7 @@ const sdlgame::math::Vector2 spawn_pos = sdlgame::math::Vector2(40,-32);
 const Rect next_shape_display = Rect(119,29,26,25);
 const Rect left_barrier = Rect(8,0,8,int(RESOLUTION_HEIGHT));
 const Rect right_barrier = Rect(16+GRID_WIDTH,0,8,int(RESOLUTION_HEIGHT));
-const Rect next_color_display_rect = Rect(160,144,7,23);
+const Rect next_color_display_rect = Rect(129,71,7,23);
 const int dx[] = {0,0,1,-1};
 const int dy[] = {1,-1,0,0};
 typedef enum
@@ -45,7 +45,7 @@ typedef enum
 const double fall_speed = 35; //pixel per second
 const double fast_fall_speed = 70; //pps
 const double sideway_move_speed = 100;//pps
-const int FONT_SIZE = 14;
+const int FONT_SIZE = 10;
 const Vector2 score_display_center = Vector2(132,123);
 
 #endif

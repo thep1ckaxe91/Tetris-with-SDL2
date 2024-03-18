@@ -5,7 +5,7 @@ GamePlay::GamePlay(Game &game) : Scene(game)
 {
     grid = Grid(game);
     background = this->game->images.mainmenu_background;
-    this->score_font = Font(base_path+"data/fonts/ARCADECLASSIC.TTF",FONT_SIZE);
+    this->score_font = Font(base_path+"data/fonts/santris-pixel.ttf",FONT_SIZE);
     this->score_surf = score_font.render("0",0,"white");
 }
 void GamePlay::handle_event(sdlgame::event::Event &event)
@@ -22,11 +22,12 @@ void GamePlay::update()
 void GamePlay::draw()
 {
     this->game->window.blit(this->background,Vector2());
-    sdlgame::draw::rect(this->game->window,SandShiftColor.at(this->grid.next.color),next_color_display_rect);
+    sdlgame::draw::rect(this->game->window,SandShiftColor[this->grid.next.color],next_color_display_rect);
     this->game->window.blit(this->game->images.game_frame,Vector2());
     /**
      * TODO: draw next shape
     */
     this->grid.draw();
     this->game->window.blit(this->score_surf,this->score_rect.getTopLeft());
+    
  }

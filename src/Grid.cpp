@@ -1,6 +1,7 @@
 #include "Grid.hpp"
 #include "engine/engine.hpp"
 #include "tetriminoes.hpp"
+#include "TetrisEvent.hpp"
 Grid::Grid(Game &game)
 {
     this->game = &game;
@@ -241,6 +242,7 @@ void Grid::collision_check()
                                     merge();
                                     this->controller.reset(this->next);
                                     this->next = Tetriminoes::randomTetrimino();
+                                    sdlgame::event::post(MERGING);
                                     break;
                                 }
                             }
