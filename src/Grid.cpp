@@ -86,17 +86,19 @@ int Grid::check_scoring(std::vector<pair<int, int>> updated_sands)
     bitset<GRID_WIDTH + 2> visited[GRID_HEIGHT + 2];
     for (auto &[i, j] : updated_sands)
     {
-        if (visited[i][j])
+        if (visited[i][j]==1)
             continue;
         visited[i][j]=1;
+        vector<pair<Uint8, Uint8>> tmp;
         SandShift check_color = grid[i][j].mask;
         bool touchleft = 0, touchright = 0;
+        q.push({i,j});
         while (!q.empty())
         {
             auto u = q.front();
-            pos.push_back(u);
+            tmp.push_back(u);
             q.pop();
-            if (u.first == 1)
+            if (u.second == 1)
                 touchleft = 1;
             else if (u.second == GRID_WIDTH)
                 touchright = 1;
@@ -104,14 +106,23 @@ int Grid::check_scoring(std::vector<pair<int, int>> updated_sands)
             {
                 int x = dx[k] + u.first;
                 int y = dy[k] + u.second;
-                if (!visited[x][y] and grid[x][y].mask == check_color)
+                if (visited[x][y]==0 and grid[x][y].mask == check_color)
                 {
                     q.push({x,y});
                     visited[x][y]=1;
                 }
             }
         }
+        if(touchleft and touchright)
+        {
+            for(auto &v : tmp) pos.push_back(v);
+        }
     }
+    for(auto &[i,j] : pos)
+    {
+        grid[i][j] = Sand();
+    }
+    return pos.size();
 }
 bool Grid::is_same_area(int previ, int prevj, int curi, int curj)
 {
@@ -264,7 +275,10 @@ void Grid::update()
             }
         }
         if (!updated_sands.empty())
+        {
+            // cout << updated_sands.size() << endl;
             score += check_scoring(updated_sands);
+        }
     }
     controller.update();
     normalize_tetrimino();
