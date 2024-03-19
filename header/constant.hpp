@@ -45,7 +45,7 @@ typedef enum
 const double fall_speed = 35; //pixel per second
 const double fast_fall_speed = 70; //pps
 const double sideway_move_speed = 100;//pps
-const int FONT_SIZE = 10;
+const int FONT_SIZE =7;
 const Vector2 score_display_center = Vector2(132,123);
 
 #endif

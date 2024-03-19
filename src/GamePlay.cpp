@@ -1,23 +1,30 @@
 #include "GamePlay.hpp"
 #include "Game.hpp"
 #include "constant.hpp"
+#include "TetrisEvent.hpp"
 GamePlay::GamePlay(Game &game) : Scene(game)
 {
     grid = Grid(game);
     background = this->game->images.mainmenu_background;
-    this->score_font = Font(base_path+"data/fonts/santris-pixel.ttf",FONT_SIZE);
+    this->score_font = Font(base_path+"data\\fonts\\sandtris pixel.ttf",FONT_SIZE);
     this->score_surf = score_font.render("0",0,"white");
+    this->score_rect = score_surf.getRect();
+    score_rect.setCenter(score_display_center);
 }
 void GamePlay::handle_event(sdlgame::event::Event &event)
 {
     this->grid.handle_event(event);
+    if(event.type == SCORING)
+    {
+        this->score_surf = score_font.render(to_string(this->grid.get_score()),0,"white");
+        this->score_rect = score_surf.getRect();
+        score_rect.setCenter(score_display_center);
+    }
 }
 void GamePlay::update()
 {
     this->grid.update();
-    this->score_surf = score_font.render(to_string(this->grid.get_score()),0,"white");
-    this->score_rect = score_surf.getRect();
-    score_rect.setCenter(score_display_center);
+    
 }
 void GamePlay::draw()
 {

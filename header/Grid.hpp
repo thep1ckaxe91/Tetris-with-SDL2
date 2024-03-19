@@ -8,6 +8,7 @@
 #include "Game.hpp"
 using namespace std;
 // #define OPTIMIZE_CHECK 1
+
 /**
  * Yes, the array start from 1, the rest is the border
 */
