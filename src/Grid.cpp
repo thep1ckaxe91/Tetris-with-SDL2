@@ -118,53 +118,15 @@ int Grid::check_scoring(std::vector<pair<int, int>> updated_sands)
             for(auto &v : tmp) pos.push_back(v);
         }
     }
-    for(auto &[i,j] : pos)
+    if(pos.size()>0)
     {
-        grid[i][j] = Sand();
+        for(auto &[i,j] : pos)
+        {
+            grid[i][j] = Sand();
+        }
+        sdlgame::event::post(SCORING);
     }
     return pos.size();
-}
-bool Grid::is_same_area(int previ, int prevj, int curi, int curj)
-{
-    if (previ == curi and prevj == curj)
-        return 1;
-    SandShift check_color = grid[curi][curj].mask;
-
-    queue<pair<Uint8, Uint8>> q;
-    bitset<GRID_WIDTH + 2> visited[GRID_HEIGHT + 2];
-    for (int i = 0; i < sizeof(dx) / sizeof(int); i++)
-    {
-        int x = dx[i] + previ;
-        int y = dy[i] + prevj;
-        if (x != curi and y != curj and grid[x][y].mask == check_color)
-        {
-            q.push({x, y});
-            visited[x][y] = 1;
-        }
-    }
-
-    if (check_color == EMPTY_SAND or check_color == STATIC_SAND)
-    {
-        return 0;
-    }
-    while (!q.empty())
-    {
-        auto u = q.front();
-        if (u.first == curi and u.second == curj)
-            return 1;
-        q.pop();
-        for (int i = 0; i < sizeof(dx) / sizeof(int); i++)
-        {
-            int x = dx[i] + u.first;
-            int y = dy[i] + u.second;
-            if (visited[x][y] == 0 and grid[x][y].mask == check_color)
-            {
-                visited[x][y] = 1;
-                q.push({x, y});
-            }
-        }
-    }
-    return 0;
 }
 void Grid::game_over()
 {

@@ -20,6 +20,15 @@ void GamePlay::handle_event(sdlgame::event::Event &event)
         this->score_rect = score_surf.getRect();
         score_rect.setCenter(score_display_center);
     }
+    else if(event.type == MERGING)
+    {
+        /**
+         * TODO: have 2 rect repeately moving upward, its color will be update
+         * base on "current color of next shape" the moment when it reset the
+         * position is when to change the color
+         * 
+         */
+    }
 }
 void GamePlay::update()
 {

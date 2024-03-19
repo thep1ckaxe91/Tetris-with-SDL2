@@ -8,6 +8,8 @@ Special Thanks To:
 
     SDL2 and extended library developer
 
-    DrPetter: SFXR's author
+    DrPetter: SFXR's creator
 
-    Igara Studio: David Capello. Gaspar Capello : Asesprite's author
+    Igara Studio: David Capello. Gaspar Capello : Asesprite creator
+
+    Terry Cavanagh: Bossca Ceoil's creator

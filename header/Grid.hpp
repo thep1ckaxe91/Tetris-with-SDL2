@@ -34,7 +34,6 @@ public:
     Grid();
     Grid &operator=(const Grid& other);
     void collision_check();
-    bool is_same_area(int i1,int j1, int i2,int j2);
     void normalize_tetrimino();
     void merge();
     int get_score();
