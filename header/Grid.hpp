@@ -7,8 +7,6 @@
 #include "TetriminoController.hpp"
 #include "Game.hpp"
 using namespace std;
-// #define OPTIMIZE_CHECK 1
-
 /**
  * Yes, the array start from 1, the rest is the border
 */
@@ -36,21 +34,12 @@ public:
     Grid();
     Grid &operator=(const Grid& other);
     void collision_check();
+    bool is_same_area(int i1,int j1, int i2,int j2);
     void normalize_tetrimino();
     void merge();
     int get_score();
-    int check_scoring(int cposi,int cposj);
+    int check_scoring(std::vector<pair<int,int>> updated_sands);
     void game_over();
-    //under is all optimization function to check if it need to score;
-#ifdef OPTIMIZE_CHECK
-    int gridpos_to_node(int i,int j);
-    std::pair<int,int> node_to_gridpos(int node);
-    int find_left(int u);
-    int find_right(int u);
-    void isolate(int u);
-    void left_join(int a,int b);
-    void right_join(int a,int b);
-#endif
 
     void handle_event(Event &event);
     void update();

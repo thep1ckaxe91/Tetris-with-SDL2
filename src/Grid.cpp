@@ -14,14 +14,6 @@ Grid::Grid(Game &game)
     for (int i = 1; i <= GRID_HEIGHT; i++)
         for (int j = 1; j <= GRID_WIDTH; j++)
             grid[i][j] = Sand();
-
-#ifdef OPTIMIZE_CHECK
-    // init optimization utils
-    memset(left_parent, -1, sizeof(left_parent));
-    memset(right_parent, -1, sizeof(right_parent));
-    memset(left_size, 0x1, sizeof(left_size));
-    memset(right_size, 0x1, sizeof(right_size));
-#endif
 }
 Grid::Grid() = default;
 Grid &Grid::operator=(const Grid &other)
@@ -36,63 +28,10 @@ Grid &Grid::operator=(const Grid &other)
             grid[i][j] = other.grid[i][j];
     controller = other.controller;
     next = other.next;
-#ifdef OPTIMIZE_CHECK
-    memcpy(left_parent, other.left_parent, sizeof(left_parent));
-    memcpy(right_parent, other.right_parent, sizeof(right_parent));
-    memcpy(left_size, other.left_size, sizeof(left_size));
-    memcpy(right_size, other.right_size, sizeof(right_size));
-#endif
+
     return *this;
 }
 
-// under is all optimization function to check if it need to score;
-#ifdef OPTIMIZE_CHECK
-int Grid::gridpos_to_node(int i, int j)
-{
-    return (i - 1) * GRID_WIDTH + j;
-}
-pair<int, int> Grid::node_to_gridpos(int node)
-{
-    return pair(node / GRID_WIDTH + 1, node % GRID_WIDTH + (node % GRID_WIDTH == 0));
-}
-int Grid::find_left(int u)
-{
-    return (left_parent[u] == -1 ? u : left_parent[u] = find_left(u));
-}
-int Grid::find_right(int u)
-{
-    return (right_parent[u] == -1 ? u : right_parent[u] = find_right(u));
-}
-//seperate a node from any union
-void Grid::isolate(int u)
-{
-    int parl = find_left(u), parr = find_right(u);
-    left_parent[u] = right_parent[u] = -1;
-    left_size[parl]--; right_size[parr]--;
-}
-//join a and b node to a left most union
-void Grid::left_join(int a, int b)
-{
-    a = find_left(a);
-    b = find_left(b);
-    if(a!=b)
-    {//check if a or b is most on the left, if b is more to the left, swap a/b
-        if(node_to_gridpos(a).second > node_to_gridpos(b).second) swap(a,b);
-        left_parent[b]=a;
-        left_size[a]+=left_size[b];
-    }
-}
-//join a and b node to a right most union
-void Grid::right_join(int a, int b)
-{
-    a = find_right(a);
-    b = find_right(b);
-    if(a!=b)
-    {
-
-    }
-}
-#endif
 void Grid::handle_event(Event &event)
 {
     controller.handle_event(event);
@@ -127,38 +66,83 @@ void Grid::normalize_tetrimino()
     }
 }
 int Grid::get_score() { return score; }
-int Grid::check_scoring(int cposi, int cposj)
+
+/**
+ * @brief check if is scoring anything
+ *
+ * @param updated_sands a list of position sand that got updated
+ * @return an integer represent amount of point we get
+ */
+int Grid::check_scoring(std::vector<pair<int, int>> updated_sands)
 {
     /**
-     * TODO: the check scoring only happen when the controller is collided, not when the sand fall and update with it
-     * APPROACH: nvm, it fast enough
+     * @brief TODO: the complexity now is just O(n)
+     * after update all position of the sand in 1 frame, bfs for all region
      *
      */
-    SandShift check_color = grid[cposi][cposj].mask;
+    int cnt = 0;
+    queue<pair<Uint8, Uint8>> q;
+    vector<pair<Uint8, Uint8>> pos;
+    bitset<GRID_WIDTH + 2> visited[GRID_HEIGHT + 2];
+    for (auto &[i, j] : updated_sands)
+    {
+        if (visited[i][j])
+            continue;
+        visited[i][j]=1;
+        SandShift check_color = grid[i][j].mask;
+        bool touchleft = 0, touchright = 0;
+        while (!q.empty())
+        {
+            auto u = q.front();
+            pos.push_back(u);
+            q.pop();
+            if (u.first == 1)
+                touchleft = 1;
+            else if (u.second == GRID_WIDTH)
+                touchright = 1;
+            for (int k = 0; k < sizeof(dx) / sizeof(int); k++)
+            {
+                int x = dx[k] + u.first;
+                int y = dy[k] + u.second;
+                if (!visited[x][y] and grid[x][y].mask == check_color)
+                {
+                    q.push({x,y});
+                    visited[x][y]=1;
+                }
+            }
+        }
+    }
+}
+bool Grid::is_same_area(int previ, int prevj, int curi, int curj)
+{
+    if (previ == curi and prevj == curj)
+        return 1;
+    SandShift check_color = grid[curi][curj].mask;
+
+    queue<pair<Uint8, Uint8>> q;
+    bitset<GRID_WIDTH + 2> visited[GRID_HEIGHT + 2];
+    for (int i = 0; i < sizeof(dx) / sizeof(int); i++)
+    {
+        int x = dx[i] + previ;
+        int y = dy[i] + prevj;
+        if (x != curi and y != curj and grid[x][y].mask == check_color)
+        {
+            q.push({x, y});
+            visited[x][y] = 1;
+        }
+    }
 
     if (check_color == EMPTY_SAND or check_color == STATIC_SAND)
     {
         return 0;
     }
-    queue<pair<Uint8, Uint8>> q;
-    bitset<GRID_WIDTH + 2> visited[GRID_HEIGHT + 2];
-    q.push({cposi, cposj});
-    vector<pair<Uint8, Uint8>> pos;
-    int cnt = 0;
-    bool touchleft = 0, touchright = 0;
-    visited[cposi][cposj] = 1;
     while (!q.empty())
     {
         auto u = q.front();
-        pos.push_back(u);
-        if (u.second == 1)
-            touchleft = 1;
-        else if (u.second == GRID_WIDTH)
-            touchright = 1;
-        visited[u.first][u.second] = 1;
-        cnt++;
+        if (u.first == curi and u.second == curj)
+            return 1;
         q.pop();
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < sizeof(dx) / sizeof(int); i++)
         {
             int x = dx[i] + u.first;
             int y = dy[i] + u.second;
@@ -168,12 +152,6 @@ int Grid::check_scoring(int cposi, int cposj)
                 q.push({x, y});
             }
         }
-    }
-    if (touchleft and touchright)
-    {
-        for (auto &val : pos)
-            grid[val.first][val.second] = Sand();
-        return cnt;
     }
     return 0;
 }
@@ -186,6 +164,7 @@ void Grid::game_over()
         for (int j = 1; j <= GRID_WIDTH; j++)
             grid[i][j].mask = EMPTY_SAND;
     controller.reset(Tetriminoes::randomTetrimino());
+    score = 0;
 }
 void Grid::merge()
 {
@@ -257,6 +236,7 @@ void Grid::update()
     this->update_timer += this->game->clock.delta_time();
     if (this->update_timer >= this->fixed_delta_time)
     {
+        vector<pair<int, int>> updated_sands;
         this->update_timer -= this->fixed_delta_time;
         for (int i = GRID_HEIGHT; i >= 1; i--)
         // for (int i = 1; i <= GRID_HEIGHT; i++)
@@ -268,21 +248,23 @@ void Grid::update()
                     if (!grid[i + 1][j].mask)
                     {
                         swap(grid[i][j], grid[i + 1][j]);
-                        score += check_scoring(i + 1, j);
+                        updated_sands.push_back({i + 1, j});
                     }
                     else if (!grid[i + 1][j - 1].mask and !grid[i][j - 1].mask)
                     {
                         swap(grid[i][j], grid[i + 1][j - 1]);
-                        score += check_scoring(i + 1, j - 1);
+                        updated_sands.push_back({i + 1, j - 1});
                     }
                     else if (!grid[i + 1][j + 1].mask and !grid[i][j + 1].mask)
                     {
                         swap(grid[i + 1][j + 1], grid[i][j]);
-                        score += check_scoring(i + 1, j + 1);
+                        updated_sands.push_back({i + 1, j + 1});
                     }
                 }
             }
         }
+        if (!updated_sands.empty())
+            score += check_scoring(updated_sands);
     }
     controller.update();
     normalize_tetrimino();
