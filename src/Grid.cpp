@@ -128,23 +128,13 @@ int Grid::check_scoring(std::vector<pair<int, int>> updated_sands)
     }
     return pos.size();
 }
-void Grid::game_over()
-{
-    /**
-     * TODO: do a proper game over
-     */
-    for (int i = 1; i <= GRID_HEIGHT; i++)
-        for (int j = 1; j <= GRID_WIDTH; j++)
-            grid[i][j].mask = EMPTY_SAND;
-    controller.reset(Tetriminoes::randomTetrimino());
-    score = 0;
-}
+
 void Grid::merge()
 {
     // if merge at wrong place, game over
     if (controller.topleft.y < 0)
     {
-        game_over();
+        sdlgame::event::post(GAMEOVER);
         return;
     }
     // merge if collided
