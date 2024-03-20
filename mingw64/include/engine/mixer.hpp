@@ -3,7 +3,7 @@
 #define SDLGAME_MIXER_
 #include "SDL2/SDL_mixer.h"
 #include <string>
-
+#include <unordered_map>
 namespace sdlgame 
 {
     /**
@@ -11,7 +11,7 @@ namespace sdlgame
      */
     namespace mixer
     {
-
+        extern std::unordered_map<Mix_Chunk*,int> __chunk_pool;
         /*set number of playback channel, default is 8*/
         void set_num_channels(int count);
         /**
@@ -57,6 +57,7 @@ namespace sdlgame
             Mix_Chunk *chunk;
             Sound();
             Sound(std::string path);
+            Sound &operator=(const Sound& oth);
             /**
              * @param loops -1 to loop infinitely, 0 is play once, 1 is twice...
              * @param maxtime_ms maximum time in miliseconds the sound will be play in ms until it stop

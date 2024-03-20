@@ -1,6 +1,7 @@
 #include "mixer.hpp"
 #include "stdio.h"
 #include "string"
+std::unordered_map<Mix_Chunk*,int> sdlgame::mixer::__chunk_pool;
 void sdlgame::mixer::set_num_channels(int count)
 {
     Mix_AllocateChannels(count);
@@ -75,6 +76,15 @@ sdlgame::mixer::Sound::Sound(std::string path)
         printf("Cant load track\nErr:%s\n", Mix_GetError());
         exit(0);
     }
+    __chunk_pool[this->chunk]=1;
+}
+sdlgame::mixer::Sound &sdlgame::mixer::Sound::operator=(const Sound& oth)
+{
+    this->chunk = oth.chunk;
+    this->channels = oth.channels;
+    this->volume = oth.volume;
+    __chunk_pool[this->chunk]++;
+    return *this;
 }
 /**
  * @param loops -1 to loop infinitely, 0 is play once, 1 is twice...
@@ -116,6 +126,11 @@ int sdlgame::mixer::Sound::get_volume() const
 }
 sdlgame::mixer::Sound::~Sound()
 {
-    if (chunk != NULL)
-        Mix_FreeChunk(chunk);
+    __chunk_pool[this->chunk]--;
+    if(__chunk_pool.at(this->chunk)<=0)
+    {
+        if (chunk != NULL)
+            Mix_FreeChunk(chunk);
+    }
+    this->chunk = 0;
 }
