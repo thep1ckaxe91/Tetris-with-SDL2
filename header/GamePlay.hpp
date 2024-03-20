@@ -14,6 +14,11 @@ private:
     Surface score_surf;
     Font score_font;
     Rect score_rect;
+    SandShift next_display_color;
+    Color color_flow1;
+    Color color_flow2;
+    Rect flow1,flow2;
+    const int flow_speed=48; //pps
 public:
     GamePlay(Game &game);
     void update();

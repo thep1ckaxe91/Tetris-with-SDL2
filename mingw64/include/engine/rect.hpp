@@ -104,6 +104,8 @@ namespace sdlgame
              */
             bool contains(const Rect oth) const;
 
+            Rect overlap(const Rect& oth);
+            void overlap_ip(const Rect& oth);
             /**
              * TEST: approved
              */

@@ -278,6 +278,23 @@ bool sdlgame::rect::Rect::contains(const Rect oth) const
     return left <= oth.getLeft() && right >= oth.getRight() && top <= oth.getTop() && bottom >= oth.getBottom();
 }
 
+sdlgame::rect::Rect sdlgame::rect::Rect::overlap(const Rect& oth)
+{
+    return (this->colliderect(oth) ?
+        Rect()
+        :
+        Rect(
+            std::max(x,oth.getLeft()),
+            std::max(y,oth.getTop()),
+            std::min(right,oth.getRight()) - std::max(x,oth.getLeft()),
+            std::min(bottom,oth.getBottom()) - std::max(y,oth.getTop())
+        )
+    );
+}
+void sdlgame::rect::Rect::overlap_ip(const Rect& oth)
+{
+    *this = this->overlap(oth);
+}
 /**
  * TEST: approved
  */
