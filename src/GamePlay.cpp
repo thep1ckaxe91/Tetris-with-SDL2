@@ -2,6 +2,9 @@
 #include "Game.hpp"
 #include "constant.hpp"
 #include "TetrisEvent.hpp"
+#include "InSwipeDown.hpp"
+#include "OutSwipeDown.hpp"
+#include "GameOver.hpp"
 GamePlay::GamePlay(Game &game) : Scene(game)
 {
     this->game = &game;
@@ -14,7 +17,7 @@ GamePlay::GamePlay(Game &game) : Scene(game)
     score_rect.setCenter(score_display_center);
 
     next_display_color = this->grid.next.color;
-    flow1 = next_color_display_rect.inflate(0, 2);
+    flow1 = next_color_display_rect.inflate(0,1);
     flow2 = flow1.move(0, next_color_display_rect.getHeight());
 
     next_shape_surf = Surface(next_shape_display_rect.getWidth(), next_shape_display_rect.getHeight());
@@ -32,6 +35,9 @@ GamePlay::GamePlay(Game &game) : Scene(game)
     tmp.fill("none");
     count_down.set_default(tmp);
     count_down.play();
+
+    this->gameover = 0;
+    this->blipcount = 100;
 }
 void GamePlay::redraw_next_shape()
 {
@@ -62,34 +68,49 @@ void GamePlay::handle_event(sdlgame::event::Event &event)
         redraw_next_shape();
         this->change_shape.play();
     }
+    else if(event.type == GAMEOVER)
+    {
+        gameover = 1;
+    }
 }
 void GamePlay::update()
 {
-    if(!count_down.playing){
-        this->grid.update();
-        double delta_y = -flow_speed * this->game->clock.delta_time();
-        flow1.move_ip(0, delta_y);
-        flow2.move_ip(0, delta_y);
-        if (flow1.getBottom() <= next_color_display_rect.getTop())
-        {
-            flow1.setTop(next_color_display_rect.getBottom());
-            color_flow1 = SandShiftColor.at(next_display_color);
+    if(!gameover)
+    {    if(!count_down.playing){
+            this->grid.update();
+            double delta_y = -flow_speed * this->game->clock.delta_time();
+            flow1.move_ip(0, delta_y);
+            flow2.move_ip(0, delta_y);
+            if (flow1.getBottom()-1 <= next_color_display_rect.getTop())
+            {
+                flow1.setTop(next_color_display_rect.getBottom());
+                color_flow1 = SandShiftColor.at(next_display_color);
+            }
+            if (flow2.getBottom()-1 <= next_color_display_rect.getTop())
+            {
+                flow2.setTop(next_color_display_rect.getBottom());
+                color_flow2 = SandShiftColor.at(next_display_color);
+            }
+            change_shape.update();
         }
-        if (flow2.getBottom() <= next_color_display_rect.getTop())
-        {
-            flow2.setTop(next_color_display_rect.getBottom());
-            color_flow2 = SandShiftColor.at(next_display_color);
-        }
-        change_shape.update();
+        else count_down.update();
     }
-    else count_down.update();
+    else{
+        blipcount--;
+    }
 }
 void GamePlay::draw()
 {
     this->game->window.blit(this->background, Vector2());
 
-    sdlgame::draw::rect(this->game->window, color_flow1, flow1.inflate(0, min(0.0, next_color_display_rect.getBottom() - flow1.getBottom()) + 1));
-    sdlgame::draw::rect(this->game->window, color_flow2, flow2.inflate(0, min(0.0, next_color_display_rect.getBottom() - flow2.getBottom()) + 1));
+    sdlgame::draw::rect(
+        this->game->window, color_flow1,
+        flow1.overlap(next_color_display_rect)
+    );
+    sdlgame::draw::rect(
+        this->game->window, color_flow2,
+        flow2.overlap(next_color_display_rect)
+    );
 
     this->game->window.blit(this->game->images.game_frame, Vector2());
 
@@ -98,7 +119,16 @@ void GamePlay::draw()
     this->game->window.blit(this->next_shape_surf, next_shape_display_rect.getTopLeft());
 
     this->game->window.blit(this->change_shape.image, next_shape_display_area.getTopLeft());
+    if(!(blipcount/10 & 1) and blipcount>=0)
+        this->grid.draw();
+    if(blipcount==-1)
+    {
+        InSwipeDown *in = new InSwipeDown();
+        OutSwipeDown *out = new OutSwipeDown();
+        GameOver *next = new GameOver(*game);
+        this->game->pop_scene(out,next,in);
+    }
 
-    this->grid.draw();
+    
     this->game->window.blit(this->score_surf, this->score_rect.getTopLeft());
 }

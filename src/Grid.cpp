@@ -132,7 +132,9 @@ int Grid::check_scoring(std::vector<pair<int, int>> updated_sands)
 void Grid::merge()
 {
     // if merge at wrong place, game over
-    if (controller.topleft.y < 0)
+    // a bit offset for more comfort ux
+    this->game->window_draw_offset.y=2;
+    if (controller.topleft.y + 7 < 0)
     {
         sdlgame::event::post(GAMEOVER);
         return;
@@ -232,6 +234,7 @@ void Grid::update()
             score += check_scoring(updated_sands);
         }
     }
+    if(this->game->window_draw_offset.y!=0) this->game->window_draw_offset.y--;
     controller.update();
     normalize_tetrimino();
     collision_check();

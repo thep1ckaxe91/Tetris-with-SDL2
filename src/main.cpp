@@ -12,9 +12,10 @@ public:
     bool gameactive = 1;
     int buffer_lost = 0;
     Sandtris() : Game(){
-        this->window = sdlgame::display::set_mode(RESOLUTION_WIDTH, RESOLUTION_HEIGHT,
+        this->window_object = sdlgame::display::set_mode(RESOLUTION_WIDTH, RESOLUTION_HEIGHT,
             sdlgame::RESIZABLE
         );
+        this->window = Surface(RESOLUTION_WIDTH, RESOLUTION_HEIGHT);
         sdlgame::display::fullscreen_desktop();
         images.load();
         sdlgame::display::set_caption("Sandtris - Made by thep1ckaxe");
@@ -53,8 +54,10 @@ public:
         if(!scene_list.empty()) if(scene_list.back()){
             scene_list.back()->draw();
         }
+        window_object.blit(this->window,this->window_draw_offset);
         if(this->out){out->draw();}
         else if(this->in){in->draw();}
+
     }
     void run()
     {

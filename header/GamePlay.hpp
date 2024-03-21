@@ -22,6 +22,8 @@ private:
     Rect flow1,flow2;
     Animation change_shape;
     Animation count_down;
+    bool gameover;
+    int blipcount;
     const int flow_speed=48; //pps
 public:
     Game *game;

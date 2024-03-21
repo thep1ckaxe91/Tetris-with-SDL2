@@ -24,7 +24,9 @@ protected:
 public:
     Images images;
     sdlgame::surface::Surface window;
+    sdlgame::surface::Surface window_object;
     sdlgame::time::Clock clock;
+    Vector2 window_draw_offset;
     Game();
     virtual void draw() = 0;
     virtual void update() = 0;
