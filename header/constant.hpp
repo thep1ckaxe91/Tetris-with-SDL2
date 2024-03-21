@@ -22,17 +22,7 @@ typedef enum
 {
     EDGE_SIZE = 32,
 } tetrimino_size;
-const Color RED_SAND_COLOR = Color("crimson");
-const Color GREEN_SAND_COLOR = Color("forest green");
-const Color YELLOW_SAND_COLOR = Color("gold");
-const Color BLUE_SAND_COLOR = Color("dodger blue");
-const sdlgame::math::Vector2 spawn_pos = sdlgame::math::Vector2(40, -32);
-const Rect next_shape_display_area = Rect(116, 25, 32, 31);
-const Rect next_shape_display_rect = Rect(120, 28, 24, 24);
-const Rect left_barrier = Rect(8, 0, 8, int(RESOLUTION_HEIGHT));
-const Rect right_barrier = Rect(16 + GRID_WIDTH, 0, 8, int(RESOLUTION_HEIGHT));
-const Rect next_color_display_rect = Rect(129, 71, 7, 23);
-const Rect count_down_display_rect = Rect(32,51,48,16);
+
 const int dx[] =
 {
     0, 0, 1, -1,
@@ -52,10 +42,27 @@ typedef enum
     GREEN_SAND = 0x8,   // 0000 1000
     STATIC_SAND = 0x80, // 1000 0000
 } SandShift;
+
+const int FONT_SIZE = 10;
+
 const double fall_speed = 40;          // pixel per second
 const double fast_fall_speed = 80;     // pps
 const double sideway_move_speed = 100; // pps
-const int FONT_SIZE = 10;
 const Vector2 score_display_center = Vector2(132, 123);
 
+const Color RED_SAND_COLOR = Color("crimson");
+const Color GREEN_SAND_COLOR = Color("forest green");
+const Color YELLOW_SAND_COLOR = Color("gold");
+const Color BLUE_SAND_COLOR = Color("dodger blue");
+
+const sdlgame::math::Vector2 spawn_pos = sdlgame::math::Vector2(40, -32);
+const Rect next_shape_display_area = Rect(116, 25, 32, 31);
+const Rect next_shape_display_rect = Rect(120, 28, 24, 24);
+const Rect left_barrier = Rect(8, 0, 8, int(RESOLUTION_HEIGHT));
+const Rect right_barrier = Rect(16 + GRID_WIDTH, 0, 8, int(RESOLUTION_HEIGHT));
+const Rect next_color_display_rect = Rect(129, 71, 7, 23);
+const Rect count_down_display_rect = Rect(32,51,48,16);
+
+const Vector2 menu_button_pos = Vector2(39,97);
+const Vector2 retry_button_pos = Vector2(91,97);
 #endif

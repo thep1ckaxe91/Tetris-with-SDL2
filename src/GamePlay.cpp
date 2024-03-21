@@ -125,7 +125,7 @@ void GamePlay::draw()
     {
         InSwipeDown *in = new InSwipeDown();
         OutSwipeDown *out = new OutSwipeDown();
-        GameOver *next = new GameOver(*game);
+        GameOver *next = new GameOver(*game, this->grid.get_score());
         this->game->pop_scene(out,next,in);
     }
 

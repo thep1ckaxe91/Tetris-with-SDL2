@@ -22,8 +22,17 @@ void Images::load()
     back_button_hover = sdlgame::image::load(base_path + "data/image/ui/back_button/back_button_hover.png");
     back_button_click = sdlgame::image::load(base_path + "data/image/ui/back_button/back_button_click.png");
 
+    menu_button_idle = sdlgame::image::load(base_path + "data/image/ui/menu_button/menu_button_idle.png");
+    menu_button_hover = sdlgame::image::load(base_path + "data/image/ui/menu_button/menu_button_hover.png");
+    menu_button_click = sdlgame::image::load(base_path + "data/image/ui/menu_button/menu_button_click.png");
+
+    retry_button_idle = sdlgame::image::load(base_path + "data/image/ui/retry_button/retry_button_idle.png");
+    retry_button_hover = sdlgame::image::load(base_path + "data/image/ui/retry_button/retry_button_hover.png");
+    retry_button_click = sdlgame::image::load(base_path + "data/image/ui/retry_button/retry_button_click.png");
+
     mainmenu_background = sdlgame::image::load(base_path + "data/image/background/mainmenu_sand_background.png");
     // credit_image = sdlgame::image::load(base_path + "data/image/background/credit_image.png");
     game_frame = sdlgame::image::load(base_path + "data/image/background/game_frame.png");
-    // Surface tmp = sdlgame::image::load(base_path + "data/image/background/credit_image.png");
+    
+    gameover_screen = sdlgame::image::load(base_path + "data/image/background/gameover_screen.png");
 }

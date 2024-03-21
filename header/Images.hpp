@@ -25,9 +25,20 @@ public:
     sdlgame::surface::Surface back_button_hover;//4th shift to here
     sdlgame::surface::Surface back_button_click;
 
+    Surface menu_button_idle;
+    Surface menu_button_hover;
+    Surface menu_button_click;
+
+    Surface retry_button_idle;
+    Surface retry_button_hover;
+    Surface retry_button_click;
+
     sdlgame::surface::Surface mainmenu_background;
     // sdlgame::surface::Surface credit_image;
     sdlgame::surface::Surface game_frame;
+    
+    Surface gameover_screen;
+
     Images();
     void load();
 };

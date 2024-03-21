@@ -75,11 +75,6 @@ std::vector<Event> &sdlgame::event::get()
 }
 Event tmp;
 /**please only use this for user event*/
-void post(Uint32 event_type)
-{
-    tmp.tmp_e.type = event_type;
-    SDL_PushEvent(&tmp.tmp_e);
-}
 void sdlgame::event::post(Uint32 event_type)
 {
     tmp.tmp_e.type = event_type;
