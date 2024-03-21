@@ -27,11 +27,12 @@ const Color GREEN_SAND_COLOR = Color("forest green");
 const Color YELLOW_SAND_COLOR = Color("gold");
 const Color BLUE_SAND_COLOR = Color("dodger blue");
 const sdlgame::math::Vector2 spawn_pos = sdlgame::math::Vector2(40, -32);
-const Rect next_shape_display_area = Rect(118, 27, 28, 27);
+const Rect next_shape_display_area = Rect(116, 25, 32, 31);
 const Rect next_shape_display_rect = Rect(120, 28, 24, 24);
 const Rect left_barrier = Rect(8, 0, 8, int(RESOLUTION_HEIGHT));
 const Rect right_barrier = Rect(16 + GRID_WIDTH, 0, 8, int(RESOLUTION_HEIGHT));
 const Rect next_color_display_rect = Rect(129, 71, 7, 23);
+const Rect count_down_display_rect = Rect(32,51,48,16);
 const int dx[] =
 {
     0, 0, 1, -1,

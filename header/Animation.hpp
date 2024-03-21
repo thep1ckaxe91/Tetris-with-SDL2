@@ -1,17 +1,24 @@
 #include "engine/engine.hpp"
+#include "Game.hpp"
 // #include "bits/stdc++.h"
 class Animation : public sdlgame::sprite::Sprite
 {
 protected:
-    int frame_rate;
+    int frame_id;
     std::vector<Surface> frames;
+    Surface default_img;
+    double time_cnt = 0;
 public:
+    int frame_rate;
+    bool loop;
+    bool playing;
+    Game *game;
     /**
      * @brief init an animation object
      * @param path path to the folder that only have file for the 
      * 
      */
-    Animation(int frame_rate=60, bool loop=0);
+    Animation(Game &game, int frame_rate=60, bool loop=0);
     Animation();
     /**
      * @brief load the animation's images in folder 'path'
@@ -20,7 +27,8 @@ public:
      */
     void load(std::string path);
     void play();
-    virtual void update() = 0;
+    void update()override;
     void pause();
     void reset();
+    void set_default(const Surface oth);
 };

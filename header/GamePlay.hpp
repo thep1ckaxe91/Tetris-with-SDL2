@@ -5,6 +5,7 @@
 #include "TetriminoController.hpp"
 #include "Grid.hpp"
 #include "engine/engine.hpp"
+#include "Animation.hpp"
 class GamePlay : public Scene
 {
 private:
@@ -19,8 +20,11 @@ private:
     Color color_flow1;
     Color color_flow2;
     Rect flow1,flow2;
+    Animation change_shape;
+    Animation count_down;
     const int flow_speed=48; //pps
 public:
+    Game *game;
     GamePlay(Game &game);
     void redraw_next_shape();
     void update();
