@@ -28,6 +28,7 @@ char *int_to_bytes(int x)
 
 int get_personal_best()
 {
+    if(!filesystem::exists("data/save/config.dat")) return 0;
     ifstream file(base_path+"data/save/config.dat",ios_base::binary);
     int offset[8];
     file.read((char*)offset,sizeof(offset));

@@ -46,7 +46,6 @@ namespace Tetriminoes
     }
     Tetrimino randomTetrimino()
     {
-        int shift = (1 << sdlgame::random::randint(0,3));
         int r_num = sdlgame::random::randint(1,7);
         switch (r_num)
         {

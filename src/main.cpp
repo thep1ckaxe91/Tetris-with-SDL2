@@ -1,4 +1,3 @@
-#pragma 
 #include "engine/engine.hpp"
 #include "MainMenu.hpp"
 #include "constant.hpp"

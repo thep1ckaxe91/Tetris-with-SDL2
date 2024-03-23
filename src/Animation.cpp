@@ -41,7 +41,7 @@ void Animation::update()
         if(this->time_cnt >= 1/this->frame_rate)
         {
             this->time_cnt-= 1/this->frame_rate;
-            if(frame_id>=frames.size())
+            if(frame_id>=(int)frames.size())
             {
                 frame_id=0;
                 if(!(this->playing = this->loop))

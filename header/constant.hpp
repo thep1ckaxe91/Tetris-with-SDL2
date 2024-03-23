@@ -65,4 +65,7 @@ const Rect count_down_display_rect = Rect(32,51,48,16);
 
 const Vector2 menu_button_pos = Vector2(39,97);
 const Vector2 retry_button_pos = Vector2(91,97);
+const Vector2 midbottom_newscore = Vector2(80,42);
+const Vector2 midbottom_pb = Vector2(80,77);
+
 #endif

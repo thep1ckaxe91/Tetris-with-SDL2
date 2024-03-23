@@ -75,12 +75,6 @@ int Grid::get_score() { return score; }
  */
 int Grid::check_scoring(std::vector<pair<int, int>> updated_sands)
 {
-    /**
-     * @brief TODO: the complexity now is just O(n)
-     * after update all position of the sand in 1 frame, bfs for all region
-     *
-     */
-    int cnt = 0;
     queue<pair<Uint8, Uint8>> q;
     vector<pair<Uint8, Uint8>> pos;
     bitset<GRID_WIDTH + 2> visited[GRID_HEIGHT + 2];
@@ -102,7 +96,7 @@ int Grid::check_scoring(std::vector<pair<int, int>> updated_sands)
                 touchleft = 1;
             else if (u.second == GRID_WIDTH)
                 touchright = 1;
-            for (int k = 0; k < sizeof(dx) / sizeof(int); k++)
+            for (int k = 0; k < (int)(sizeof(dx) / sizeof(int)); k++)
             {
                 int x = dx[k] + u.first;
                 int y = dy[k] + u.second;

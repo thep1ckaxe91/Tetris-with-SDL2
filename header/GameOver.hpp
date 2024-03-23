@@ -12,7 +12,9 @@ class GameOver : public Scene
     RetryButton retry;
     Font score_font;
     Surface new_score_surf;
+    Rect new_score_rect;
     Surface pb_surf;
+    Rect pb_rect;
     int new_score;
     int pb;
 public:
