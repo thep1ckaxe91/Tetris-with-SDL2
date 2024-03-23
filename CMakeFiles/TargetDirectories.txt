@@ -1,0 +1,3 @@
+D:/Repos/Tetris-with-SDL2/CMakeFiles/Sandtris.dir
+D:/Repos/Tetris-with-SDL2/CMakeFiles/edit_cache.dir
+D:/Repos/Tetris-with-SDL2/CMakeFiles/rebuild_cache.dir

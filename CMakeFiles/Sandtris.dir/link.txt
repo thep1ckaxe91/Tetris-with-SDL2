@@ -1,0 +1,3 @@
+"C:\Program Files\CMake\bin\cmake.exe" -E rm -f CMakeFiles\Sandtris.dir/objects.a
+C:\PROGRA~2\cpeditor\mingw64\bin\ar.exe qc CMakeFiles\Sandtris.dir/objects.a @CMakeFiles\Sandtris.dir\objects1.rsp
+C:\PROGRA~2\cpeditor\mingw64\bin\C__~1.EXE -Wl,--whole-archive CMakeFiles\Sandtris.dir/objects.a -Wl,--no-whole-archive -o Sandtris.exe -Wl,--out-implib,libSandtris.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\Sandtris.dir\linkLibs.rsp

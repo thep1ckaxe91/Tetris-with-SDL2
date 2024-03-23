@@ -14,6 +14,7 @@ class GameOver : public Scene
     Surface new_score_surf;
     Surface pb_surf;
     int new_score;
+    int pb;
 public:
     GameOver(Game &game, int new_score);
     void handle_event(Event &event);
