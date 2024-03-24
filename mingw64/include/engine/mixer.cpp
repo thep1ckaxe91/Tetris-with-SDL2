@@ -127,7 +127,7 @@ int sdlgame::mixer::Sound::get_volume() const
 sdlgame::mixer::Sound::~Sound()
 {
     __chunk_pool[this->chunk]--;
-    if(__chunk_pool[this->chunk]<=0)
+    if(__chunk_pool.at(this->chunk)<=0)
     {
         if (chunk != NULL)
             Mix_FreeChunk(chunk);

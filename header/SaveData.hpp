@@ -1,8 +1,6 @@
 #ifndef SAVEDATA_HPP
 #define SAVEDATA_HPP
 #include "constant.hpp"
-#include "bits/stdc++.h"
-#include "SDL2/SDL.h"
 using namespace std;
 
 

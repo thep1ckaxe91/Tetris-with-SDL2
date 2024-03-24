@@ -19,6 +19,7 @@ GameOver::GameOver(Game &game, int new_score) : Scene(game)
     if(this->new_score>=this->pb)
     {
         set_personal_best(new_score);
+        this->pb = new_score;
     }
 
     new_score_surf = score_font.render(to_string(new_score),0,"white");

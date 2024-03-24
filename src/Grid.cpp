@@ -131,6 +131,7 @@ void Grid::merge()
     if (controller.topleft.y + 7 < 0)
     {
         sdlgame::event::post(GAMEOVER);
+        this->game->window_draw_offset.y=0;
         return;
     }
     // merge if collided

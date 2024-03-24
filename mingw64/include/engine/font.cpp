@@ -96,7 +96,7 @@ sdlgame::font::Font &sdlgame::font::Font::operator = (const sdlgame::font::Font 
 sdlgame::font::Font::~Font()
 {
     __font_pool[this->font]--;
-    if(__font_pool[this->font]<=0)
+    if(__font_pool.at(this->font)<=0)
     {
         __font_pool.erase(this->font);
         TTF_CloseFont(this->font);
