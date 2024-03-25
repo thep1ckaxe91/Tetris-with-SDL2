@@ -12,10 +12,10 @@ BackButton::BackButton(){}
 void BackButton::handle_event(Event &event)
 {
     Button::handle_event(event);
-    if(event.type == sdlgame::MOUSEBUTTONUP and this->hovering)
-    {
-        this->game->remove_scene();
-    }
+}
+void BackButton::on_click()
+{
+    this->game->remove_scene();
 }
 void BackButton::update()
 {

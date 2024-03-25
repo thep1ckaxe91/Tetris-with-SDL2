@@ -8,6 +8,7 @@ class RetryButton : public Button
 public:
     RetryButton(Game &game);
     RetryButton();
+    void on_click();
     void handle_event(Event &event);
     void update();
 };

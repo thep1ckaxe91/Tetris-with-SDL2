@@ -8,6 +8,7 @@ class MenuButton : public Button
 public:
     MenuButton(Game &game);
     MenuButton();
+    void on_click();
     void handle_event(Event &event);
     void update();
 };

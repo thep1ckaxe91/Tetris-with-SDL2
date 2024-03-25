@@ -8,6 +8,7 @@ public:
     Game *game;
     BackButton(Game &game);
     BackButton();
+    void on_click();
     void handle_event(Event &event);
     void update();
 };

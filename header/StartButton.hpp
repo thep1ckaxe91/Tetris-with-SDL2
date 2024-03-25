@@ -8,6 +8,7 @@ public:
     Game* game;
     StartButton(Game &game);
     StartButton();
+    void on_click();
     void handle_event(Event &event);
     void update();
 };

@@ -1,13 +1,20 @@
 #include "random.hpp"
 #include <chrono>
 #include <random>
-
+namespace sdlgame
+{
+    namespace random
+    {
+        std::random_device rd;
+        std::mt19937 engine = std::mt19937(rd());
+    }
+}
 int sdlgame::random::randint(int l, int r)
 {
-    srand(std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count());
     if (l > r)
         std::swap(l, r);
-    return (rand() * rand()) % (r - l + 1) + l;
+    std::uniform_int_distribution<> tmp(l, r);
+    return tmp(engine);
 }
 
 /**

@@ -11,13 +11,13 @@ MenuButton::MenuButton()=default;
 void MenuButton::handle_event(Event &event)
 {
     Button::handle_event(event);
-    if(hovering and event.type == sdlgame::MOUSEBUTTONUP)
-    {
-        OutSwipeDown *out = new OutSwipeDown();
-        InSwipeDown *in = new InSwipeDown();
-        MainMenu *next = new MainMenu(*game);
-        this->game->pop_scene(out,next,in);
-    }
+}
+void MenuButton::on_click()
+{
+    OutSwipeDown *out = new OutSwipeDown();
+    InSwipeDown *in = new InSwipeDown();
+    MainMenu *next = new MainMenu(*game);
+    this->game->pop_scene(out,next,in);
 }
 void MenuButton::update()
 {

@@ -9,6 +9,7 @@ public:
     Surface click;
     bool hovering, prev_hovered;
     Button();
+    virtual void on_click()=0;
     void set_images(Surface &idle, Surface &hover, Surface &click);
     virtual void handle_event(Event &event);
     virtual void update();

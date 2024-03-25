@@ -16,14 +16,17 @@ GameOver::GameOver(Game &game, int new_score) : Scene(game)
 
     this->new_score = new_score;
     this->pb = get_personal_best();
-    if(this->new_score>=this->pb)
+    cout<< "pb got: "<<this->pb<<endl;
+
+    if(this->new_score>this->pb)
     {
         set_personal_best(new_score);
-        this->pb = new_score;
+        pb_surf = score_font.render("NEW PB !",0,"white");
     }
+    else
+        pb_surf = score_font.render(to_string(this->pb),0,"white");
 
     new_score_surf = score_font.render(to_string(new_score),0,"white");
-    pb_surf = score_font.render(to_string(this->pb),0,"white");
     new_score_rect = new_score_surf.getRect();
     new_score_rect.setMidBottom(midbottom_newscore);
     pb_rect = pb_surf.getRect();
