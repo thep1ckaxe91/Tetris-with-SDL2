@@ -177,10 +177,13 @@ void Grid::collision_check()
                                 Rect tmp = Rect(controller.topleft + Vector2((3 - shift % 4) * 8, (3 - shift / 4) * 8), 8, 8);
                                 if (tmp.collidepoint(j + GRID_X, i + GRID_Y - 1))
                                 {
-                                    while(tmp.collidepoint(j + GRID_X, i + GRID_Y))
+                                    Vector2 check_point(j + GRID_X, i + GRID_Y);
+                                    while(tmp.collidepoint(check_point))
                                     {
                                         controller.topleft.y-=1;
                                         tmp.move_ip(0,-1);
+                                        if(grid[int(check_point.y-GRID_Y-1)][int(check_point.x-GRID_X)].mask)
+                                            check_point.y --;
                                     }
                                     called = 1;
                                     merge();

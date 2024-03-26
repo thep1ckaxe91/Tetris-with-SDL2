@@ -10,7 +10,10 @@ double sdlgame::math::radian_to_degree(double rad)
 {
     return rad * 180.0 / M_PI;
 }
-
+double sdlgame::math::clamp(double val, double l, double r)
+{
+    return (val < l ? l : (val > r ? r : val));
+}
 sdlgame::math::Vector2::Vector2()
 {
     x = 0;
@@ -83,7 +86,7 @@ sdlgame::math::Vector2 sdlgame::math::Vector2::operator*(const double &scalar) c
 
 bool sdlgame::math::Vector2::operator==(const sdlgame::math::Vector2 &oth) const
 {
-    return x==oth.x and y==oth.y;
+    return x == oth.x and y == oth.y;
 }
 /**
  * @return length of the vector

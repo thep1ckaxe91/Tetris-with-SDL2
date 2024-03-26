@@ -1,0 +1,34 @@
+#ifndef SLIDER_HPP
+#define SLIDER_HPP
+
+#include "engine/engine.hpp"
+#include <bits/stdc++.h>
+/**
+ * @brief Slider is expect to inherit.
+ * Call set color and overwrite draw and on_change_value should be good enough
+ * 
+ * 
+ */
+class Slider
+{
+protected:
+    float value;
+    Rect nob;
+    float slide_length;
+    float max_value;
+    Vector2 topleft;
+    bool holding;
+    Color nob_color;
+    Color value_color;
+    Color no_value_color;
+public:
+    Slider(Vector2 topleft, float value, float slide_length, float max_value);
+    Slider();
+    void set_color(Color nob, Color valid, Color invalid);
+    virtual void update();
+    virtual void handle_event(Event &event);
+    virtual void draw()=0;
+    virtual void on_change_value()=0;
+};
+
+#endif

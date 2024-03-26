@@ -9,6 +9,7 @@
 class GamePlay : public Scene
 {
 private:
+    Vector2 bg_offset;
     Surface background;
     Color next_color;
     Grid grid;

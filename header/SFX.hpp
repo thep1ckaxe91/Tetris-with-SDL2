@@ -18,6 +18,7 @@ public:
     Sound scoring;
     Sound transition_in;
     Sound transition_out;
+    
     SFX();
     void load();
 };

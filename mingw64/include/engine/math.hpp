@@ -12,7 +12,7 @@ namespace sdlgame {
     {
         double degree_to_radian(double deg);
         double radian_to_degree(double rad);
-
+        double clamp(double val, double left,double right);
         /**
          *  a class for 2D vector, also can represent a point on a 2d surface
          * since the simplicity of 2d vector, we dont need get and set function

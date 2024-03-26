@@ -9,7 +9,7 @@ GamePlay::GamePlay(Game &game) : Scene(game)
 {
     this->game = &game;
     grid = Grid(game);
-    background = this->game->images.mainmenu_background;
+    background = this->game->images.gameplay_background;
 
     this->score_font = Font(base_path + "data\\fonts\\sandtris pixel.ttf", FONT_SIZE);
     this->score_surf = score_font.render("0", 0, "white");
@@ -93,7 +93,17 @@ void GamePlay::update()
             }
             change_shape.update();
         }
-        else count_down.update();
+        else{
+            if(count_down.frame_change)
+            {
+                if(count_down.frame_id != 4) sdlgame::event::post(COUNT_DOWN);
+                else sdlgame::event::post(COUNT_DOWN_START);
+            }
+            count_down.update();
+        }
+        this->bg_offset.x -= gameplay_bg_speed*this->game->clock.delta_time();
+        this->bg_offset.y -= gameplay_bg_speed*this->game->clock.delta_time();
+        if(this->bg_offset.x<=-8) this->bg_offset=Vector2();
     }
     else{
         blipcount--;
@@ -101,7 +111,7 @@ void GamePlay::update()
 }
 void GamePlay::draw()
 {
-    this->game->window.blit(this->background, Vector2());
+    this->game->window.blit(this->background, bg_offset);
 
     sdlgame::draw::rect(
         this->game->window, color_flow1,

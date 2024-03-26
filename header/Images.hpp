@@ -33,6 +33,7 @@ public:
     Surface retry_button_hover;
     Surface retry_button_click;
 
+    Surface gameplay_background;
     sdlgame::surface::Surface mainmenu_background;
     // sdlgame::surface::Surface credit_image;
     sdlgame::surface::Surface game_frame;

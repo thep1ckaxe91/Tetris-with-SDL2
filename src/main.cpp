@@ -10,7 +10,7 @@ class Sandtris : public Game
 {
 public:
     bool gameactive = 1;
-    int buffer_lost = 0;
+    bool played = 0;
     Sandtris() : Game()
     {
         this->window_object = sdlgame::display::set_mode(
@@ -37,19 +37,23 @@ public:
             }
         if (this->out)
         {
-            sdlgame::event::post(SCENETRANS_OUT);
+            if(!played){
+                sdlgame::event::post(SCENETRANS_OUT);
+                played=1;
+            }
             out->update(clock.delta_time());
             if (out->isDone)
             {
                 delete out;
                 out = nullptr;
+                played=0;
             }
         }
         else if (this->in)
         {
-            sdlgame::event::post(SCENETRANS_IN);
             if (this->next)
             {
+                sdlgame::event::post(SCENETRANS_IN);
                 if(this->command==POP)
                 {
                     delete scene_list.back();

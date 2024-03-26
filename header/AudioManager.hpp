@@ -12,6 +12,10 @@ public:
     AudioManager();
     void update();
     void handle_event(Event &event);
+    void set_sfx_volume(float value);
+    float get_sfx_volume();
+    void set_music_volume(float value);
+    float get_music_volume();
 };
 
 #endif

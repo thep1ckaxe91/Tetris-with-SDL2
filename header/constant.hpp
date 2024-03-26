@@ -74,4 +74,5 @@ const Vector2 retry_button_pos = Vector2(91,97);
 const Vector2 midbottom_newscore = Vector2(80,42);
 const Vector2 midbottom_pb = Vector2(80,77);
 
+const double gameplay_bg_speed = 10;
 #endif

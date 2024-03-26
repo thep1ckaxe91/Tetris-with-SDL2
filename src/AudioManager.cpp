@@ -44,5 +44,24 @@ void AudioManager::handle_event(Event &event)
 }
 void AudioManager::update()
 {
-     
 }
+void AudioManager::set_sfx_volume(float value)
+{
+    this->sfx_volume = value;
+    sfx.button_click.set_volume(value);
+    sfx.button_hover.set_volume(value);
+    sfx.count_down.set_volume(value);
+    sfx.count_down_start.set_volume(value);
+    sfx.game_over.set_volume(value);
+    sfx.merge.set_volume(value);
+    sfx.rotate.set_volume(value);
+    sfx.scoring.set_volume(value);
+    sfx.transition_in.set_volume(value);
+    sfx.transition_out.set_volume(value);
+}
+void AudioManager::set_music_volume(float value)
+{
+    this->music_volume = value;
+}
+float AudioManager::get_sfx_volume(){return sfx_volume;}
+float AudioManager::get_music_volume(){return music_volume;}

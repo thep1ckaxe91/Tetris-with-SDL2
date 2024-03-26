@@ -37,6 +37,7 @@ void Animation::update()
 {
     if(this->playing)
     {
+        this->frame_change=0;
         this->time_cnt += this->game->clock.delta_time();
         if(this->time_cnt >= 1/this->frame_rate)
         {
@@ -53,6 +54,7 @@ void Animation::update()
             }
             this->image = this->frames[frame_id];
             this->frame_id++;
+            this->frame_change=1;
         }
     }
 }
