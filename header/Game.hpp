@@ -22,6 +22,7 @@ protected:
     SceneTransition *in;
     SceneTransition *out;
     Scene *next;
+    SceneCommand command;
 public:
     Images images;
     AudioManager audio_manager;

@@ -3,7 +3,7 @@
 #define SDLGAME_MIXER_
 #include "SDL2/SDL_mixer.h"
 #include <string>
-#include <unordered_map>
+#include <map>
 namespace sdlgame 
 {
     /**
@@ -11,7 +11,7 @@ namespace sdlgame
      */
     namespace mixer
     {
-        extern std::unordered_map<Mix_Chunk*,int> __chunk_pool;
+        extern std::map<Mix_Chunk*,int> __chunk_pool;
         /*set number of playback channel, default is 8*/
         void set_num_channels(int count);
         /**

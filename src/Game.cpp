@@ -22,6 +22,7 @@ void Game::pop_scene(SceneTransition* out, Scene* next, SceneTransition* in)
         this->out = out;
         this->in = in;
         this->next = next;
+        this->command = POP;
     }
 }
 void Game::add_scene(SceneTransition *out, Scene *scene, SceneTransition *in)
@@ -29,6 +30,7 @@ void Game::add_scene(SceneTransition *out, Scene *scene, SceneTransition *in)
     this->out = out;
     this->next = scene;
     this->in = in;
+    this->command = ADD;
 }
 
 // template<class T1, class T2, class T3>

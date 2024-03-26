@@ -16,7 +16,6 @@ GameOver::GameOver(Game &game, int new_score) : Scene(game)
 
     this->new_score = new_score;
     this->pb = get_personal_best();
-    cout<< "pb got: "<<this->pb<<endl;
 
     if(this->new_score>this->pb)
     {

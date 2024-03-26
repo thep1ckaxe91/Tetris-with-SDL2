@@ -22,7 +22,13 @@ typedef enum
 {
     EDGE_SIZE = 32,
 } tetrimino_size;
-
+typedef enum
+{
+    NONE = 0,
+    ADD = 1,
+    POP = 2,
+    REMOVE = 3,
+} SceneCommand;
 const int dx[] =
 {
     0, 0, 1, -1,

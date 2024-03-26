@@ -1,7 +1,7 @@
 #include "mixer.hpp"
 #include "stdio.h"
 #include "string"
-std::unordered_map<Mix_Chunk*,int> sdlgame::mixer::__chunk_pool;
+std::map<Mix_Chunk*,int> sdlgame::mixer::__chunk_pool;
 void sdlgame::mixer::set_num_channels(int count)
 {
     Mix_AllocateChannels(count);
@@ -21,11 +21,11 @@ void sdlgame::mixer::init(int freq, Uint16 size, int channels, int buffer)
     {
         printf("Failed to init mp3 type\nErr:%s\n", Mix_GetError());
     }
-    else if ((Mix_Init(MIX_INIT_OGG) & MIX_INIT_OGG) != MIX_INIT_OGG)
+    if ((Mix_Init(MIX_INIT_OGG) & MIX_INIT_OGG) != MIX_INIT_OGG)
     {
         printf("Failed to init ogg type\nErr:%s\n", Mix_GetError());
     }
-    else if ((Mix_Init(MIX_INIT_WAVPACK) & MIX_INIT_WAVPACK) != MIX_INIT_WAVPACK)
+    if ((Mix_Init(MIX_INIT_WAVPACK) & MIX_INIT_WAVPACK) != MIX_INIT_WAVPACK)
     {
         printf("Failed to init wav pack\nErr:%s\n", Mix_GetError());
     }
@@ -94,11 +94,11 @@ sdlgame::mixer::Sound &sdlgame::mixer::Sound::operator=(const Sound& oth)
 sdlgame::mixer::Channel sdlgame::mixer::Sound::play(int loops, int maxtime_ms, int fade_ms)
 {
     int channel = Mix_FadeInChannelTimed(-1, chunk, loops, fade_ms, maxtime_ms);
-    if (channel == -1)
-    {
-        printf("cant play sound for some reason\nErr:%s\n", Mix_GetError());
-        exit(0);
-    }
+    // if (channel == -1)//this code got commented since sound still play but got -1 returned
+    // {
+    //     printf("cant play sound correctly\nErr:%s\n", Mix_GetError());
+    //     // exit(0);
+    // }
     return Channel(channel);
 }
 void sdlgame::mixer::Sound::load(std::string path)

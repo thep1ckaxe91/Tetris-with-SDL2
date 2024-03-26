@@ -16,11 +16,11 @@ public:
         this->window_object = sdlgame::display::set_mode(
             RESOLUTION_WIDTH, RESOLUTION_HEIGHT,
             0
-            |sdlgame::MAXIMIZED
-            // |sdlgame::RESIZABLE
+            // |sdlgame::MAXIMIZED
+            |sdlgame::RESIZABLE
         );
         this->window = Surface(RESOLUTION_WIDTH, RESOLUTION_HEIGHT);
-        // sdlgame::display::fullscreen_desktop();
+        sdlgame::display::fullscreen_desktop();
         images.load();
         audio_manager.sfx.load();
         sdlgame::display::set_caption("Sandtris - Made by thep1ckaxe");
@@ -50,8 +50,11 @@ public:
             sdlgame::event::post(SCENETRANS_IN);
             if (this->next)
             {
-                delete scene_list.back();
-                scene_list.pop_back();
+                if(this->command==POP)
+                {
+                    delete scene_list.back();
+                    scene_list.pop_back();
+                }
                 scene_list.push_back(this->next);
                 this->next = nullptr;
             }
