@@ -8,6 +8,7 @@ public:
     Game *game;
     QuitButton(Game &game);
     QuitButton();
+    void on_click();
     void handle_event(Event &event);
     void update();
 };

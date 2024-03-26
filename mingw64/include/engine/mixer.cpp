@@ -29,7 +29,7 @@ void sdlgame::mixer::init(int freq, Uint16 size, int channels, int buffer)
     {
         printf("Failed to init wav pack\nErr:%s\n", Mix_GetError());
     }
-    else if (Mix_OpenAudio(freq, size, channels, buffer))
+    if (Mix_OpenAudio(freq, size, channels, buffer))
     {
         printf("Failed to init mixer\nErr:%s\n", Mix_GetError());
         exit(0);

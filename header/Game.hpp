@@ -4,6 +4,7 @@
 #include "Images.hpp"
 #include "Scene.hpp"
 #include "SceneTransition.hpp"
+#include "AudioManager.hpp"
 using namespace std;
 class Scene;
 /**
@@ -23,6 +24,7 @@ protected:
     Scene *next;
 public:
     Images images;
+    AudioManager audio_manager;
     sdlgame::surface::Surface window;
     sdlgame::surface::Surface window_object;
     sdlgame::time::Clock clock;

@@ -13,6 +13,10 @@ typedef enum
     BUTTON_HOVER = sdlgame::USEREVENT + 4,
     BUTTON_CLICK = sdlgame::USEREVENT + 5,
     ROTATE = sdlgame::USEREVENT + 6,
+    SCENETRANS_OUT = sdlgame::USEREVENT + 7,
+    SCENETRANS_IN = sdlgame::USEREVENT + 8,
+    COUNT_DOWN = sdlgame::USEREVENT + 9,
+    COUNT_DOWN_START = sdlgame::USEREVENT + 10,
 } Tetris_Event;
 
 #endif

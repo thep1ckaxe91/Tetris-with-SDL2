@@ -16,7 +16,6 @@ void Button::handle_event(Event &event){
     if(event.type == sdlgame::MOUSEBUTTONDOWN and this->hovering)
     {
         this->image = this->click;
-        sdlgame::event::post(BUTTON_HOVER);
     }
     else if(event.type == sdlgame::MOUSEBUTTONUP and this->hovering)
     {
@@ -33,6 +32,7 @@ void Button::update(){
     }
     else if(this->hovering and !this->prev_hovered){
         this->image = this->hover;
+        sdlgame::event::post(BUTTON_HOVER);
     }
     this->prev_hovered = this->hovering;
 }

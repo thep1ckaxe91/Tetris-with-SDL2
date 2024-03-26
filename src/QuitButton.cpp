@@ -12,11 +12,11 @@ QuitButton::QuitButton(){}
 void QuitButton::handle_event(Event &event)
 {
     Button::handle_event(event);
-    if(event.type == sdlgame::MOUSEBUTTONUP and this->hovering)
-    {
-        sdlgame::quit();
-        exit(0);
-    }
+}
+void QuitButton::on_click()
+{
+    sdlgame::quit();
+    exit(0);
 }
 void QuitButton::update()
 {
