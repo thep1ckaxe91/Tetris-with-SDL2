@@ -1,3 +1,5 @@
+Sandtris, inspired by Sandtris on Crazy Game
+
 Author: thep1ckaxe
 
 Art: thep1ckaxe
