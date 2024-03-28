@@ -1,6 +1,5 @@
 #include "MenuButton.hpp"
-#include "OutSwipeDown.hpp"
-#include "InSwipeDown.hpp"
+#include "scene_transitions.hpp"
 #include "MainMenu.hpp"
 MenuButton::MenuButton(Game &game)
 {

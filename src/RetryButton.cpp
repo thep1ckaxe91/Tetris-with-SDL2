@@ -1,6 +1,5 @@
 #include "RetryButton.hpp"
-#include "OutSwipeDown.hpp"
-#include "InSwipeDown.hpp"
+#include "scene_transitions.hpp"
 #include "GamePlay.hpp"
 RetryButton::RetryButton(Game &game)
 {

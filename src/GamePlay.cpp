@@ -2,8 +2,7 @@
 #include "Game.hpp"
 #include "constant.hpp"
 #include "TetrisEvent.hpp"
-#include "InSwipeDown.hpp"
-#include "OutSwipeDown.hpp"
+#include "scene_transitions.hpp"
 #include "GameOver.hpp"
 GamePlay::GamePlay(Game &game) : Scene(game)
 {

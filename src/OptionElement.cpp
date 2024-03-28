@@ -30,15 +30,15 @@ OptionElement::OptionElement(Vector2 topleft, string name, float value, float ma
 
 }
 OptionElement::OptionElement()=default;
-void OptionElement::update()
-{
-    this->setter.sfx_slider.update();
-}
-void OptionElement::handle_event(Event &event)
-{
-    this->setter.sfx_slider.handle_event(event);
-}
-void OptionElement::draw()
-{
+// void OptionElement::update()
+// {
+//     this->setter.sfx_slider.update();
+// }
+// void OptionElement::handle_event(Event &event)
+// {
+//     this->setter.sfx_slider.handle_event(event);
+// }
+// void OptionElement::draw()
+// {
 
-}
+// }

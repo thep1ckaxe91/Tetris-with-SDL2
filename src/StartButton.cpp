@@ -1,7 +1,6 @@
 #include "StartButton.hpp"
 #include "GamePlay.hpp"
-#include "InSwipeDown.hpp"
-#include "OutSwipeDown.hpp"
+#include "scene_transitions.hpp"
 #include "engine/engine.hpp"
 StartButton::StartButton(Game &game) : Button()
 {
