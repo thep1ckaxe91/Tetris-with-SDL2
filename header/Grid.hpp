@@ -14,8 +14,7 @@ class Grid
 {
 private:
     double update_timer = 0;
-    int score = 0;
-    int last_score = 0;
+    int score1 = 0, score2 = 0;
 
 public:
     /*
@@ -37,7 +36,6 @@ public:
     void merge();
     int get_score();
     int check_scoring(std::vector<pair<int, int>> updated_sands);
-    void game_over();
 
     void handle_event(Event &event);
     void update();

@@ -65,7 +65,7 @@ void Grid::normalize_tetrimino()
         }
     }
 }
-int Grid::get_score() { return score; }
+int Grid::get_score() { return score1+score2; }
 
 /**
  * @brief check if is scoring anything
@@ -234,7 +234,13 @@ void Grid::update()
         if (!updated_sands.empty())
         {
             // cout << updated_sands.size() << endl;
-            score += check_scoring(updated_sands);
+            int added = check_scoring(updated_sands);
+            if(added>0)
+            {
+                int split = sdlgame::random::randint(2,added-2);
+                score1 += split;
+                score2 += added - split;
+            }
         }
     }
     if(this->game->window_draw_offset.y!=0) this->game->window_draw_offset.y--;
