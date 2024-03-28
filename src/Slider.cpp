@@ -6,6 +6,7 @@ Slider::Slider(Vector2 topleft, float value, float slide_length, float max_value
     this->slide_length = slide_length;
     this->max_value = max_value;
     this->topleft = topleft;
+    this->nob = Rect(0,0,3,3);
 }
 Slider::Slider() = default;
 void Slider::update()
