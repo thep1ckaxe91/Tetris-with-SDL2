@@ -15,13 +15,14 @@ public:
      * @param game 
      * @param time total time for splash screen from in transition start and out transition end;
      */
-    SplashScreen(Game &game, double time=5,Animation &anim);
+    SplashScreen(Game &game, double time,Animation &anim);
     SplashScreen();
     void play();
     virtual void on_finish()=0;
     virtual void handle_event(Event &event);
     virtual void update();
     void draw();
+    ~SplashScreen();
 };
 
 #endif

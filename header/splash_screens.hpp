@@ -5,18 +5,23 @@
 
 class StudioSC : public SplashScreen
 {
+    
 public:
-    StudioSC(Game &game, double time=3, Animation &anim);
+    Game *game;
+    StudioSC(Game &game,  Animation anim, double time=3);
     void handle_event(Event &event);
     void update();
+    void on_finish() override;
 };
 
 class SDLSC : public SplashScreen
 {
 public:
-    SDLSC(Game &game, double time=2, Animation &anim);
+    Game *game;
+    SDLSC(Game &game,  Animation anim, double time=2);
     void handle_event(Event &event);
     void update();
+    void on_finish() override;
 };
 
 #endif

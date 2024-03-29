@@ -53,7 +53,7 @@ OutFade::OutFade(double time) : SceneTransition(time)
 }
 void OutFade::update(double delta_time)
 {
-    this->cur_alpha += vel;
+    this->cur_alpha += this->vel*delta_time;
     this->cur_color.a = Uint8(cur_alpha);
     this->time -= delta_time;
     this->mask.fill(this->cur_color);
@@ -77,7 +77,7 @@ InFade::InFade(double time) : SceneTransition(time)
 }
 void InFade::update(double delta_time)
 {
-    this->cur_alpha += vel;
+    this->cur_alpha += this->vel * delta_time;
     this->cur_color.a = Uint8(cur_alpha);
     this->time -= delta_time;
     this->mask.fill(this->cur_color);

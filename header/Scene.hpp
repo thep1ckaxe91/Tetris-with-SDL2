@@ -12,6 +12,7 @@ class Scene
 public:
     Game *game;
     Scene(Game &game);
+    Scene();
     virtual void update()=0;
     virtual void draw()=0;
     virtual void handle_event(Event &event)=0;

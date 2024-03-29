@@ -1,5 +1,6 @@
 #include "engine/engine.hpp"
-#include "MainMenu.hpp"
+#include "splash_screens.hpp"
+#include "scene_transitions.hpp"
 #include "constant.hpp"
 #include "engine/gpu_optimize.hpp"
 #include "TetrisEvent.hpp"
@@ -91,8 +92,11 @@ public:
     }
     void run()
     {
-        MainMenu *mainmenu = new MainMenu(*this);
-        this->scene_list.push_back(mainmenu);
+        Animation studiosc = Animation(*this,10,1);
+        studiosc.load(base_path + "data/animations/splash/studio/");
+        InFade *in = new InFade();
+        StudioSC *next = new StudioSC(*this,studiosc);
+        this->add_scene(NULL,next,in);
         while (true)
         {
             for (auto &event : sdlgame::event::get())
@@ -115,7 +119,7 @@ public:
                 }
                 if (gameactive)
                 {
-                    scene_list[scene_list.size() - 1]->handle_event(event);
+                    if(!scene_list.empty()) scene_list.back()->handle_event(event);
                     audio_manager.handle_event(event);
                 }
             }
