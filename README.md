@@ -1,15 +1,8 @@
+23021639
+Đào Phương Nam
 
+Description: Tetris nhưng nó là cát.
+Requested score: 9-10
 
-Author: thep1ckaxe/Dao Phuong Nam
-
-
-
-Special Thanks To:
-
-    SDL2 and extended library developer
-
-    DrPetter: SFXR's creator
-
-    Igara Studio: David Capello. Gaspar Capello : Asesprite creator
-
-    Terry Cavanagh: Bossca Ceoil's creator
+Reason: Có tất cả các yếu tố của các barem điểm trước (code tự viết, thuật toán ngoài tt môn? (BFS), đồ hoạ tự vẽ sinh động (pixel art), nhạc tự làm .v.v
+)   
