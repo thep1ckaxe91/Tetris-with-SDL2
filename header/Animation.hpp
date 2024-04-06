@@ -4,10 +4,10 @@
 class Animation : public sdlgame::sprite::Sprite
 {
 protected:
-    std::vector<Surface> frames;
     Surface default_img;
     double time_cnt = 0;
 public:
+    std::vector<Surface> frames;
     int frame_id;
     bool frame_change=0;
     int frame_rate;

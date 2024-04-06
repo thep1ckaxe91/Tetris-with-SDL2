@@ -39,7 +39,6 @@ public:
         if (this->out)
         {
             if(!played){
-                sdlgame::event::post(SCENETRANS_OUT);
                 played=1;
             }
             out->update(clock.delta_time());
@@ -54,7 +53,6 @@ public:
         {
             if (this->next)
             {
-                sdlgame::event::post(SCENETRANS_IN);
                 if(this->command==POP)
                 {
                     delete scene_list.back();
@@ -92,8 +90,9 @@ public:
     }
     void run()
     {
-        Animation studiosc = Animation(*this,10,1);
+        Animation studiosc(*this,10,1);
         studiosc.load(base_path + "data/animations/splash/studio/");
+        studiosc.play();
         InFade *in = new InFade();
         StudioSC *next = new StudioSC(*this,studiosc);
         this->add_scene(NULL,next,in);

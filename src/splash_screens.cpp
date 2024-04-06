@@ -16,10 +16,11 @@ void SDLSC::update()
 }
 void SDLSC::on_finish()
 {
-    OutFade *out = new OutFade();
-    InFade *in = new InFade();
+    OutFade *out = new OutFade(1);
+    InFade *in = new InFade(1);
     MainMenu *next = new MainMenu(*game);
     this->game->pop_scene(out,next,in);
+    cout << "called" << endl;
 }
 
 StudioSC::StudioSC(Game &game,  Animation anim,double time) : SplashScreen(game,time,anim)
@@ -36,10 +37,12 @@ void StudioSC::update()
 }
 void StudioSC::on_finish()
 {
-    Animation sdlsc = Animation(*game,30);
+    Animation sdlsc(*game,30);
     sdlsc.load(base_path + "data/animations/splash/sdl/");
-    OutFade *out = new OutFade();
-    InFade *in = new InFade();
+    sdlsc.set_default(sdlsc.frames.back());
+    sdlsc.play();
+    OutFade *out = new OutFade(1);
+    InFade *in = new InFade(1);
     SDLSC *next = new SDLSC(*game,sdlsc);
     this->game->pop_scene(out,next,in);
 }

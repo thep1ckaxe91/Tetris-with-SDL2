@@ -9,6 +9,7 @@ private:
 public:
     Animation splash;
     double time;
+    bool done;
     /**
      * @brief Construct a new Splash Screen object
      * 

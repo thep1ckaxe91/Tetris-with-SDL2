@@ -8,14 +8,7 @@ Animation::Animation(Game &game,int frame_rate, bool loop)
     this->frame_id=0;
     this->game = &game;
 }
-Animation::Animation()
-{
-    this->game = nullptr;
-    this->frame_rate = 60;
-    this->loop = 0;
-    this->playing = 0;
-    this->frame_id=0;
-}
+Animation::Animation()=default;
 /**
  * @brief load the animation's images in folder 'path'
  * 
@@ -60,7 +53,7 @@ void Animation::update()
 }
 void Animation::play()
 {
-    playing=1;
+    this->playing=1;
 }
 void Animation::pause()
 {

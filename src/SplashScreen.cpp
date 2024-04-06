@@ -4,7 +4,7 @@ SplashScreen::SplashScreen(Game &game, double time, Animation &anim ) : Scene(ga
 {
     this->time = time;
     this->splash = anim;
-    this->splash.play();
+    this->done = 0;
 }
 SplashScreen::SplashScreen()=default;
 void SplashScreen::play()
@@ -23,11 +23,16 @@ void SplashScreen::update()
     if(this->splash.playing)
     {
         this->splash.update();
+        // cout << this->game->clock.delta_time() << endl;
         this->time -= this->game->clock.delta_time();
+        // cout << this->time << endl;
         if(this->time <= 0){
             this->splash.playing=0;
-            this->on_finish();
         }
+    }
+    else{
+        if(!done) this->on_finish();
+        done=1;
     }
 }
 void SplashScreen::draw()
