@@ -18,7 +18,7 @@ public:
     Sound scoring;
     Sound transition_in;
     Sound transition_out;
-    
+    Sound soft_wind_blow;
     SFX();
     void load();
 };

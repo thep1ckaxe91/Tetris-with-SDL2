@@ -7,7 +7,7 @@ typedef enum
     RESOLUTION_WIDTH = 160,
     RESOLUTION_HEIGHT = 144
 } Window_Constant;
-const int MAXFPS = 60;
+const int MAXFPS = 30;
 typedef enum
 {
     GRID_WIDTH = 80,
@@ -75,4 +75,6 @@ const Vector2 midbottom_newscore = Vector2(80,42);
 const Vector2 midbottom_pb = Vector2(80,77);
 
 const double gameplay_bg_speed = 10;
+const double gforce = 1; //pix/sec^2
+const int client_cores = std::thread::hardware_concurrency();
 #endif

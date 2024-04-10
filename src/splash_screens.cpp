@@ -20,12 +20,12 @@ void SDLSC::on_finish()
     InFade *in = new InFade(1);
     MainMenu *next = new MainMenu(*game);
     this->game->pop_scene(out,next,in);
-    cout << "called" << endl;
 }
 
 StudioSC::StudioSC(Game &game,  Animation anim,double time) : SplashScreen(game,time,anim)
 {
     this->game = &game;
+    this->game->audio_manager.sfx.soft_wind_blow.play();
 }
 void StudioSC::handle_event(Event &event)
 {  
@@ -37,12 +37,12 @@ void StudioSC::update()
 }
 void StudioSC::on_finish()
 {
-    Animation sdlsc(*game,30);
+    Animation sdlsc(*game,30,1);
     sdlsc.load(base_path + "data/animations/splash/sdl/");
     sdlsc.set_default(sdlsc.frames.back());
     sdlsc.play();
     OutFade *out = new OutFade(1);
     InFade *in = new InFade(1);
-    SDLSC *next = new SDLSC(*game,sdlsc);
+    SDLSC *next = new SDLSC(*game,sdlsc,7);
     this->game->pop_scene(out,next,in);
 }

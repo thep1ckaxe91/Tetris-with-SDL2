@@ -18,7 +18,7 @@ private:
 
 public:
     /*
-    Array for grid control
+    Array for grid control (cellular automata)
     */
     Sand grid[GRID_HEIGHT + 2][GRID_WIDTH + 2];
     Tetrimino next;
@@ -36,10 +36,17 @@ public:
     void merge();
     int get_score();
     int check_scoring(std::vector<pair<int, int>> updated_sands);
-
     void handle_event(Event &event);
     void update();
     void draw();
+
+    //multithreading potimization
+    void update(int top, int left, int width, int height, vector<pair<int,int>> &updated);
+
+    // these function should make the sand fall better somehow
+
+    pair<int,int> step(int i,int j, int times);
+
 };
 
 #endif

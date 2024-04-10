@@ -199,6 +199,43 @@ void Grid::collision_check()
     }
     // exit(0);
 }
+
+pair<int,int> Grid::step(int i,int j,int times)
+{
+    if(times <= 0) return {i,j};
+    if (!grid[i + 1][j].mask)
+    {
+        swap(grid[i][j], grid[i + 1][j]);
+        return step(i+1,j,times-1);
+    }
+    else if (!grid[i + 1][j - 1].mask and !grid[i][j - 1].mask)
+    {
+        swap(grid[i][j], grid[i + 1][j - 1]);
+        return step(i+1,j-1,times-1);
+    }
+    else if (!grid[i + 1][j + 1].mask and !grid[i][j + 1].mask)
+    {
+        swap(grid[i + 1][j + 1], grid[i][j]);
+        return step(i+1,j+1,times-1);
+    }
+    return {i,j};
+}
+/**
+ * @brief update a part of the grid with:
+ * 
+ * @param top top row of the part
+ * @param left the left most collumn
+ * @param width width of the part
+ * @param height height of the part
+ */
+void Grid::update(int top,int left,int width, int height, vector<pair<int,int>> &updated)
+{
+    for(int i=top+width-1;i>=top;i--)
+    {
+        
+    }
+}
+
 void Grid::update()
 {
     this->update_timer += this->game->clock.delta_time();
@@ -213,21 +250,9 @@ void Grid::update()
             {
                 if (grid[i][j].mask)
                 {
-                    if (!grid[i + 1][j].mask)
-                    {
-                        swap(grid[i][j], grid[i + 1][j]);
-                        updated_sands.push_back({i + 1, j});
-                    }
-                    else if (!grid[i + 1][j - 1].mask and !grid[i][j - 1].mask)
-                    {
-                        swap(grid[i][j], grid[i + 1][j - 1]);
-                        updated_sands.push_back({i + 1, j - 1});
-                    }
-                    else if (!grid[i + 1][j + 1].mask and !grid[i][j + 1].mask)
-                    {
-                        swap(grid[i + 1][j + 1], grid[i][j]);
-                        updated_sands.push_back({i + 1, j + 1});
-                    }
+                    int step_times = sdlgame::random::randint(1,3);
+                    pair<int,int> pos = this->step(i,j,step_times);
+                    if(i!=pos.first or j!=pos.second) updated_sands.push_back(pos);
                 }
             }
         }

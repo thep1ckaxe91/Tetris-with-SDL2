@@ -13,4 +13,6 @@ void SFX::load()
     scoring = Sound(base_path + sfx_path + "scoring.wav");
     transition_in = Sound(base_path + sfx_path + "transition_in.wav");
     transition_out = Sound(base_path + sfx_path + "transition_out.wav");
+    soft_wind_blow = Sound(base_path + sfx_path + "soft_wind_blow.wav");
+
 }

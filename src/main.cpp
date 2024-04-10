@@ -94,7 +94,7 @@ public:
         studiosc.load(base_path + "data/animations/splash/studio/");
         studiosc.play();
         InFade *in = new InFade();
-        StudioSC *next = new StudioSC(*this,studiosc);
+        StudioSC *next = new StudioSC(*this,studiosc,8);
         this->add_scene(NULL,next,in);
         while (true)
         {

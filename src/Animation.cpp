@@ -32,9 +32,10 @@ void Animation::update()
     {
         this->frame_change=0;
         this->time_cnt += this->game->clock.delta_time();
-        if(this->time_cnt >= 1/this->frame_rate)
+        // cout << this->time_cnt << " "<< this->frame_rate<<endl;
+        if(this->time_cnt >= 1.0/this->frame_rate)
         {
-            this->time_cnt-= 1/this->frame_rate;
+            this->time_cnt-= 1.0/this->frame_rate;
             if(frame_id>=(int)frames.size())
             {
                 frame_id=0;

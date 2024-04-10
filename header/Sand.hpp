@@ -7,6 +7,7 @@ using namespace std;
 
 //Bit shift for color check, not for actual color
 
+
 extern map<SandShift,Color> SandShiftColor;
 struct Sand
 {
@@ -14,6 +15,7 @@ struct Sand
     /*
     bitmask for fast color/collision checking
     */
+    
     Sand(SandShift mask = EMPTY_SAND);
 };
 
