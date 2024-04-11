@@ -1,5 +1,0 @@
-#ifndef OUTSWIPEDOWN_HPP
-#define OUTSWIPEDOWN_HPP
-
-
-#endif
