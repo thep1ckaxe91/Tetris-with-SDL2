@@ -17,10 +17,8 @@ private:
     int score1 = 0, score2 = 0;
 
 public:
-    /*
-    Array for grid control (cellular automata)
-    */
-    Sand grid[GRID_HEIGHT + 2][GRID_WIDTH + 2];
+    // Sand grid[GRID_HEIGHT + 2][GRID_WIDTH + 2];
+    vector<vector<Sand>> grid;
     Tetrimino next;
     vector<pair<Uint8, Uint8>> pos;
     Surface vfx_mask;
@@ -35,17 +33,17 @@ public:
     void normalize_tetrimino();
     void merge();
     int get_score();
-    int check_scoring(std::vector<pair<int, int>> updated_sands);
+    int check_scoring(std::vector<pair<Uint8, Uint8>> &updated_sands);
     void handle_event(Event &event);
     void update();
     void draw();
 
-    //multithreading potimization
-    void update(int top, int left, int width, int height, vector<pair<int,int>> &updated);
+    //multithreading optimization
+    void update_part(int top, int left, int width, int height, vector<pair<Uint8,Uint8>> &updated, vector<vector<Sand>> &grid);
 
     // these function should make the sand fall better somehow
 
-    pair<int,int> step(int i,int j, int times);
+    pair<Uint8,Uint8> step(int i,int j, int times);
 
 };
 

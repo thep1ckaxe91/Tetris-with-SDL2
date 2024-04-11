@@ -22,7 +22,7 @@ GamePlay::GamePlay(Game &game) : Scene(game)
     next_shape_surf = Surface(next_shape_display_rect.getWidth(), next_shape_display_rect.getHeight());
     redraw_next_shape();
 
-    change_shape = Animation(game);
+    change_shape = Animation(game,120);
     change_shape.load(base_path + "data/animations/change_next_shape/");
     Surface tmp = Surface(next_shape_display_area.getWidth(), next_shape_display_area.getHeight());
     tmp.fill("none");

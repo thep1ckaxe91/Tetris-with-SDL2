@@ -5,6 +5,8 @@
 Grid::Grid(Game &game)
 {
     this->game = &game;
+    this->grid.resize(GRID_HEIGHT+2);
+    for(auto &x : this->grid) x.resize(GRID_WIDTH+2);
     controller = TetriminoController(game, Tetriminoes::randomTetrimino());
     this->next = Tetriminoes::randomTetrimino();
     for (int i = 0; i < GRID_HEIGHT + 2; i++)
@@ -18,6 +20,8 @@ Grid::Grid(Game &game)
 Grid::Grid() = default;
 Grid &Grid::operator=(const Grid &other)
 {
+    this->grid.resize(GRID_HEIGHT+2);
+    for(auto &x : this->grid) x.resize(GRID_WIDTH+2);
     this->game = other.game;
     for (int i = 0; i < GRID_HEIGHT + 2; i++)
         grid[i][0] = grid[i][GRID_WIDTH + 1] = Sand(STATIC_SAND);
@@ -65,7 +69,7 @@ void Grid::normalize_tetrimino()
         }
     }
 }
-int Grid::get_score() { return score1+score2; }
+int Grid::get_score() { return score1 + score2; }
 
 /**
  * @brief check if is scoring anything
@@ -73,20 +77,20 @@ int Grid::get_score() { return score1+score2; }
  * @param updated_sands a list of position sand that got updated
  * @return an integer represent amount of point we get
  */
-int Grid::check_scoring(std::vector<pair<int, int>> updated_sands)
+int Grid::check_scoring(std::vector<pair<Uint8, Uint8>> &updated_sands)
 {
     queue<pair<Uint8, Uint8>> q;
     vector<pair<Uint8, Uint8>> pos;
     bitset<GRID_WIDTH + 2> visited[GRID_HEIGHT + 2];
     for (auto &[i, j] : updated_sands)
     {
-        if (visited[i][j]==1)
+        if (visited[i][j] == 1)
             continue;
-        visited[i][j]=1;
+        visited[i][j] = 1;
         vector<pair<Uint8, Uint8>> tmp;
         SandShift check_color = grid[i][j].mask;
         bool touchleft = 0, touchright = 0;
-        q.push({i,j});
+        q.push({i, j});
         while (!q.empty())
         {
             auto u = q.front();
@@ -100,21 +104,22 @@ int Grid::check_scoring(std::vector<pair<int, int>> updated_sands)
             {
                 int x = dx[k] + u.first;
                 int y = dy[k] + u.second;
-                if (visited[x][y]==0 and grid[x][y].mask == check_color)
+                if (visited[x][y] == 0 and grid[x][y].mask == check_color)
                 {
-                    q.push({x,y});
-                    visited[x][y]=1;
+                    q.push({x, y});
+                    visited[x][y] = 1;
                 }
             }
         }
-        if(touchleft and touchright)
+        if (touchleft and touchright)
         {
-            for(auto &v : tmp) pos.push_back(v);
+            for (auto &v : tmp)
+                pos.push_back(v);
         }
     }
-    if(pos.size()>0)
+    if (pos.size() > 0)
     {
-        for(auto &[i,j] : pos)
+        for (auto &[i, j] : pos)
         {
             grid[i][j] = Sand();
         }
@@ -127,11 +132,11 @@ void Grid::merge()
 {
     // if merge at wrong place, game over
     // a bit offset for more comfort ux
-    this->game->window_draw_offset.y=2;
+    this->game->window_draw_offset.y = 2;
     if (controller.topleft.y + 7 < 0)
     {
         sdlgame::event::post(GAMEOVER);
-        this->game->window_draw_offset.y=0;
+        this->game->window_draw_offset.y = 0;
         return;
     }
     // merge if collided
@@ -178,12 +183,12 @@ void Grid::collision_check()
                                 if (tmp.collidepoint(j + GRID_X, i + GRID_Y - 1))
                                 {
                                     Vector2 check_point(j + GRID_X, i + GRID_Y);
-                                    while(tmp.collidepoint(check_point))
+                                    while (tmp.collidepoint(check_point))
                                     {
-                                        controller.topleft.y-=1;
-                                        tmp.move_ip(0,-1);
-                                        if(grid[int(check_point.y-GRID_Y-1)][int(check_point.x-GRID_X)].mask)
-                                            check_point.y --;
+                                        controller.topleft.y -= 1;
+                                        tmp.move_ip(0, -1);
+                                        if (grid[int(check_point.y - GRID_Y - 1)][int(check_point.x - GRID_X)].mask)
+                                            check_point.y--;
                                     }
                                     called = 1;
                                     merge();
@@ -200,9 +205,9 @@ void Grid::collision_check()
     // exit(0);
 }
 
-pair<int,int> Grid::step(int i,int j,int times)
+pair<Uint8, Uint8> Grid::step(int i, int j, int times)
 {
-    while(times--)
+    while (times--)
     {
         if (!grid[i + 1][j].mask)
         {
@@ -214,38 +219,41 @@ pair<int,int> Grid::step(int i,int j,int times)
         {
             swap(grid[i][j], grid[i + 1][j - 1]);
             // return step(i+1,j-1,times-1);
-            i++; j--;
+            i++;
+            j--;
         }
         else if (!grid[i + 1][j + 1].mask and !grid[i][j + 1].mask)
         {
             swap(grid[i + 1][j + 1], grid[i][j]);
             // return step(i+1,j+1,times-1);
-            i++; j++;
+            i++;
+            j++;
         }
     }
-    return {i,j};
+    return {i, j};
 }
 /**
  * @brief update a part of the grid with:
- * 
+ *
  * @param top top row of the part
  * @param left the left most collumn
  * @param width width of the part
  * @param height height of the part
  */
-void Grid::update(int top,int left,int width, int height, vector<pair<int,int>> &updated)
+void Grid::update_part(const int top, const int left, const int width, const int height, vector<pair<Uint8, Uint8>> &updated, vector<vector<Sand>> &grid)
 {
-    for(int i=top+height-1;i>=top;i--)
+    for (int i = top + height - 1; i >= top; i--)
     {
-        for(int j=left+width-1;j>=left;j--)
+        for (int j = left; j < left + width; j++)
         {
             if (grid[i][j].mask)
             {
-                int step_times = sdlgame::random::randint(1,3);
-                pair<int,int> pos = this->step(i,j,step_times);
-                if(i!=pos.first or j!=pos.second) updated.push_back(pos);
+                int step_times = sdlgame::random::randint(1, 3);
+                pair<Uint8, Uint8> pos = this->step(i, j, step_times);
+                if (i != pos.first or j != pos.second)
+                    updated.push_back(pos);
             }
-        }   
+        }
     }
 }
 
@@ -254,33 +262,63 @@ void Grid::update()
     this->update_timer += this->game->clock.delta_time();
     if (this->update_timer >= this->fixed_delta_time)
     {
-        vector<pair<int, int>> updated_sands;
+        vector<pair<Uint8, Uint8>> updated_sands;
         this->update_timer -= this->fixed_delta_time;
-        for (int i = GRID_HEIGHT; i >= 1; i--)
-        // for (int i = 1; i <= GRID_HEIGHT; i++)
+        // for (int i = GRID_HEIGHT; i >= 1; i--)
+        // {
+        //     for (int j = 1; j <= GRID_WIDTH; j++)
+        //     {
+        //         if (grid[i][j].mask)
+        //         {
+        //             int step_times = sdlgame::random::randint(1,4);
+        //             pair<Uint8,Uint8> pos = this->step(i,j,step_times);
+        //             if(i!=pos.first or j!=pos.second) updated_sands.push_back(pos);
+        //         }
+        //     }
+        // }
+
+        thread t[2][2];
+        vector<pair<Uint8, Uint8>> res[2][2];
+        for (int offset_y = 1; offset_y >= 0; offset_y--)
         {
-            for (int j = 1; j <= GRID_WIDTH; j++)
+            for (int offset_x = 0; offset_x < 2; offset_x++)
             {
-                if (grid[i][j].mask)
+                for (int i = 1; i >= 0; i--)
                 {
-                    int step_times = sdlgame::random::randint(1,3);
-                    pair<int,int> pos = this->step(i,j,step_times);
-                    if(i!=pos.first or j!=pos.second) updated_sands.push_back(pos);
+                    for (int j = 0; j < 2; j++)
+                    {
+                        int top = i * GRID_HEIGHT / 2 + offset_y * GRID_HEIGHT / 4 + 1;
+                        int left = j * GRID_WIDTH / 2 + offset_x * GRID_WIDTH / 4 + 1;
+                        int w = GRID_WIDTH / 4;
+                        int h = GRID_HEIGHT / 4;
+                        t[i][j] =
+                            thread(update_part, top, left, w, h, std::move(res[i][j]), std::move(grid));
+                    }
+                }
+                for (int i = 1; i >= 0; i--)
+                {
+                    for (int j = 0; j < 2; j++)
+                    {
+                        t[i][j].join();
+                        updated_sands.insert(updated_sands.end(), res[i][j].begin(), res[i][j].end());
+                    }
                 }
             }
         }
+
         if (!updated_sands.empty())
         {
             int added = check_scoring(updated_sands);
-            if(added>0)
+            if (added > 0)
             {
-                int split = sdlgame::random::randint(2,added-2);
+                int split = sdlgame::random::randint(2, added - 2);
                 score1 += split;
                 score2 += added - split;
             }
         }
     }
-    if(this->game->window_draw_offset.y!=0) this->game->window_draw_offset.y--;
+    if (this->game->window_draw_offset.y != 0)
+        this->game->window_draw_offset.y--;
     controller.update();
     normalize_tetrimino();
     collision_check();

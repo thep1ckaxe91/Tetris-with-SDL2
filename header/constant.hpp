@@ -7,7 +7,7 @@ typedef enum
     RESOLUTION_WIDTH = 160,
     RESOLUTION_HEIGHT = 144
 } Window_Constant;
-const int MAXFPS = 30;
+const int MAXFPS = 60;
 typedef enum
 {
     GRID_WIDTH = 80,

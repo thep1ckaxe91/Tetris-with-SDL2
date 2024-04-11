@@ -43,6 +43,6 @@ void StudioSC::on_finish()
     sdlsc.play();
     OutFade *out = new OutFade(1);
     InFade *in = new InFade(1);
-    SDLSC *next = new SDLSC(*game,sdlsc,7);
+    SDLSC *next = new SDLSC(*game,sdlsc,5);
     this->game->pop_scene(out,next,in);
 }
