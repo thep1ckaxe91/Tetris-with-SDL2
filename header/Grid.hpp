@@ -39,7 +39,7 @@ public:
     void draw();
 
     //multithreading optimization
-    void update_part(int top, int left, int width, int height, vector<pair<Uint8,Uint8>> &updated, vector<vector<Sand>> &grid);
+    void update_part(int top, int left, int width, int height, vector<pair<Uint8,Uint8>> &updated,const vector<vector<Sand>> *grid);
 
     // these function should make the sand fall better somehow
 

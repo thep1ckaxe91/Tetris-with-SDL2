@@ -11,4 +11,4 @@ map<SandShift,Color> SandShiftColor = {
     {BLUE_SAND, BLUE_SAND_COLOR},
     {GREEN_SAND, GREEN_SAND_COLOR}
 };
-Sand::Sand(SandShift mask){this->mask = mask;}
+Sand::Sand(SandShift mask){this->mask = mask; this->color_offset_rgb = sdlgame::random::randint(0,255);}

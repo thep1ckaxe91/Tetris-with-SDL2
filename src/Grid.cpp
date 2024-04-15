@@ -217,16 +217,14 @@ pair<Uint8, Uint8> Grid::step(int i, int j, int times)
         }
         else if (!grid[i + 1][j - 1].mask and !grid[i][j - 1].mask)
         {
-            swap(grid[i][j], grid[i + 1][j - 1]);
+            swap(grid[i][j], grid[i][j - 1]);
             // return step(i+1,j-1,times-1);
-            i++;
             j--;
         }
         else if (!grid[i + 1][j + 1].mask and !grid[i][j + 1].mask)
         {
-            swap(grid[i + 1][j + 1], grid[i][j]);
+            swap(grid[i][j], grid[i][j + 1]);
             // return step(i+1,j+1,times-1);
-            i++;
             j++;
         }
     }
@@ -240,15 +238,15 @@ pair<Uint8, Uint8> Grid::step(int i, int j, int times)
  * @param width width of the part
  * @param height height of the part
  */
-void Grid::update_part(const int top, const int left, const int width, const int height, vector<pair<Uint8, Uint8>> &updated, vector<vector<Sand>> &grid)
+void Grid::update_part(const int top, const int left, const int width, const int height, vector<pair<Uint8, Uint8>> &updated,const vector<vector<Sand>> *grid)
 {
     for (int i = top + height - 1; i >= top; i--)
     {
         for (int j = left; j < left + width; j++)
         {
-            if (grid[i][j].mask)
+            if ((*grid)[i][j].mask)
             {
-                int step_times = sdlgame::random::randint(1, 3);
+                int step_times = sdlgame::random::randint(2, 5);
                 pair<Uint8, Uint8> pos = this->step(i, j, step_times);
                 if (i != pos.first or j != pos.second)
                     updated.push_back(pos);
@@ -264,19 +262,22 @@ void Grid::update()
     {
         vector<pair<Uint8, Uint8>> updated_sands;
         this->update_timer -= this->fixed_delta_time;
-        // for (int i = GRID_HEIGHT; i >= 1; i--)
-        // {
-        //     for (int j = 1; j <= GRID_WIDTH; j++)
-        //     {
-        //         if (grid[i][j].mask)
-        //         {
-        //             int step_times = sdlgame::random::randint(1,4);
-        //             pair<Uint8,Uint8> pos = this->step(i,j,step_times);
-        //             if(i!=pos.first or j!=pos.second) updated_sands.push_back(pos);
-        //         }
-        //     }
-        // }
-
+        // #define MULTITHREADING 1
+        #ifndef MULTITHREADING
+        for (int i = GRID_HEIGHT; i >= 1; i--)
+        {
+            for (int j = 1; j <= GRID_WIDTH; j++)
+            {
+                if (grid[i][j].mask)
+                {
+                    int step_times = sdlgame::random::randint(2,5);
+                    pair<Uint8,Uint8> pos = this->step(i,j,step_times);
+                    if(i!=pos.first or j!=pos.second) updated_sands.push_back(pos);
+                }
+            }
+        }
+        #endif
+        #ifdef MULTITHREADING
         thread t[2][2];
         vector<pair<Uint8, Uint8>> res[2][2];
         for (int offset_y = 1; offset_y >= 0; offset_y--)
@@ -292,7 +293,7 @@ void Grid::update()
                         int w = GRID_WIDTH / 4;
                         int h = GRID_HEIGHT / 4;
                         t[i][j] =
-                            thread(update_part, top, left, w, h, std::move(res[i][j]), std::move(grid));
+                            thread(update_part, top, left, w, h, std::move(res[i][j]), &(this->grid));
                     }
                 }
                 for (int i = 1; i >= 0; i--)
@@ -305,7 +306,7 @@ void Grid::update()
                 }
             }
         }
-
+        #endif
         if (!updated_sands.empty())
         {
             int added = check_scoring(updated_sands);
@@ -330,7 +331,14 @@ void Grid::draw()
         for (int j = 1; j <= GRID_WIDTH; j++)
         {
             if (grid[i][j].mask)
-                sdlgame::draw::point(this->game->window, SandShiftColor.at(grid[i][j].mask), j + GRID_X - 1, i + GRID_Y);
+                sdlgame::draw::point(
+                    this->game->window,
+                    SandShiftColor.at(grid[i][j].mask).add_value(
+                        grid[i][j].color_offset_rgb >>4 & 15,
+                        grid[i][j].color_offset_rgb >>2 & 15,
+                        grid[i][j].color_offset_rgb     & 15),
+                     j + GRID_X - 1, i + GRID_Y
+                );
             // sdlgame::draw::rect(this->game->window,SandShiftColor.at(grid[i][j].mask),Rect(j+GRID_X,i+GRID_Y,1,1));
         }
     }

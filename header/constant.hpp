@@ -32,12 +32,12 @@ typedef enum
 const int dx[] =
 {
     0, 0, 1, -1,
-    // 1,-1,-1,1
+    1,-1,-1,1
 };
 const int dy[] =
 {
     1, -1, 0, 0,
-    // 1,1,-1,-1
+    1,1,-1,-1
 };
 typedef enum
 {

@@ -1,4 +1,5 @@
 #include "color.hpp"
+
 std::map<std::string, std::vector<uint8_t>> sdlgame::color::color_name;
 void sdlgame::color::init()
 {
@@ -224,6 +225,18 @@ sdlgame::color::Color::Color(int _r, int _g, int _b, int _a)
     g = _g;
     b = _b;
     a = _a;
+}
+
+sdlgame::color::Color sdlgame::color::Color::add_value(Uint8 r, Uint8 g, Uint8 b)
+{
+    int new_r = this->r + int(r);
+    int new_g = this->g + int(g);
+    int new_b = this->b + int(b);
+    return Color(
+        new_r < 0 ? 0 : new_r > 255 ? 255 : new_r,
+        new_g < 0 ? 0 : new_g > 255 ? 255 : new_g,
+        new_b < 0 ? 0 : new_b > 255 ? 255 : new_b
+    );
 }
 
 SDL_Color sdlgame::color::Color::to_SDL_Color() const

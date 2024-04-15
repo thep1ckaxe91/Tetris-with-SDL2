@@ -12,6 +12,7 @@ extern map<SandShift,Color> SandShiftColor;
 struct Sand
 {
     SandShift mask;
+    Uint8 color_offset_rgb;
     /*
     bitmask for fast color/collision checking
     */
