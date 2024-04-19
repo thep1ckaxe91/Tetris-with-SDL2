@@ -12,7 +12,7 @@ using namespace std;
  */
 
 
-// #define MULTITHREADING 1
+#define MULTITHREADING 1
 
 #ifdef MULTITHREADING
 extern Sand **grid_mem_address;
@@ -23,7 +23,7 @@ class Grid
 private:
     double update_timer = 0;
     int score1 = 0, score2 = 0;
-
+    std::mutex mtx;
 public:
     #ifndef MULTITHREADING
     Sand grid[GRID_HEIGHT + 2][GRID_WIDTH + 2];

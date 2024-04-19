@@ -268,8 +268,6 @@ pair<Uint8, Uint8> Grid::step(int i, int j, int times)
 
 void Grid::update()
 {
-    // cout << _CrtDumpMemoryLeaks() << endl;
-    // exit(0);
     this->update_timer += this->game->clock.delta_time();
     if (this->update_timer >= this->fixed_delta_time)
     {
@@ -369,7 +367,7 @@ void Grid::draw()
 }
 
 #ifdef MULTITHREADING
-pair<Uint8, Uint8> Grid::step(int i, int j, int times)
+pair<Uint8, Uint8> step(int i, int j, int times)
 {
     while (times--)
     {
