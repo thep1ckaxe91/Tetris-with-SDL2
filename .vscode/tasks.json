@@ -6,7 +6,10 @@
             "command": "D:\\Repos\\Tetris-with-SDL2\\mingw64\\bin\\g++.exe",
             "args": [
                 "-fdiagnostics-color=always",
+                "-O0",
                 "-g",
+                // "-fno-omit-frame-pointer",
+                // "-fsanitize=address",
                 "-Wall",
                 "D:\\Repos\\Tetris-with-SDL2\\mingw64\\include\\engine\\*.cpp",
                 "D:\\Repos\\Tetris-with-SDL2\\src\\*.cpp",

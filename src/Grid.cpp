@@ -2,13 +2,24 @@
 #include "engine/engine.hpp"
 #include "tetriminoes.hpp"
 #include "TetrisEvent.hpp"
+#include "crtdbg.h"
+#ifdef MULTITHREADING
+Sand **grid_mem_address;
+void grid_mem_init()
+{
+    grid_mem_address = (Sand **) calloc(GRID_HEIGHT+2,sizeof(Sand *));
+    for(int i=0;i<GRID_HEIGHT+2;i++)
+        grid_mem_address[i] = (Sand *) calloc(GRID_WIDTH+2, sizeof(Sand));
+}
+#endif
 Grid::Grid(Game &game)
 {
     this->game = &game;
-    this->grid.resize(GRID_HEIGHT+2);
-    for(auto &x : this->grid) x.resize(GRID_WIDTH+2);
     controller = TetriminoController(game, Tetriminoes::randomTetrimino());
     this->next = Tetriminoes::randomTetrimino();
+    #ifdef MULTITHREADING
+    this->grid = grid_mem_address;
+    
     for (int i = 0; i < GRID_HEIGHT + 2; i++)
         grid[i][0] = grid[i][GRID_WIDTH + 1] = Sand(STATIC_SAND);
     for (int i = 0; i < GRID_WIDTH + 2; i++)
@@ -16,12 +27,22 @@ Grid::Grid(Game &game)
     for (int i = 1; i <= GRID_HEIGHT; i++)
         for (int j = 1; j <= GRID_WIDTH; j++)
             grid[i][j] = Sand();
+    #else
+    for (int i = 0; i < GRID_HEIGHT + 2; i++)
+        grid[i][0] = grid[i][GRID_WIDTH + 1] = Sand(STATIC_SAND);
+    for (int i = 0; i < GRID_WIDTH + 2; i++)
+        grid[0][i] = grid[GRID_HEIGHT + 1][i] = Sand(STATIC_SAND);
+    for (int i = 1; i <= GRID_HEIGHT; i++)
+        for (int j = 1; j <= GRID_WIDTH; j++)
+            grid[i][j] = Sand();
+    #endif
 }
 Grid::Grid() = default;
 Grid &Grid::operator=(const Grid &other)
 {
-    this->grid.resize(GRID_HEIGHT+2);
-    for(auto &x : this->grid) x.resize(GRID_WIDTH+2);
+    #ifdef MULTITHREADING
+    this->grid = other.grid;
+
     this->game = other.game;
     for (int i = 0; i < GRID_HEIGHT + 2; i++)
         grid[i][0] = grid[i][GRID_WIDTH + 1] = Sand(STATIC_SAND);
@@ -32,7 +53,19 @@ Grid &Grid::operator=(const Grid &other)
             grid[i][j] = other.grid[i][j];
     controller = other.controller;
     next = other.next;
+    #else
 
+    this->game = other.game;
+    for (int i = 0; i < GRID_HEIGHT + 2; i++)
+        grid[i][0] = grid[i][GRID_WIDTH + 1] = Sand(STATIC_SAND);
+    for (int i = 0; i < GRID_WIDTH + 2; i++)
+        grid[0][i] = grid[GRID_HEIGHT + 1][i] = Sand(STATIC_SAND);
+    for (int i = 1; i <= GRID_HEIGHT; i++)
+        for (int j = 1; j <= GRID_WIDTH; j++)
+            grid[i][j] = other.grid[i][j];
+    controller = other.controller;
+    next = other.next;
+    #endif
     return *this;
 }
 
@@ -230,39 +263,18 @@ pair<Uint8, Uint8> Grid::step(int i, int j, int times)
     }
     return {i, j};
 }
-/**
- * @brief update a part of the grid with:
- *
- * @param top top row of the part
- * @param left the left most collumn
- * @param width width of the part
- * @param height height of the part
- */
-void Grid::update_part(const int top, const int left, const int width, const int height, vector<pair<Uint8, Uint8>> &updated,const vector<vector<Sand>> *grid)
-{
-    for (int i = top + height - 1; i >= top; i--)
-    {
-        for (int j = left; j < left + width; j++)
-        {
-            if ((*grid)[i][j].mask)
-            {
-                int step_times = sdlgame::random::randint(2, 5);
-                pair<Uint8, Uint8> pos = this->step(i, j, step_times);
-                if (i != pos.first or j != pos.second)
-                    updated.push_back(pos);
-            }
-        }
-    }
-}
+
+
 
 void Grid::update()
 {
+    // cout << _CrtDumpMemoryLeaks() << endl;
+    // exit(0);
     this->update_timer += this->game->clock.delta_time();
     if (this->update_timer >= this->fixed_delta_time)
     {
         vector<pair<Uint8, Uint8>> updated_sands;
         this->update_timer -= this->fixed_delta_time;
-        // #define MULTITHREADING 1
         #ifndef MULTITHREADING
         for (int i = GRID_HEIGHT; i >= 1; i--)
         {
@@ -276,8 +288,7 @@ void Grid::update()
                 }
             }
         }
-        #endif
-        #ifdef MULTITHREADING
+        #else
         thread t[2][2];
         vector<pair<Uint8, Uint8>> res[2][2];
         for (int offset_y = 1; offset_y >= 0; offset_y--)
@@ -293,7 +304,7 @@ void Grid::update()
                         int w = GRID_WIDTH / 4;
                         int h = GRID_HEIGHT / 4;
                         t[i][j] =
-                            thread(update_part, top, left, w, h, std::move(res[i][j]), &(this->grid));
+                            thread(update_part, top, left, w, h, std::ref(res[i][j]));
                     }
                 }
                 for (int i = 1; i >= 0; i--)
@@ -330,6 +341,7 @@ void Grid::draw()
     {
         for (int j = 1; j <= GRID_WIDTH; j++)
         {
+            #ifndef MULTITHREADING
             if (grid[i][j].mask)
                 sdlgame::draw::point(
                     this->game->window,
@@ -339,8 +351,65 @@ void Grid::draw()
                         grid[i][j].color_offset_rgb     & 15),
                      j + GRID_X - 1, i + GRID_Y
                 );
+            #else
+            if (grid[i][j].mask)
+                sdlgame::draw::point(
+                    this->game->window,
+                    SandShiftColor.at(grid[i][j].mask).add_value(
+                        grid[i][j].color_offset_rgb >>4 & 15,
+                        grid[i][j].color_offset_rgb >>2 & 15,
+                        grid[i][j].color_offset_rgb     & 15),
+                     j + GRID_X - 1, i + GRID_Y
+                );
+            #endif
             // sdlgame::draw::rect(this->game->window,SandShiftColor.at(grid[i][j].mask),Rect(j+GRID_X,i+GRID_Y,1,1));
         }
     }
     controller.draw();
 }
+
+#ifdef MULTITHREADING
+pair<Uint8, Uint8> Grid::step(int i, int j, int times)
+{
+    while (times--)
+    {
+        if (!grid_mem_address[i + 1][j].mask)
+        {
+            swap(grid_mem_address[i][j], grid_mem_address[i + 1][j]);
+            // return step(i+1,j,times-1);
+            i++;
+        }
+        else if (!grid_mem_address[i + 1][j - 1].mask and !grid_mem_address[i][j - 1].mask)
+        {
+            swap(grid_mem_address[i][j], grid_mem_address[i][j - 1]);
+            // return step(i+1,j-1,times-1);
+            j--;
+        }
+        else if (!grid_mem_address[i + 1][j + 1].mask and !grid_mem_address[i][j + 1].mask)
+        {
+            swap(grid_mem_address[i][j], grid_mem_address[i][j + 1]);
+            // return step(i+1,j+1,times-1);
+            j++;
+        }
+    }
+    return {i, j};
+}
+
+void update_part(const int top, const int left, const int width, const int height, vector<pair<Uint8, Uint8>> &updated)
+{
+    for (int i = top + height - 1; i >= top; i--)
+    {
+        for (int j = left; j < left + width; j++)
+        {
+            if (grid_mem_address[i][j].mask)
+            {
+                int step_times = sdlgame::random::randint(2, 5);
+                pair<Uint8, Uint8> pos = step(i, j, step_times);
+                if (i != pos.first or j != pos.second)
+                    updated.push_back(pos);
+            }
+        }
+    }
+}
+
+#endif

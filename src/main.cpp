@@ -1,9 +1,12 @@
+// #define _CRTDBG_MAP_ALLOC
 #include "engine/engine.hpp"
 #include "splash_screens.hpp"
 #include "scene_transitions.hpp"
 #include "constant.hpp"
 #include "engine/gpu_optimize.hpp"
 #include "TetrisEvent.hpp"
+#include "Grid.hpp"
+#include "crtdbg.h"
 using namespace std;
 // If global declare is bad, i make MY OWN global declare >:)
 
@@ -26,6 +29,9 @@ public:
         audio_manager.sfx.load();
         sdlgame::display::set_caption("Sandtris - Made by thep1ckaxe");
         sdlgame::display::set_icon((base_path + "data/image/icon/icon.png").c_str());
+        #ifdef MULTITHREADING
+        grid_mem_init();
+        #endif
         // cout<<this->images.start_button_idle.texture<<" "<<this->images.start_button_hover.texture<<" "<<this->images.start_button_click.texture<<endl;
         // exit(0);
     }
@@ -98,6 +104,7 @@ public:
         this->add_scene(NULL,next,in);
         while (true)
         {
+            clock.tick(MAXFPS);
             for (auto &event : sdlgame::event::get())
             {
                 if (event.type == sdlgame::QUIT)
@@ -129,13 +136,13 @@ public:
                 sdlgame::display::flip();
                 // sdlgame::display::set_caption((to_string(clock.get_fps())).c_str());
             }
-            clock.tick(MAXFPS);
         }
     }
 };
 
 int main(int argc, char **argv)
 {
+    // _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
     sdlgame::init();
     sdlgame::mixer::init();
     sdlgame::mixer::set_num_channels(16);

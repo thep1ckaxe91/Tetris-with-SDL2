@@ -10,6 +10,14 @@ using namespace std;
 /**
  * Yes, the array start from 1, the rest is the border
  */
+
+
+// #define MULTITHREADING 1
+
+#ifdef MULTITHREADING
+extern Sand **grid_mem_address;
+void grid_mem_init();
+#endif
 class Grid
 {
 private:
@@ -17,8 +25,11 @@ private:
     int score1 = 0, score2 = 0;
 
 public:
-    // Sand grid[GRID_HEIGHT + 2][GRID_WIDTH + 2];
-    vector<vector<Sand>> grid;
+    #ifndef MULTITHREADING
+    Sand grid[GRID_HEIGHT + 2][GRID_WIDTH + 2];
+    #else
+    Sand **grid;
+    #endif
     Tetrimino next;
     vector<pair<Uint8, Uint8>> pos;
     Surface vfx_mask;
@@ -38,13 +49,17 @@ public:
     void update();
     void draw();
 
-    //multithreading optimization
-    void update_part(int top, int left, int width, int height, vector<pair<Uint8,Uint8>> &updated,const vector<vector<Sand>> *grid);
-
     // these function should make the sand fall better somehow
-
+    
     pair<Uint8,Uint8> step(int i,int j, int times);
 
 };
+
+#ifdef MULTITHREADING//multithreading optimization
+void update_part(const int top,const int left,const int width,const int height, vector<pair<Uint8,Uint8>> &updated);
+pair<Uint8,Uint8> step(int i,int j, int times);
+
+#endif
+
 
 #endif
