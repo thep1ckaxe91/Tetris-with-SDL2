@@ -24,6 +24,7 @@ private:
     double update_timer = 0;
     int score1 = 0, score2 = 0;
     std::mutex mtx;
+    std::thread update_thread[2][2];
 public:
     #ifndef MULTITHREADING
     Sand grid[GRID_HEIGHT + 2][GRID_WIDTH + 2];

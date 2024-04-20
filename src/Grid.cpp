@@ -3,6 +3,7 @@
 #include "tetriminoes.hpp"
 #include "TetrisEvent.hpp"
 #include "crtdbg.h"
+#include "flags.hpp"
 #ifdef MULTITHREADING
 Sand **grid_mem_address;
 void grid_mem_init()
@@ -264,8 +265,6 @@ pair<Uint8, Uint8> Grid::step(int i, int j, int times)
     return {i, j};
 }
 
-
-
 void Grid::update()
 {
     this->update_timer += this->game->clock.delta_time();
@@ -287,7 +286,6 @@ void Grid::update()
             }
         }
         #else
-        thread t[2][2];
         vector<pair<Uint8, Uint8>> res[2][2];
         for (int offset_y = 1; offset_y >= 0; offset_y--)
         {
@@ -301,7 +299,7 @@ void Grid::update()
                         int left = j * GRID_WIDTH / 2 + offset_x * GRID_WIDTH / 4 + 1;
                         int w = GRID_WIDTH / 4;
                         int h = GRID_HEIGHT / 4;
-                        t[i][j] =
+                        this->update_thread[i][j] =
                             thread(update_part, top, left, w, h, std::ref(res[i][j]));
                     }
                 }
@@ -309,7 +307,7 @@ void Grid::update()
                 {
                     for (int j = 0; j < 2; j++)
                     {
-                        t[i][j].join();
+                        this->update_thread[i][j].join();
                         updated_sands.insert(updated_sands.end(), res[i][j].begin(), res[i][j].end());
                     }
                 }
@@ -399,6 +397,7 @@ void update_part(const int top, const int left, const int width, const int heigh
     {
         for (int j = left; j < left + width; j++)
         {
+            if(game_ended) return;
             if (grid_mem_address[i][j].mask)
             {
                 int step_times = sdlgame::random::randint(2, 5);

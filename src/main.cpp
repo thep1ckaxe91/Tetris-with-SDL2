@@ -7,6 +7,7 @@
 #include "TetrisEvent.hpp"
 #include "Grid.hpp"
 #include "crtdbg.h"
+#include "flags.hpp"
 using namespace std;
 // If global declare is bad, i make MY OWN global declare >:)
 
@@ -107,8 +108,9 @@ public:
             clock.tick(MAXFPS);
             for (auto &event : sdlgame::event::get())
             {
-                if (event.type == sdlgame::QUIT)
+                if (event.type == sdlgame::QUIT or (event.type == sdlgame::WINDOWEVENT and event["event"] == sdlgame::WINDOWCLOSE))
                 {
+                    game_ended = 1;
                     sdlgame::quit();
                     exit(0);
                 }
