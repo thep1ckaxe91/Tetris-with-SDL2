@@ -33,8 +33,11 @@ void Images::load()
 
     gameplay_background = sdlgame::image::load(base_path + "data/image/background/gameplay_background.png");
     mainmenu_background = sdlgame::image::load(base_path + "data/image/background/mainmenu_sand_background.png");
-    // credit_image = sdlgame::image::load(base_path + "data/image/background/credit_image.png");
+    credit_image = sdlgame::image::load(base_path + "data/image/background/credit_image.png");
     game_frame = sdlgame::image::load(base_path + "data/image/background/game_frame.png");
-    
+    instruction_image = sdlgame::image::load(base_path + "data/image/background/instruction.png");
+    pb_background = sdlgame::image::load(base_path + "data/image/background/view_personal_best.png");
+
     gameover_screen = sdlgame::image::load(base_path + "data/image/background/gameover_screen.png");
+
 }

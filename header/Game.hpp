@@ -38,7 +38,7 @@ public:
     // void add_scene(T1 *out, T2 *next, T3 *in);
     void add_scene(SceneTransition *out, Scene *scene, SceneTransition *in);
     // completely goback
-    void remove_scene();
+    void remove_scene(SceneTransition* out, SceneTransition* in);
     // remove a scene and add another
     // template <class T1, class T2, class T3>
     // void pop_scene(T1* out, T2* next, T3* in);

@@ -33,6 +33,7 @@ public:
     void update();
     void draw();
     void handle_event(sdlgame::event::Event &event);
+    ~GamePlay();
 };
 
 #endif

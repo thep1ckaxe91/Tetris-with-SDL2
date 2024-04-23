@@ -1,5 +1,6 @@
 #include "BackButton.hpp"
 #include "Game.hpp"
+#include "scene_transitions.hpp"
 
 BackButton::BackButton(Game &game)
 {
@@ -15,7 +16,9 @@ void BackButton::handle_event(Event &event)
 }
 void BackButton::on_click()
 {
-    this->game->remove_scene();
+    OutFade *out = new OutFade(0.3);
+    InFade *in = new InFade(0.3);
+    this->game->remove_scene(out,in);
 }
 void BackButton::update()
 {

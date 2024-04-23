@@ -14,7 +14,9 @@ using namespace std;
 class Sandtris : public Game
 {
 public:
+    #ifdef MULTITHREADING
     bool gameactive = 1;
+    #endif
     bool played = 0;
     Sandtris() : Game()
     {
@@ -22,7 +24,7 @@ public:
             RESOLUTION_WIDTH, RESOLUTION_HEIGHT,
             0
             // |sdlgame::MAXIMIZED
-            |sdlgame::RESIZABLE
+            // |sdlgame::RESIZABLE
         );
         this->window = Surface(RESOLUTION_WIDTH, RESOLUTION_HEIGHT);
         sdlgame::display::fullscreen_desktop();
@@ -43,6 +45,12 @@ public:
             {
                 scene_list.back()->update();
             }
+        if(this->command == REMOVE)
+        {
+            this->command = NONE;
+            delete this->scene_list.back();
+            this->scene_list.pop_back();
+        }
         if (this->out)
         {
             if(!played){
@@ -62,6 +70,7 @@ public:
             {
                 if(this->command==POP)
                 {
+                    this->command = NONE;
                     delete scene_list.back();
                     scene_list.pop_back();
                 }

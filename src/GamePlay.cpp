@@ -18,6 +18,8 @@ GamePlay::GamePlay(Game &game) : Scene(game)
     next_display_color = this->grid.next.color;
     flow1 = next_color_display_rect.inflate(0,1);
     flow2 = flow1.move(0, next_color_display_rect.getHeight());
+    color_flow1 = "none";
+    color_flow2 = "none";
 
     next_shape_surf = Surface(next_shape_display_rect.getWidth(), next_shape_display_rect.getHeight());
     redraw_next_shape();
@@ -34,6 +36,9 @@ GamePlay::GamePlay(Game &game) : Scene(game)
     tmp.fill("none");
     count_down.set_default(tmp);
     count_down.play();
+
+    sdlgame::music::load(base_path + "data/audio/music/tetris_theme_loop_instrument.mp3");
+    sdlgame::music::play(-1);
 
     this->gameover = 0;
     this->blipcount = 100;
@@ -69,6 +74,7 @@ void GamePlay::handle_event(sdlgame::event::Event &event)
     }
     else if(event.type == GAMEOVER)
     {
+        sdlgame::music::stop();
         gameover = 1;
     }
 }
@@ -140,4 +146,9 @@ void GamePlay::draw()
 
     
     this->game->window.blit(this->score_surf, this->score_rect.getTopLeft());
+}
+
+GamePlay::~GamePlay()
+{
+    // sdlgame::music::stop();
 }
