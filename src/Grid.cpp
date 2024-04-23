@@ -5,12 +5,13 @@
 #include "crtdbg.h"
 #include "flags.hpp"
 #ifdef MULTITHREADING
+std::mutex grid_mutex;
 Sand **grid_mem_address;
 void grid_mem_init()
 {
-    grid_mem_address = (Sand **) calloc(GRID_HEIGHT+2,sizeof(Sand *));
-    for(int i=0;i<GRID_HEIGHT+2;i++)
-        grid_mem_address[i] = (Sand *) calloc(GRID_WIDTH+2, sizeof(Sand));
+    grid_mem_address = (Sand **)calloc(GRID_HEIGHT + 2, sizeof(Sand *));
+    for (int i = 0; i < GRID_HEIGHT + 2; i++)
+        grid_mem_address[i] = (Sand *)calloc(GRID_WIDTH + 2, sizeof(Sand));
 }
 #endif
 Grid::Grid(Game &game)
@@ -18,9 +19,9 @@ Grid::Grid(Game &game)
     this->game = &game;
     controller = TetriminoController(game, Tetriminoes::randomTetrimino());
     this->next = Tetriminoes::randomTetrimino();
-    #ifdef MULTITHREADING
+#ifdef MULTITHREADING
     this->grid = grid_mem_address;
-    
+
     for (int i = 0; i < GRID_HEIGHT + 2; i++)
         grid[i][0] = grid[i][GRID_WIDTH + 1] = Sand(STATIC_SAND);
     for (int i = 0; i < GRID_WIDTH + 2; i++)
@@ -28,7 +29,7 @@ Grid::Grid(Game &game)
     for (int i = 1; i <= GRID_HEIGHT; i++)
         for (int j = 1; j <= GRID_WIDTH; j++)
             grid[i][j] = Sand();
-    #else
+#else
     for (int i = 0; i < GRID_HEIGHT + 2; i++)
         grid[i][0] = grid[i][GRID_WIDTH + 1] = Sand(STATIC_SAND);
     for (int i = 0; i < GRID_WIDTH + 2; i++)
@@ -36,12 +37,12 @@ Grid::Grid(Game &game)
     for (int i = 1; i <= GRID_HEIGHT; i++)
         for (int j = 1; j <= GRID_WIDTH; j++)
             grid[i][j] = Sand();
-    #endif
+#endif
 }
 Grid::Grid() = default;
 Grid &Grid::operator=(const Grid &other)
 {
-    #ifdef MULTITHREADING
+#ifdef MULTITHREADING
     this->grid = other.grid;
 
     this->game = other.game;
@@ -54,7 +55,7 @@ Grid &Grid::operator=(const Grid &other)
             grid[i][j] = other.grid[i][j];
     controller = other.controller;
     next = other.next;
-    #else
+#else
 
     this->game = other.game;
     for (int i = 0; i < GRID_HEIGHT + 2; i++)
@@ -66,7 +67,7 @@ Grid &Grid::operator=(const Grid &other)
             grid[i][j] = other.grid[i][j];
     controller = other.controller;
     next = other.next;
-    #endif
+#endif
     return *this;
 }
 
@@ -272,21 +273,21 @@ void Grid::update()
     {
         vector<pair<Uint8, Uint8>> updated_sands;
         this->update_timer -= this->fixed_delta_time;
-        #ifndef MULTITHREADING
+#ifndef MULTITHREADING
         for (int i = GRID_HEIGHT; i >= 1; i--)
         {
             for (int j = 1; j <= GRID_WIDTH; j++)
             {
                 if (grid[i][j].mask)
                 {
-                    int step_times = sdlgame::random::randint(2,5);
-                    pair<Uint8,Uint8> pos = this->step(i,j,step_times);
-                    if(i!=pos.first or j!=pos.second) updated_sands.push_back(pos);
+                    int step_times = sdlgame::random::randint(2, 5);
+                    pair<Uint8, Uint8> pos = this->step(i, j, step_times);
+                    if (i != pos.first or j != pos.second)
+                        updated_sands.push_back(pos);
                 }
             }
         }
-        #else
-        vector<pair<Uint8, Uint8>> res[2][2];
+#else
         for (int offset_y = 1; offset_y >= 0; offset_y--)
         {
             for (int offset_x = 0; offset_x < 2; offset_x++)
@@ -300,7 +301,7 @@ void Grid::update()
                         int w = GRID_WIDTH / 4;
                         int h = GRID_HEIGHT / 4;
                         this->update_thread[i][j] =
-                            thread(update_part, top, left, w, h, std::ref(res[i][j]));
+                            thread(update_part, top, left, w, h, std::ref(updated_sands));
                     }
                 }
                 for (int i = 1; i >= 0; i--)
@@ -308,12 +309,11 @@ void Grid::update()
                     for (int j = 0; j < 2; j++)
                     {
                         this->update_thread[i][j].join();
-                        updated_sands.insert(updated_sands.end(), res[i][j].begin(), res[i][j].end());
                     }
                 }
             }
         }
-        #endif
+#endif
         if (!updated_sands.empty())
         {
             int added = check_scoring(updated_sands);
@@ -333,34 +333,31 @@ void Grid::update()
 }
 void Grid::draw()
 {
+    #ifndef MULTITHREADING
     for (int i = 1; i <= GRID_HEIGHT; i++)
     {
         for (int j = 1; j <= GRID_WIDTH; j++)
         {
-            #ifndef MULTITHREADING
             if (grid[i][j].mask)
                 sdlgame::draw::point(
                     this->game->window,
-                    SandShiftColor.at(grid[i][j].mask).add_value(
-                        grid[i][j].color_offset_rgb >>4 & 15,
-                        grid[i][j].color_offset_rgb >>2 & 15,
-                        grid[i][j].color_offset_rgb     & 15),
-                     j + GRID_X - 1, i + GRID_Y
-                );
-            #else
-            if (grid[i][j].mask)
-                sdlgame::draw::point(
-                    this->game->window,
-                    SandShiftColor.at(grid[i][j].mask).add_value(
-                        grid[i][j].color_offset_rgb >>4 & 15,
-                        grid[i][j].color_offset_rgb >>2 & 15,
-                        grid[i][j].color_offset_rgb     & 15),
-                     j + GRID_X - 1, i + GRID_Y
-                );
-            #endif
-            // sdlgame::draw::rect(this->game->window,SandShiftColor.at(grid[i][j].mask),Rect(j+GRID_X,i+GRID_Y,1,1));
+                    SandShiftColor.at(grid[i][j].mask).add_value(grid[i][j].color_offset_rgb >> 4 & 15, grid[i][j].color_offset_rgb >> 2 & 15, grid[i][j].color_offset_rgb & 15),
+                    j + GRID_X - 1, i + GRID_Y);
         }
     }
+    #else
+    for (int i = 1; i <= GRID_HEIGHT; i++)
+    {
+        for (int j = 1; j <= GRID_WIDTH; j++)
+        {
+            if (grid[i][j].mask)
+                sdlgame::draw::point(
+                    this->game->window,
+                    SandShiftColor.at(grid[i][j].mask).add_value(grid[i][j].color_offset_rgb >> 4 & 15, grid[i][j].color_offset_rgb >> 2 & 15, grid[i][j].color_offset_rgb & 15),
+                    j + GRID_X - 1, i + GRID_Y);
+        }
+    }
+    #endif
     controller.draw();
 }
 
@@ -397,13 +394,17 @@ void update_part(const int top, const int left, const int width, const int heigh
     {
         for (int j = left; j < left + width; j++)
         {
-            if(game_ended) return;
+            if (game_ended)
+                return;
             if (grid_mem_address[i][j].mask)
             {
                 int step_times = sdlgame::random::randint(2, 5);
                 pair<Uint8, Uint8> pos = step(i, j, step_times);
                 if (i != pos.first or j != pos.second)
+                {
+                    std::lock_guard<std::mutex> lock(grid_mutex);
                     updated.push_back(pos);
+                }
             }
         }
     }
