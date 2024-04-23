@@ -4,7 +4,7 @@
 Credit::Credit(Game &game) : Scene(game)
 {
     back_button = BackButton(game);
-
+    back_button.rect.setTopLeft(this->bb_pos);
 }
 
 void Credit::handle_event(Event &event)
