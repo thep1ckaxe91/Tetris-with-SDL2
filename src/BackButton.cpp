@@ -16,8 +16,8 @@ void BackButton::handle_event(Event &event)
 }
 void BackButton::on_click()
 {
-    OutFade *out = new OutFade(0.3);
-    InFade *in = new InFade(0.3);
+    OutFade *out = new OutFade(0.5);
+    InFade *in = new InFade(0.5);
     this->game->remove_scene(out,in);
 }
 void BackButton::update()

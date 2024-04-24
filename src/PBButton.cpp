@@ -1,5 +1,6 @@
 #include "PBButton.hpp"
-
+#include "PersonalBest.hpp"
+#include "scene_transitions.hpp"
 PBButton::PBButton(Game &game)
 {
     this->game = &game;
@@ -10,7 +11,11 @@ PBButton::PBButton(Game &game)
 PBButton::PBButton() = default;
 void PBButton::on_click()
 {
-    
+    InFade *in = new InFade(1);
+    OutFade *out = new OutFade(1);
+    PersonalBest *next = new PersonalBest(*game);
+
+    this->game->add_scene(out,next,in);
 }
 
 void PBButton::update()

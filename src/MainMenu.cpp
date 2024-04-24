@@ -7,6 +7,9 @@ MainMenu::MainMenu(Game &game) : Scene(game){
     this->credit_button.rect.setTopLeft(8,RESOLUTION_HEIGHT-8*2-16*2);
     this->quit_button = QuitButton(game);
     this->quit_button.rect.setTopLeft(8,RESOLUTION_HEIGHT-8-16);
+    this->pb_button = PBButton(game);
+    this->pb_button.rect.setTopLeft(109,47);
+    
 }
 void MainMenu::handle_event(Event &event)
 {

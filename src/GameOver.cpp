@@ -12,7 +12,7 @@ GameOver::GameOver(Game &game, int new_score) : Scene(game)
     retry.rect = retry.image.getRect();
     retry.rect.setTopLeft(retry_button_pos);
 
-    score_font = Font(base_path + "data/fonts/sandtris pixel.ttf",FONT_SIZE);
+    score_font = Font(font_path,FONT_SIZE);
 
     this->new_score = new_score;
     this->pb = get_personal_best();
