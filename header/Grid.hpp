@@ -24,17 +24,17 @@ class Grid
 private:
     double update_timer = 0;
     int score1 = 0, score2 = 0;
-    std::thread update_thread[2][2];
 public:
     #ifndef MULTITHREADING
     Sand grid[GRID_HEIGHT + 2][GRID_WIDTH + 2];
     #else
+    std::thread update_thread[2][2];
     Sand **grid;
     #endif
     Tetrimino next;
     vector<pair<Uint8, Uint8>> pos;
-    Surface vfx_mask;
-    bool vfx_show;
+    // Surface vfx_mask;
+    // bool vfx_show;
     Game *game;
     const double fixed_delta_time = 0.07;
     TetriminoController controller;

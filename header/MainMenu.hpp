@@ -6,6 +6,7 @@
 #include "CreditButton.hpp"
 #include "engine/engine.hpp"
 #include "PBButton.hpp"
+#include "HTPButton.hpp"
 class MainMenu : public Scene
 {
 public:
@@ -13,7 +14,7 @@ public:
     QuitButton quit_button;
     CreditButton credit_button;
     PBButton pb_button;
-
+    HTPButton htp_button;
     MainMenu(Game &game);
     void handle_event(Event &event);
     void update();

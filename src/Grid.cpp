@@ -74,6 +74,18 @@ Grid &Grid::operator=(const Grid &other)
 void Grid::handle_event(Event &event)
 {
     controller.handle_event(event);
+    if(event.type == sdlgame::KEYDOWN)
+    {
+        if(event["key"] == sdlgame::K_SPACE)
+        {
+            sdlgame::event::post(SLAM);
+            
+        }
+        else if(event["key"] == sdlgame::K_p)
+        {
+            sdlgame::event::post(GAME_PAUSE);
+        }
+    }
 }
 void Grid::normalize_tetrimino()
 {
@@ -115,7 +127,7 @@ int Grid::get_score() { return score1 + score2; }
 int Grid::check_scoring(std::vector<pair<Uint8, Uint8>> &updated_sands)
 {
     queue<pair<Uint8, Uint8>> q;
-    vector<pair<Uint8, Uint8>> pos;
+    // vector<pair<Uint8, Uint8>> pos;
     bitset<GRID_WIDTH + 2> visited[GRID_HEIGHT + 2];
     for (auto &[i, j] : updated_sands)
     {

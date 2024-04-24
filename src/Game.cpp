@@ -12,8 +12,6 @@ void Game::remove_scene(SceneTransition* out, SceneTransition* in)
     if (this->scene_list.size() > 0)
     {
         this->command = REMOVE;
-        delete scene_list[scene_list.size()-1];
-        scene_list.pop_back();
         this->in = in;
         this->out = out;
     }

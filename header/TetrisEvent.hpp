@@ -17,6 +17,8 @@ typedef enum
     SCENETRANS_IN = sdlgame::USEREVENT + 8,
     COUNT_DOWN = sdlgame::USEREVENT + 9,
     COUNT_DOWN_START = sdlgame::USEREVENT + 10,
+    SLAM = sdlgame::USEREVENT + 11,
+    GAME_PAUSE = sdlgame::USEREVENT + 12,
 } Tetris_Event;
 
 #endif

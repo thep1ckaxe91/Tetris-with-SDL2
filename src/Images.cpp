@@ -30,7 +30,7 @@ void Images::load()
     retry_button_hover = sdlgame::image::load(base_path + "data/image/ui/retry_button/retry_button_hover.png");
     retry_button_click = sdlgame::image::load(base_path + "data/image/ui/retry_button/retry_button_click.png");
 
-    pb_button_idle = sdlgame::image::load(base_path + "data/image/ui/personal_best/pb_click.png");
+    pb_button_idle = sdlgame::image::load(base_path + "data/image/ui/personal_best/pb_idle.png");
     pb_button_hover = sdlgame::image::load(base_path + "data/image/ui/personal_best/pb_hover.png");
     pb_button_click = sdlgame::image::load(base_path + "data/image/ui/personal_best/pb_click.png");
 

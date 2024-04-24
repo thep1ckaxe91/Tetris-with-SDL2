@@ -145,7 +145,7 @@ namespace sdlgame {
     const Uint32 K_RETURN=SDL_SCANCODE_RETURN;
     const Uint32 K_BACKSPACE=SDL_SCANCODE_BACKSPACE;
     const Uint32 K_BACKSLASH=SDL_SCANCODE_BACKSLASH;
-
+    const Uint32 K_SPACE=SDL_SCANCODE_SPACE;
 }
 
 #endif

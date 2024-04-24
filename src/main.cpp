@@ -45,10 +45,6 @@ public:
             {
                 scene_list.back()->update();
             }
-        if(this->command == REMOVE)
-        {
-            this->command = NONE;
-        }
         if (this->out)
         {
             if(!played){
@@ -74,6 +70,12 @@ public:
                 }
                 scene_list.push_back(this->next);
                 this->next = nullptr;
+            }
+            else if(this->command == REMOVE)
+            {
+                this->command = NONE;
+                delete scene_list[scene_list.size()-1];
+                scene_list.pop_back();
             }
             in->update(clock.delta_time());
             if (in->isDone)
