@@ -33,6 +33,14 @@ public:
     Surface retry_button_hover;
     Surface retry_button_click;
 
+    Surface pb_button_idle;
+    Surface pb_button_hover;
+    Surface pb_button_click;
+
+    Surface htp_button_idle;
+    Surface htp_button_hover;
+    Surface htp_button_click;
+
     Surface gameplay_background;
     Surface mainmenu_background;
     Surface credit_image;

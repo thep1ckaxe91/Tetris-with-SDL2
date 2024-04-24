@@ -48,8 +48,6 @@ public:
         if(this->command == REMOVE)
         {
             this->command = NONE;
-            delete this->scene_list.back();
-            this->scene_list.pop_back();
         }
         if (this->out)
         {
