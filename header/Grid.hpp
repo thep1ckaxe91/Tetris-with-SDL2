@@ -13,7 +13,6 @@ using namespace std;
 
 
 // #define MULTITHREADING 1
-
 #ifdef MULTITHREADING
 extern std::mutex grid_mutex;
 extern Sand **grid_mem_address;
@@ -33,8 +32,9 @@ public:
     #endif
     Tetrimino next;
     vector<pair<Uint8, Uint8>> pos;
-    // Surface vfx_mask;
-    // bool vfx_show;
+    Surface ghost;
+    Color ghost_color;
+    Vector2 ghost_topleft;
     Game *game;
     const double fixed_delta_time = 0.07;
     TetriminoController controller;
@@ -47,6 +47,9 @@ public:
     int get_score();
     int check_scoring(std::vector<pair<Uint8, Uint8>> &updated_sands);
     void handle_event(Event &event);
+    void update_ghost();
+    void update_ghost_shape();
+    void draw_ghost();
     void update();
     void draw();
 

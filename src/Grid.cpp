@@ -18,7 +18,10 @@ Grid::Grid(Game &game)
 {
     this->game = &game;
     controller = TetriminoController(game, Tetriminoes::randomTetrimino());
+    update_ghost_shape();
     this->next = Tetriminoes::randomTetrimino();
+    this->ghost = Surface(32,32);
+    this->ghost_color = Color("white");
 #ifdef MULTITHREADING
     this->grid = grid_mem_address;
 
@@ -56,7 +59,8 @@ Grid &Grid::operator=(const Grid &other)
     controller = other.controller;
     next = other.next;
 #else
-
+    this->ghost = other.ghost;
+    this->ghost_color = other.ghost_color;
     this->game = other.game;
     for (int i = 0; i < GRID_HEIGHT + 2; i++)
         grid[i][0] = grid[i][GRID_WIDTH + 1] = Sand(STATIC_SAND);
@@ -74,16 +78,22 @@ Grid &Grid::operator=(const Grid &other)
 void Grid::handle_event(Event &event)
 {
     controller.handle_event(event);
-    if(event.type == sdlgame::KEYDOWN)
+    if (event.type == sdlgame::KEYDOWN)
     {
-        if(event["key"] == sdlgame::K_SPACE)
+        if (event["key"] == sdlgame::K_SPACE)
         {
             sdlgame::event::post(SLAM);
-            
+            // move the tetrimino to the lowest point right below and immediatly merge
+            controller.topleft = ghost_topleft;
         }
-        else if(event["key"] == sdlgame::K_p)
+        else if (event["key"] == sdlgame::K_p)
         {
             sdlgame::event::post(GAME_PAUSE);
+            // pause scene
+        }
+        else if (event["key"] == sdlgame::K_w or event["key"] == sdlgame::K_UP)
+        {
+            update_ghost_shape();
         }
     }
 }
@@ -127,7 +137,7 @@ int Grid::get_score() { return score1 + score2; }
 int Grid::check_scoring(std::vector<pair<Uint8, Uint8>> &updated_sands)
 {
     queue<pair<Uint8, Uint8>> q;
-    // vector<pair<Uint8, Uint8>> pos;
+    pos.clear();
     bitset<GRID_WIDTH + 2> visited[GRID_HEIGHT + 2];
     for (auto &[i, j] : updated_sands)
     {
@@ -242,6 +252,7 @@ void Grid::collision_check()
                                     this->controller.reset(this->next);
                                     this->next = Tetriminoes::randomTetrimino();
                                     sdlgame::event::post(MERGING);
+                                    update_ghost_shape();
                                     break;
                                 }
                             }
@@ -277,7 +288,59 @@ pair<Uint8, Uint8> Grid::step(int i, int j, int times)
     }
     return {i, j};
 }
+/**
+ * @brief everytime rotate or change shape due to merge, we should redraw the ghost
+ * acoording to the current tetrimino
+ */
+void Grid::update_ghost_shape()
+{
+    auto get_from_pos = [&](const int i,const int j)
+    {
+        return (3-i)*4 + (3-j);    
+    };
+    ghost.fill("none");
+    for(int i=0;i<4;i++)
+    {
+        for(int j=0;j<4;j++)
+        {
+            if( this->controller.tetrimino.mask >> get_from_pos(i,j) & 1)
+            {
+                sdlgame::draw::rect(ghost,ghost_color,Rect(j*8,i*8,8,8),1);
+            }
+        }
+    }
+}
+void Grid::update_ghost()
+{
+    bitset<4> checked; // if the ith collumn is check or not
+    int min_height = 144 ; // min distance 
+    // get the min distance from the tetrimino down to display the ghost
+    for (int shift = 0; shift < 16; shift++)
+    {
+        if ((this->controller.tetrimino.mask >> shift & 1) and !checked[shift%4])
+        {
+            checked[shift % 4] = 1;
+            int left = this->controller.topleft.x + 8 * (3 - shift % 4)      - GRID_X;
+            int right = this->controller.topleft.x + 8 * (3 - shift % 4) + 8 - GRID_X;
+            for (int j = left; j < right; j++)
+            {
+                int i = this->controller.topleft.y + 8 * (3 - shift / 4) - GRID_Y;
+                int cnt=0;
+                while(grid[i++][j+1].mask == 0)
+                {
+                    cnt++;
+                    if(cnt>=min_height) break;
+                }
+                min_height = min(min_height,cnt);
+            }
+        }
+    }
+    // update the topleft of the ghost
+    ghost_topleft = this->controller.topleft + Vector2(0,min_height-8);
+    ghost_topleft.x = int(ghost_topleft.x);
+    ghost_topleft.y = int(ghost_topleft.y);
 
+}
 void Grid::update()
 {
     this->update_timer += this->game->clock.delta_time();
@@ -341,11 +404,18 @@ void Grid::update()
         this->game->window_draw_offset.y--;
     controller.update();
     normalize_tetrimino();
+    update_ghost_shape();
+    update_ghost();
     collision_check();
+}
+void Grid::draw_ghost()
+{
+    // sdlgame::draw::rect(ghost,"red",Rect(0,0,32,32),1);
+    this->game->window.blit(ghost,ghost_topleft);
 }
 void Grid::draw()
 {
-    #ifndef MULTITHREADING
+#ifndef MULTITHREADING
     for (int i = 1; i <= GRID_HEIGHT; i++)
     {
         for (int j = 1; j <= GRID_WIDTH; j++)
@@ -357,7 +427,7 @@ void Grid::draw()
                     j + GRID_X - 1, i + GRID_Y);
         }
     }
-    #else
+#else
     for (int i = 1; i <= GRID_HEIGHT; i++)
     {
         for (int j = 1; j <= GRID_WIDTH; j++)
@@ -369,8 +439,9 @@ void Grid::draw()
                     j + GRID_X - 1, i + GRID_Y);
         }
     }
-    #endif
+#endif
     controller.draw();
+    draw_ghost();
 }
 
 #ifdef MULTITHREADING
