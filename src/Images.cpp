@@ -38,6 +38,10 @@ void Images::load()
     htp_button_hover =sdlgame::image::load(base_path + "data/image/ui/how_to_play/htp_hover.png");
     htp_button_click =sdlgame::image::load(base_path + "data/image/ui/how_to_play/htp_click.png");
 
+    pause_button_idle = sdlgame::image::load(base_path + "data/image/ui/pause_button/pause_button_idle.png");
+    pause_button_hover =sdlgame::image::load(base_path + "data/image/ui/pause_button/pause_button_hover.png");
+    pause_button_click =sdlgame::image::load(base_path + "data/image/ui/pause_button/pause_button_click.png");
+
     gameplay_background = sdlgame::image::load(base_path + "data/image/background/gameplay_background.png");
     mainmenu_background = sdlgame::image::load(base_path + "data/image/background/mainmenu_sand_background.png");
     credit_image = sdlgame::image::load(base_path + "data/image/background/credit_image.png");

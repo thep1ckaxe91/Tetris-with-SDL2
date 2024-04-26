@@ -40,6 +40,10 @@ public:
     Surface htp_button_idle;
     Surface htp_button_hover;
     Surface htp_button_click;
+    
+    Surface pause_button_idle;
+    Surface pause_button_hover;
+    Surface pause_button_click;
 
     Surface gameplay_background;
     Surface mainmenu_background;
