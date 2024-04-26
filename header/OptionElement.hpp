@@ -6,8 +6,8 @@ using namespace std;
 
 class SFXVolumeSlider : public Slider
 {
-    Game *game;
 public:
+    Game *game;
     SFXVolumeSlider(Game &game, Vector2 topleft, float value, float length, float max_value);
     SFXVolumeSlider();
     void update();
@@ -16,19 +16,32 @@ public:
     void on_change_value();
 };
 
-class OptionElement
+class MusicVolumeSlider : public Slider
 {
-
 public:
-    string label;
-    Surface label_surf;
-    Font label_font;
-    Vector2 topleft;
-    OptionElement(Vector2 topleft, string name, float value, float max_value);
-    OptionElement();
+    Game *game;
+    MusicVolumeSlider(Game &game, Vector2 topleft, float value, float length, float max_value);
+    MusicVolumeSlider();
     void update();
     void handle_event(Event &event);
     void draw();
+    void on_change_value();
 };
+
+// class OptionElement
+// {
+
+// public:
+//     string label;
+//     Surface label_surf;
+//     Font label_font;
+//     Vector2 topleft;
+//     Slider *setter;
+//     OptionElement(Vector2 topleft, string name, float value, float max_value);
+//     OptionElement();
+//     void update();
+//     void handle_event(Event &event);
+//     void draw();
+// };
 
 #endif

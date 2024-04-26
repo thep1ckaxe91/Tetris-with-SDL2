@@ -1,4 +1,6 @@
 #include "PauseButton.hpp"
+#include "Pause.hpp"
+#include "scene_transitions.hpp"
 PauseButton::PauseButton(Game &game)
 {
     this->game = &game;
@@ -15,7 +17,10 @@ void PauseButton::handle_event(Event &event)
 {
     Button::handle_event(event);
 }
-void on_click()
+void PauseButton::on_click()
 {
-    
+    OutFade *out = new OutFade(1);
+    InFade *in = new InFade(1);
+    Pause *next = new Pause(*game);
+    this->game->add_scene(out,next,in);
 }

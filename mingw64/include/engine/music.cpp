@@ -38,3 +38,17 @@ double sdlgame::music::duration()
 {
     return Mix_MusicDuration(music);
 }
+int sdlgame::music::convert_volume_value(float value)
+{
+    return int((value >= 1 ? 1 : value) / 1.0 * 128);
+}
+void sdlgame::music::set_volume(float value)
+{
+    Mix_VolumeMusic(convert_volume_value(value));
+
+}
+void sdlgame::music::get_volume()
+{
+    Mix_VolumeMusic(-1);
+
+}

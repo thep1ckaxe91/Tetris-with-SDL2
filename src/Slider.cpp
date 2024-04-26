@@ -1,5 +1,15 @@
 #include "Slider.hpp"
-
+#include "constant.hpp"
+using namespace std;
+/**
+ * @brief Construct a new Slider:: Slider object
+ * 
+ * @param topleft start point of the slider, also be the mid left of the label
+ * @param value current value of the slider
+ * @param slide_length length of the slider
+ * @param max_value 0 to max value is the value range
+ * @param text text for the label
+ */
 Slider::Slider(Vector2 topleft, float value, float slide_length, float max_value)
 {
     this->value = value;
@@ -7,8 +17,18 @@ Slider::Slider(Vector2 topleft, float value, float slide_length, float max_value
     this->max_value = max_value;
     this->topleft = topleft;
     this->nob = Rect(0,0,3,3);
+
+    this->label_font = Font(font_path,FONT_SIZE);
+    this->set_label("default label","white");
+    this->set_color("white","white","gray");
 }
 Slider::Slider() = default;
+void Slider::set_label(string text, Color color)
+{
+    this->label_surf = this->label_font.render(text,0,color);
+    this->label_rect = this->label_surf.getRect();
+    this->label_rect.setTopRight(topleft + Vector2(-2,-this->label_rect.getHeight()/2));
+}
 void Slider::update()
 {
     if(holding)

@@ -1,5 +1,4 @@
 #include"Pause.hpp"
-
 Pause::Pause(Game &game) : Scene(game)
 {
     
@@ -18,5 +17,5 @@ void Pause::handle_event(Event &event)
 }
 void Pause::draw()
 {
-    
+
 }

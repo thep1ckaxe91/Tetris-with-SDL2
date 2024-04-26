@@ -14,6 +14,9 @@ namespace sdlgame {
         void stop();
         // Return duration of the music in second
         double duration();
+        void set_volume(float value);
+        void get_volume();
+        int convert_volume_value(float value);
     }
 }
 

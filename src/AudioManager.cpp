@@ -62,6 +62,8 @@ void AudioManager::set_sfx_volume(float value)
 void AudioManager::set_music_volume(float value)
 {
     this->music_volume = value;
+    sdlgame::music::set_volume(value);
+    
 }
 float AudioManager::get_sfx_volume(){return sfx_volume;}
 float AudioManager::get_music_volume(){return music_volume;}

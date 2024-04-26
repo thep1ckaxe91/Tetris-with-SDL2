@@ -21,9 +21,13 @@ protected:
     Color nob_color;
     Color value_color;
     Color no_value_color;
+    Font label_font;
+    Surface label_surf;
+    Rect label_rect;
 public:
     Slider(Vector2 topleft, float value, float slide_length, float max_value);
     Slider();
+    void set_label(std::string text, Color color);
     void set_color(Color nob, Color valid, Color invalid);
     virtual void update();
     virtual void handle_event(Event &event);

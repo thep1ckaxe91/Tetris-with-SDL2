@@ -2,6 +2,7 @@
 #define PAUSE_HPP
 
 #include "Scene.hpp"
+#include "OptionElement.hpp"
 
 class Pause : public Scene 
 {
