@@ -270,7 +270,6 @@ pair<Uint8, Uint8> Grid::step(int i, int j, int times)
         if (!grid[i + 1][j].mask)
         {
             swap(grid[i][j], grid[i + 1][j]);
-            grid[i][j].inertia = sdlgame::math::clamp(grid[i][j].inertia+2,0,5);
             // return step(i+1,j,times-1);
             i++;
         }
@@ -278,17 +277,14 @@ pair<Uint8, Uint8> Grid::step(int i, int j, int times)
         {
             swap(grid[i][j], grid[i][j - 1]);
             // return step(i+1,j-1,times-1);
-            grid[i][j].inertia = sdlgame::math::clamp(grid[i][j].inertia-1,0,5);
             j--;
         }
         else if (!grid[i + 1][j + 1].mask and !grid[i][j + 1].mask)
         {
             swap(grid[i][j], grid[i][j + 1]);
             // return step(i+1,j+1,times-1);
-            grid[i][j].inertia = sdlgame::math::clamp(grid[i][j].inertia-1,0,5);
             j++;
         }
-        else grid[i][j].inertia = 0;
     }
     return {i, j};
 }
@@ -359,7 +355,8 @@ void Grid::update()
             {
                 if (grid[i][j].mask)
                 {
-                    pair<Uint8, Uint8> pos = this->step(i, j, grid[i][j].inertia);
+                    int step_times = sdlgame::random::randint(2, 5);
+                    pair<Uint8, Uint8> pos = this->step(i, j, step_times);
                     if (i != pos.first or j != pos.second)
                         updated_sands.push_back(pos);
                 }

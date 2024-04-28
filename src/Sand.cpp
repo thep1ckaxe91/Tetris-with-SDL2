@@ -15,5 +15,5 @@ Sand::Sand(SandShift mask)
 {
     this->mask = mask; 
     this->color_offset_rgb = sdlgame::random::randint(0,255);
-    this->inertia = 0;
+    this->inertia = 1;
 }
