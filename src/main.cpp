@@ -68,6 +68,15 @@ public:
                     delete scene_list.back();
                     scene_list.pop_back();
                 }
+                else if(this->command == CLEAR)
+                {
+                    this->command = NONE;
+                    while(!scene_list.empty())
+                    {
+                        delete scene_list.back();
+                        scene_list.pop_back();
+                    }
+                }
                 scene_list.push_back(this->next);
                 this->next = nullptr;
             }

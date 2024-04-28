@@ -18,13 +18,13 @@ bool Game::in_transitioning()
 {
     return in;
 }
-void Game::clear_scene()
+//clear all on stack scene and go to scene
+void Game::clear_scene(SceneTransition *out, Scene *scene, SceneTransition *in)
 {
-    while(!scene_list.empty())
-    {
-        delete scene_list.back();
-        scene_list.pop_back();
-    }
+    this->command = CLEAR;
+    this->out = out;
+    this->next = scene;
+    this->in = in;
 }
 // completely goback
 void Game::remove_scene(SceneTransition* out, SceneTransition* in)

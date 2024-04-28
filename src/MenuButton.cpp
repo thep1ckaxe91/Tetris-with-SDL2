@@ -18,7 +18,7 @@ void MenuButton::on_click()
     OutSwipeDown *out = new OutSwipeDown();
     InSwipeDown *in = new InSwipeDown();
     MainMenu *next = new MainMenu(*game);
-    this->game->pop_scene(out,next,in);
+    this->game->clear_scene(out,next,in);
 }
 void MenuButton::update()
 {

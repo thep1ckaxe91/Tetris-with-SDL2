@@ -18,7 +18,7 @@ void RetryButton::on_click()
     OutSwipeDown *out = new OutSwipeDown();
     InSwipeDown *in = new InSwipeDown();
     GamePlay *next = new GamePlay(*game);
-    this->game->pop_scene(out,next,in);
+    this->game->clear_scene(out,next,in);
 }
 void RetryButton::update()
 {

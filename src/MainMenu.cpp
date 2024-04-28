@@ -11,6 +11,8 @@ MainMenu::MainMenu(Game &game) : Scene(game){
     this->pb_button.rect.setTopLeft(119,104-32-8);
     this->htp_button = HTPButton(game);
     this->htp_button.rect.setTopLeft(119,104);
+    this->option_button = OptionButton(game);
+    this->option_button.rect.setTopRight(RESOLUTION_WIDTH-2,2);
 }
 void MainMenu::handle_event(Event &event)
 {
@@ -19,6 +21,7 @@ void MainMenu::handle_event(Event &event)
     this->credit_button.handle_event(event);
     this->pb_button.handle_event(event);
     this->htp_button.handle_event(event);
+    this->option_button.handle_event(event);
 }
 void MainMenu::update(){
     this->start_button.update();
@@ -26,6 +29,7 @@ void MainMenu::update(){
     this->credit_button.update();
     this->pb_button.update();
     this->htp_button.update();
+    this->option_button.update();
 }
 void MainMenu::draw(){
     this->game->window.blit(this->game->images.mainmenu_background,sdlgame::math::Vector2());
@@ -34,6 +38,7 @@ void MainMenu::draw(){
     this->game->window.blit(this->quit_button.image,this->quit_button.rect.getTopLeft());
     this->game->window.blit(this->pb_button.image,pb_button.rect.getTopLeft());
     this->game->window.blit(this->htp_button.image, htp_button.rect.getTopLeft());   
+    this->game->window.blit(this->option_button.image, option_button.rect.getTopLeft());
 }
 MainMenu::~MainMenu()
 {

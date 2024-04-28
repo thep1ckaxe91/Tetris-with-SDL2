@@ -28,6 +28,7 @@ typedef enum
     ADD = 1,
     POP = 2,
     REMOVE = 3,
+    CLEAR = 4,
 } SceneCommand;
 const int dx[] =
 {
