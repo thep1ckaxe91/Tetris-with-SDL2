@@ -87,6 +87,15 @@ void GamePlay::handle_event(sdlgame::event::Event &event)
         sdlgame::music::pause();
         pausing = 1;
     }
+    else if (event.type == sdlgame::KEYDOWN)
+    {
+        if(event["key"] == sdlgame::K_p)
+        {
+            pause_button.on_click();
+            sdlgame::music::pause();
+            pausing = 1;
+        }
+    }
 }
 void GamePlay::update()
 {

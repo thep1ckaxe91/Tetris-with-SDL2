@@ -13,7 +13,7 @@ MainMenu::MainMenu(Game &game) : Scene(game){
     this->htp_button = HTPButton(game);
     this->htp_button.rect.setTopLeft(119,104);
     this->option_button = OptionButton(game);
-    this->option_button.rect.setTopRight(199-32-4-32,104);
+    this->option_button.rect.setTopLeft(119-64-4,104);
 }
 void MainMenu::handle_event(Event &event)
 {

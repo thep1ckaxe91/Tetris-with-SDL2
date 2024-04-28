@@ -13,7 +13,7 @@ struct Sand
 {
     SandShift mask;
     Uint8 color_offset_rgb;
-    Uint8 inertia;
+    // Uint8 inertia;
     Sand(SandShift mask = EMPTY_SAND);
 };
 

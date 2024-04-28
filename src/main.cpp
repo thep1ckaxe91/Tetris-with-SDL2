@@ -28,8 +28,8 @@ public:
         );
         this->window = Surface(RESOLUTION_WIDTH, RESOLUTION_HEIGHT);
         sdlgame::display::fullscreen_desktop();
+        audio_manager = AudioManager();
         images.load();
-        audio_manager.sfx.load();
         sdlgame::display::set_caption("Sandtris - Made by thep1ckaxe");
         sdlgame::display::set_icon((base_path + "data/image/icon/icon.png").c_str());
         #ifdef MULTITHREADING
