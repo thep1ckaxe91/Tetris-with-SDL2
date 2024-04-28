@@ -25,7 +25,7 @@ protected:
     Surface label_surf;
     Rect label_rect;
 public:
-    Slider(Vector2 topleft, float value, float slide_length, float max_value);
+    Slider(Vector2 topleft, float value=1, float slide_length=48, float max_value=1);
     Slider();
     void set_label(std::string text, Color color);
     void set_color(Color nob, Color valid, Color invalid);

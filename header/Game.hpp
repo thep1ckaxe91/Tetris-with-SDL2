@@ -34,6 +34,9 @@ public:
     virtual void draw() = 0;
     virtual void update() = 0;
     virtual void run() = 0;
+    Scene *current_scene();
+    bool out_transitioning();
+    bool in_transitioning();
     // template <class T1, class T2, class T3>
     // void add_scene(T1 *out, T2 *next, T3 *in);
     void add_scene(SceneTransition *out, Scene *scene, SceneTransition *in);

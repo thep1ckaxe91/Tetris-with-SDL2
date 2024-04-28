@@ -25,6 +25,7 @@ private:
     Animation change_shape;
     Animation count_down;
     bool gameover;
+    bool pausing;
     int blipcount;
     PauseButton pause_button;
     const int flow_speed=48; //pps

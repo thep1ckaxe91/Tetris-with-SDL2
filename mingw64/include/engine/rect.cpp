@@ -301,7 +301,7 @@ void sdlgame::rect::Rect::overlap_ip(const Rect& oth)
 
 bool sdlgame::rect::Rect::collidepoint(double _x, double _y) const
 {
-    return left < _x and _x < right and top < _y and _y < bottom;
+    return left <= _x and _x <= right and top <= _y and _y <= bottom;
 }
 /**
  * @return return whether the point in param is inside the caller or not

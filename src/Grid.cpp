@@ -424,7 +424,7 @@ void Grid::draw()
                 sdlgame::draw::point(
                     this->game->window,
                     SandShiftColor.at(grid[i][j].mask).add_value(grid[i][j].color_offset_rgb >> 4 & 15, grid[i][j].color_offset_rgb >> 2 & 15, grid[i][j].color_offset_rgb & 15),
-                    j + GRID_X - 1, i + GRID_Y);
+                    j + GRID_X - 1, i + GRID_Y - 1);
         }
     }
 #else
@@ -436,7 +436,7 @@ void Grid::draw()
                 sdlgame::draw::point(
                     this->game->window,
                     SandShiftColor.at(grid[i][j].mask).add_value(grid[i][j].color_offset_rgb >> 4 & 15, grid[i][j].color_offset_rgb >> 2 & 15, grid[i][j].color_offset_rgb & 15),
-                    j + GRID_X - 1, i + GRID_Y);
+                    j + GRID_X - 1, i + GRID_Y - 1);
         }
     }
 #endif

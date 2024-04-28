@@ -6,6 +6,18 @@ Game::Game()
     in = out = nullptr;
     next = nullptr;
 }
+Scene * Game::current_scene()
+{
+    return scene_list.empty() ? nullptr : this->scene_list.back();
+}
+bool Game::out_transitioning()
+{
+    return out;
+}
+bool Game::in_transitioning()
+{
+    return in;
+}
 // completely goback
 void Game::remove_scene(SceneTransition* out, SceneTransition* in)
 {

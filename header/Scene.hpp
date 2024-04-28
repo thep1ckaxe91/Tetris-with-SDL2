@@ -13,6 +13,7 @@ public:
     Game *game;
     Scene(Game &game);
     Scene();
+    bool is_working();
     virtual void update()=0;
     virtual void draw()=0;
     virtual void handle_event(Event &event)=0;

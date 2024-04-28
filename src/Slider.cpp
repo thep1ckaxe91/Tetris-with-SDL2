@@ -17,7 +17,7 @@ Slider::Slider(Vector2 topleft, float value, float slide_length, float max_value
     this->max_value = max_value;
     this->topleft = topleft;
     this->nob = Rect(0,0,3,3);
-
+    this->holding = 0;
     this->label_font = Font(font_path,FONT_SIZE);
     this->set_label("default label","white");
     this->set_color("white","white","gray");
@@ -27,19 +27,19 @@ void Slider::set_label(string text, Color color)
 {
     this->label_surf = this->label_font.render(text,0,color);
     this->label_rect = this->label_surf.getRect();
-    this->label_rect.setTopRight(topleft + Vector2(-2,-this->label_rect.getHeight()/2));
+    this->label_rect.setMidRight(topleft);
 }
 void Slider::update()
 {
     if(holding)
     {
         nob.setCenter(
-            this->topleft.y,
             sdlgame::math::clamp(
                 sdlgame::mouse::get_pos().x,
                 this->topleft.x,
                 this->topleft.x+this->slide_length
-            )
+            ),
+            this->topleft.y
         );
         this->value = (nob.getCenterX()-topleft.x)/this->slide_length*this->max_value;
     }
@@ -53,7 +53,7 @@ void Slider::update()
  */
 void Slider::set_color(Color nob, Color valid, Color invalid)
 {
-    nob_color =nob;
+    nob_color = nob;
     value_color = valid;
     no_value_color = invalid;
 }

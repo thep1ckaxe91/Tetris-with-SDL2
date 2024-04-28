@@ -6,3 +6,7 @@ Scene::Scene(Game &game)
 }
 Scene::Scene(){this->game = nullptr;}
 Scene::~Scene() = default;
+bool Scene::is_working()
+{
+    return this == this->game->current_scene();
+};

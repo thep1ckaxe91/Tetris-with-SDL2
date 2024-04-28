@@ -16,15 +16,15 @@ GamePlay::GamePlay(Game &game) : Scene(game)
     score_rect.setCenter(score_display_center);
 
     next_display_color = this->grid.next.color;
-    flow1 = next_color_display_rect.inflate(0,1);
-    flow2 = flow1.move(0, next_color_display_rect.getHeight()+4);
+    flow1 = next_color_display_rect.inflate(0, 5);
+    flow2 = flow1.move(0, next_color_display_rect.getHeight());
     color_flow1 = "none";
     color_flow2 = "none";
 
     next_shape_surf = Surface(next_shape_display_rect.getWidth(), next_shape_display_rect.getHeight());
     redraw_next_shape();
 
-    change_shape = Animation(game,120);
+    change_shape = Animation(game, 120);
     change_shape.load(base_path + "data/animations/change_next_shape/");
     Surface tmp = Surface(next_shape_display_area.getWidth(), next_shape_display_area.getHeight());
     tmp.fill("none");
@@ -32,7 +32,7 @@ GamePlay::GamePlay(Game &game) : Scene(game)
 
     count_down = Animation(game, 1);
     count_down.load(base_path + "data/animations/count_down/");
-    tmp = Surface(count_down_display_rect.getWidth(),count_down_display_rect.getHeight());
+    tmp = Surface(count_down_display_rect.getWidth(), count_down_display_rect.getHeight());
     tmp.fill("none");
     count_down.set_default(tmp);
     count_down.play();
@@ -41,10 +41,11 @@ GamePlay::GamePlay(Game &game) : Scene(game)
     sdlgame::music::play(-1);
 
     pause_button = PauseButton(game);
-    pause_button.rect.setTopRight(RESOLUTION_WIDTH,0);
+    pause_button.rect.setTopRight(RESOLUTION_WIDTH, 0);
 
     this->gameover = 0;
     this->blipcount = 100;
+    pausing = 0;
 }
 void GamePlay::redraw_next_shape()
 {
@@ -76,51 +77,65 @@ void GamePlay::handle_event(sdlgame::event::Event &event)
         redraw_next_shape();
         this->change_shape.play();
     }
-    else if(event.type == GAMEOVER)
+    else if (event.type == GAMEOVER)
     {
         sdlgame::music::stop();
         gameover = 1;
     }
-    else if(event.type == BUTTON_CLICK)
+    else if (event.type == BUTTON_CLICK)
     {
         sdlgame::music::pause();
+        pausing = 1;
     }
 }
 void GamePlay::update()
 {
-    sdlgame::music::resume();
-    if(!gameover)
-    {    if(!count_down.playing){
+    if (this->pausing and this->is_working() and !(this->game->out_transitioning() or this->game->in_transitioning()))
+    {
+        sdlgame::music::resume();
+        pausing = 0;
+        count_down.reset();
+        count_down.play();
+    }
+    if (!gameover)
+    {
+        if (!count_down.playing)
+        {
             this->grid.update();
             double delta_y = -flow_speed * this->game->clock.delta_time();
             flow1.move_ip(0, delta_y);
             flow2.move_ip(0, delta_y);
-            if (flow1.getBottom()-1 <= next_color_display_rect.getTop())
+            if (flow1.getBottom() - 1 <= next_color_display_rect.getTop())
             {
                 flow1.setTop(next_color_display_rect.getBottom());
                 color_flow1 = SandShiftColor.at(next_display_color);
             }
-            if (flow2.getBottom()-1 <= next_color_display_rect.getTop())
+            if (flow2.getBottom() - 1 <= next_color_display_rect.getTop())
             {
                 flow2.setTop(next_color_display_rect.getBottom());
                 color_flow2 = SandShiftColor.at(next_display_color);
             }
             change_shape.update();
         }
-        else{
-            if(count_down.frame_change)
+        else
+        {
+            if (count_down.frame_change)
             {
-                if(count_down.frame_id != 4) sdlgame::event::post(COUNT_DOWN);
-                else sdlgame::event::post(COUNT_DOWN_START);
+                if (count_down.frame_id != 4)
+                    sdlgame::event::post(COUNT_DOWN);
+                else
+                    sdlgame::event::post(COUNT_DOWN_START);
             }
             count_down.update();
         }
-        this->bg_offset.x -= gameplay_bg_speed*this->game->clock.delta_time();
-        this->bg_offset.y -= gameplay_bg_speed*this->game->clock.delta_time();
-        if(this->bg_offset.x<=-8) this->bg_offset=Vector2();
+        this->bg_offset.x -= gameplay_bg_speed * this->game->clock.delta_time();
+        this->bg_offset.y -= gameplay_bg_speed * this->game->clock.delta_time();
+        if (this->bg_offset.x <= -8)
+            this->bg_offset = Vector2();
         this->pause_button.update();
     }
-    else{
+    else
+    {
         blipcount--;
     }
 }
@@ -130,28 +145,27 @@ void GamePlay::draw()
 
     sdlgame::draw::rect(
         this->game->window, color_flow1,
-        flow1.overlap(next_color_display_rect)
-    );
+        flow1.overlap(next_color_display_rect));
     sdlgame::draw::rect(
         this->game->window, color_flow2,
-        flow2.overlap(next_color_display_rect)
-    );
+        flow2.overlap(next_color_display_rect));
 
     this->game->window.blit(this->game->images.game_frame, Vector2());
 
-    if(count_down.playing) this->game->window.blit(this->count_down.image,count_down_display_rect.getTopLeft());
+    if (count_down.playing)
+        this->game->window.blit(this->count_down.image, count_down_display_rect.getTopLeft());
 
     this->game->window.blit(this->next_shape_surf, next_shape_display_rect.getTopLeft());
 
     this->game->window.blit(this->change_shape.image, next_shape_display_area.getTopLeft());
-    if(!(blipcount/10 & 1) and blipcount>=0)
+    if (!(blipcount / 10 & 1) and blipcount >= 0)
         this->grid.draw();
-    if(blipcount==-1)
+    if (blipcount == -1)
     {
         InSwipeDown *in = new InSwipeDown();
         OutSwipeDown *out = new OutSwipeDown();
         GameOver *next = new GameOver(*game, this->grid.get_score());
-        this->game->pop_scene(out,next,in);
+        this->game->pop_scene(out, next, in);
     }
 
     this->game->window.blit(this->pause_button.image, pause_button.rect.getTopLeft());
