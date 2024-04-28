@@ -42,13 +42,17 @@ void Images::load()
     pause_button_hover =sdlgame::image::load(base_path + "data/image/ui/pause_button/pause_button_hover.png");
     pause_button_click =sdlgame::image::load(base_path + "data/image/ui/pause_button/pause_button_click.png");
 
+    option_button_idle = sdlgame::image::load(base_path + "data/image/ui/option_button/option_button_idle.png");
+    option_button_hover =sdlgame::image::load(base_path + "data/image/ui/option_button/option_button_hover.png");
+    option_button_click =sdlgame::image::load(base_path + "data/image/ui/option_button/option_button_click.png");
+
     gameplay_background = sdlgame::image::load(base_path + "data/image/background/gameplay_background.png");
     mainmenu_background = sdlgame::image::load(base_path + "data/image/background/mainmenu_sand_background.png");
     credit_image = sdlgame::image::load(base_path + "data/image/background/credit_image.png");
     game_frame = sdlgame::image::load(base_path + "data/image/background/game_frame.png");
     instruction_image = sdlgame::image::load(base_path + "data/image/background/instruction.png");
     pb_background = sdlgame::image::load(base_path + "data/image/background/view_personal_best.png");
-
+    pause_background = sdlgame::image::load(base_path + "data/image/background/pause_background.png");
     gameover_screen = sdlgame::image::load(base_path + "data/image/background/gameover_screen.png");
 
 }

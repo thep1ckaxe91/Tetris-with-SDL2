@@ -17,7 +17,7 @@ GamePlay::GamePlay(Game &game) : Scene(game)
 
     next_display_color = this->grid.next.color;
     flow1 = next_color_display_rect.inflate(0,1);
-    flow2 = flow1.move(0, next_color_display_rect.getHeight());
+    flow2 = flow1.move(0, next_color_display_rect.getHeight()+4);
     color_flow1 = "none";
     color_flow2 = "none";
 
@@ -40,6 +40,9 @@ GamePlay::GamePlay(Game &game) : Scene(game)
     sdlgame::music::load(base_path + "data/audio/music/tetris_theme_loop_instrument.mp3");
     sdlgame::music::play(-1);
 
+    pause_button = PauseButton(game);
+    pause_button.rect.setTopRight(RESOLUTION_WIDTH,0);
+
     this->gameover = 0;
     this->blipcount = 100;
 }
@@ -60,6 +63,7 @@ void GamePlay::redraw_next_shape()
 void GamePlay::handle_event(sdlgame::event::Event &event)
 {
     this->grid.handle_event(event);
+    this->pause_button.handle_event(event);
     if (event.type == SCORING)
     {
         this->score_surf = score_font.render(to_string(this->grid.get_score()), 0, "white");
@@ -77,9 +81,14 @@ void GamePlay::handle_event(sdlgame::event::Event &event)
         sdlgame::music::stop();
         gameover = 1;
     }
+    else if(event.type == BUTTON_CLICK)
+    {
+        sdlgame::music::pause();
+    }
 }
 void GamePlay::update()
 {
+    sdlgame::music::resume();
     if(!gameover)
     {    if(!count_down.playing){
             this->grid.update();
@@ -109,6 +118,7 @@ void GamePlay::update()
         this->bg_offset.x -= gameplay_bg_speed*this->game->clock.delta_time();
         this->bg_offset.y -= gameplay_bg_speed*this->game->clock.delta_time();
         if(this->bg_offset.x<=-8) this->bg_offset=Vector2();
+        this->pause_button.update();
     }
     else{
         blipcount--;
@@ -144,7 +154,7 @@ void GamePlay::draw()
         this->game->pop_scene(out,next,in);
     }
 
-    
+    this->game->window.blit(this->pause_button.image, pause_button.rect.getTopLeft());
     this->game->window.blit(this->score_surf, this->score_rect.getTopLeft());
 }
 

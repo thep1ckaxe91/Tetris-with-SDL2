@@ -1,6 +1,6 @@
 #include "OptionElement.hpp"
 
-SFXVolumeSlider::SFXVolumeSlider(Game &game, Vector2 topleft, float val, float length, float max_val)
+SFXVolumeSlider::SFXVolumeSlider(Game &game, Vector2 topleft, float val, float length, float max_val) : Slider(topleft,val,length,max_val)
 {   
     
     this->game = &game;
@@ -29,7 +29,7 @@ void SFXVolumeSlider::on_change_value()
 }
 
 
-MusicVolumeSlider::MusicVolumeSlider(Game &game, Vector2 topleft, float val, float length, float max_val)
+MusicVolumeSlider::MusicVolumeSlider(Game &game, Vector2 topleft, float val, float length, float max_val) : Slider(topleft,val,length,max_val)
 {   
     
     this->game = &game;
@@ -56,20 +56,3 @@ void MusicVolumeSlider::on_change_value()
 {
     this->game->audio_manager.set_music_volume(this->value/this->max_value);
 }
-// OptionElement::OptionElement(Vector2 topleft, string name, float value, float max_value)
-// {
-
-// }
-// OptionElement::OptionElement()=default;
-// void OptionElement::update()
-// {
-//     this->setter.sfx_slider.update();
-// }
-// void OptionElement::handle_event(Event &event)
-// {
-//     this->setter.sfx_slider.handle_event(event);
-// }
-// void OptionElement::draw()
-// {
-
-// }

@@ -6,6 +6,7 @@
 #include "Grid.hpp"
 #include "engine/engine.hpp"
 #include "Animation.hpp"
+#include "PauseButton.hpp"
 class GamePlay : public Scene
 {
 private:
@@ -25,6 +26,7 @@ private:
     Animation count_down;
     bool gameover;
     int blipcount;
+    PauseButton pause_button;
     const int flow_speed=48; //pps
 public:
     Game *game;
