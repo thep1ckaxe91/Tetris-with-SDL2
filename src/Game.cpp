@@ -18,6 +18,14 @@ bool Game::in_transitioning()
 {
     return in;
 }
+void Game::clear_scene()
+{
+    while(!scene_list.empty())
+    {
+        delete scene_list.back();
+        scene_list.pop_back();
+    }
+}
 // completely goback
 void Game::remove_scene(SceneTransition* out, SceneTransition* in)
 {

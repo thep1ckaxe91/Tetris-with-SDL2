@@ -4,9 +4,11 @@
 #include "Game.hpp"
 #include "Scene.hpp"
 #include "OptionElement.hpp"
+#include "BackButton.hpp"
 class Option : public Scene
 {
 public:
+    BackButton back_button;
     SFXVolumeSlider sfx_slider;
     MusicVolumeSlider music_slider;
     Option(Game &game);

@@ -10,4 +10,9 @@ void set_personal_best(int score);
 int bytes_to_int(const char *c);
 char *int_to_bytes(int x);
 
+float get_sfx_volume();
+float get_music_volume();
+void set_sfx_volume(float value);
+void set_music_volume(float value);
+
 #endif

@@ -92,15 +92,15 @@ void GamePlay::update()
 {
     if (this->pausing and this->is_working() and !(this->game->out_transitioning() or this->game->in_transitioning()))
     {
-        sdlgame::music::resume();
         pausing = 0;
         count_down.reset();
         count_down.play();
     }
     if (!gameover)
     {
-        if (!count_down.playing)
+        if (!count_down.playing and !pausing)
         {
+            sdlgame::music::resume();
             this->grid.update();
             double delta_y = -flow_speed * this->game->clock.delta_time();
             flow1.move_ip(0, delta_y);
@@ -152,14 +152,16 @@ void GamePlay::draw()
 
     this->game->window.blit(this->game->images.game_frame, Vector2());
 
-    if (count_down.playing)
-        this->game->window.blit(this->count_down.image, count_down_display_rect.getTopLeft());
-
+    
     this->game->window.blit(this->next_shape_surf, next_shape_display_rect.getTopLeft());
 
     this->game->window.blit(this->change_shape.image, next_shape_display_area.getTopLeft());
     if (!(blipcount / 10 & 1) and blipcount >= 0)
         this->grid.draw();
+
+    if (count_down.playing)
+        this->game->window.blit(this->count_down.image, count_down_display_rect.getTopLeft());
+
     if (blipcount == -1)
     {
         InSwipeDown *in = new InSwipeDown();

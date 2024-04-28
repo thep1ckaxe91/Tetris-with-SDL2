@@ -21,6 +21,7 @@ Slider::Slider(Vector2 topleft, float value, float slide_length, float max_value
     this->label_font = Font(font_path,FONT_SIZE);
     this->set_label("default label","white");
     this->set_color("white","white","gray");
+    this->nob.setCenter(topleft + Vector2(value/max_value*slide_length,0));
 }
 Slider::Slider() = default;
 void Slider::set_label(string text, Color color)

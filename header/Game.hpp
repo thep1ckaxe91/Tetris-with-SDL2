@@ -37,6 +37,7 @@ public:
     Scene *current_scene();
     bool out_transitioning();
     bool in_transitioning();
+    void clear_scene();
     // template <class T1, class T2, class T3>
     // void add_scene(T1 *out, T2 *next, T3 *in);
     void add_scene(SceneTransition *out, Scene *scene, SceneTransition *in);

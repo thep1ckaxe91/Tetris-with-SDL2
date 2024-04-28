@@ -1,8 +1,11 @@
 #include "AudioManager.hpp"
 #include "TetrisEvent.hpp"
+#include "SaveData.hpp"
 AudioManager::AudioManager()
 {
     sfx.load();
+    sfx_volume = 1;
+    music_volume = 1;
 }
 void AudioManager::handle_event(Event &event)
 {
@@ -58,12 +61,23 @@ void AudioManager::set_sfx_volume(float value)
     sfx.scoring.set_volume(value);
     sfx.transition_in.set_volume(value);
     sfx.transition_out.set_volume(value);
+
+    ::set_sfx_volume(value);
 }
 void AudioManager::set_music_volume(float value)
 {
     this->music_volume = value;
+
     sdlgame::music::set_volume(value);
-    
+    ::set_music_volume(value);
 }
-float AudioManager::get_sfx_volume(){return sfx_volume;}
-float AudioManager::get_music_volume(){return music_volume;}
+float AudioManager::get_sfx_volume()
+{
+    sfx_volume = ::get_sfx_volume();
+    return sfx_volume;
+}
+float AudioManager::get_music_volume()
+{
+    music_volume = ::get_music_volume();
+    return music_volume;
+}

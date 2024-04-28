@@ -338,7 +338,7 @@ void Grid::update_ghost()
     // update the topleft of the ghost
     ghost_topleft = this->controller.topleft + Vector2(0,min_height-8);
     ghost_topleft.x = int(ghost_topleft.x);
-    ghost_topleft.y = int(ghost_topleft.y);
+    ghost_topleft.y = int(ghost_topleft.y)-1;
 
 }
 void Grid::update()

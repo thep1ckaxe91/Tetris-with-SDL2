@@ -118,3 +118,56 @@ void set_personal_best(int score)
     delete[] dat;
     delete[] data;
 }
+
+float get_sfx_volume()
+{
+    if(!filesystem::exists(base_path+"data/save/sfx_volume.dat"))
+    {
+        set_sfx_volume(1);
+        return 1;
+    }
+    ifstream file(base_path + "data/save/sfx_volume.dat");
+
+    float res;
+    try
+    {
+        file >> res;
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+    return res;
+}
+float get_music_volume()
+{
+    if(!filesystem::exists(base_path+"data/save/music_volume.dat"))
+    {
+        set_music_volume(1);
+        return 1;
+    }
+    ifstream file(base_path + "data/save/music_volume.dat");
+
+    float res;
+    try
+    {
+        file >> res;
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+    return res;
+}
+void set_sfx_volume(float value)
+{
+    ofstream file(base_path+"data/save/sfx_volume.dat");
+    file << (value < 0 ? 0 : (value > 1 ? 1 : value));
+    file.close();
+}
+void set_music_volume(float value)
+{
+    ofstream file(base_path+"data/save/music_volume.dat");
+    file << (value < 0 ? 0 : (value > 1 ? 1 : value));
+    file.close();
+}
