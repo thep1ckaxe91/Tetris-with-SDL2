@@ -389,6 +389,7 @@ void Grid::update()
             }
         }
 #endif
+        collision_check();
         if (!updated_sands.empty())
         {
             int added = check_scoring(updated_sands);
@@ -406,7 +407,6 @@ void Grid::update()
     normalize_tetrimino();
     update_ghost_shape();
     update_ghost();
-    collision_check();
 }
 void Grid::draw_ghost()
 {

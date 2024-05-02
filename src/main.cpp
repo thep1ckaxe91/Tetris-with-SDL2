@@ -14,9 +14,7 @@ using namespace std;
 class Sandtris : public Game
 {
 public:
-#ifdef MULTITHREADING
     bool gameactive = 1;
-#endif
     bool played = 0;
     Sandtris() : Game()
     {
@@ -27,7 +25,7 @@ public:
             // |sdlgame::RESIZABLE
         );
         this->window = Surface(RESOLUTION_WIDTH, RESOLUTION_HEIGHT);
-        sdlgame::display::fullscreen();
+        sdlgame::display::fullscreen_desktop();
         audio_manager = AudioManager();
         images = Images();
         images.load();

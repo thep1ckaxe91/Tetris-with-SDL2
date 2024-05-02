@@ -1,7 +1,7 @@
 {
     "configurations": [
         {
-            "name": "C/C++: g++.exe build active file",
+            "name": "C/C++: g++.exe build and debug active file",
             "type": "cppdbg",
             "request": "launch",
             "program": "D:\\Repos\\Tetris-with-SDL2\\Sandtris.exe",

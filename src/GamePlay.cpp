@@ -63,7 +63,7 @@ void GamePlay::redraw_next_shape()
 }
 void GamePlay::handle_event(sdlgame::event::Event &event)
 {
-    this->grid.handle_event(event);
+    if(!this->count_down.playing) this->grid.handle_event(event);
     this->pause_button.handle_event(event);
     if (event.type == SCORING)
     {
