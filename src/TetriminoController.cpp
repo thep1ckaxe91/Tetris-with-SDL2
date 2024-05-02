@@ -19,13 +19,7 @@ void TetriminoController::reset(Tetrimino tetrimino)
 {
     this->tetrimino = tetrimino;
     topleft = spawn_pos;
-    for(int i=0;i<4;i++)
-        for(int j=0;j<4;j++)
-            sdlgame::draw::rect(
-                draw_surf,
-                (this->tetrimino.mask>>(15-i*4-j)&1 ? SandShiftColor[this->tetrimino.color] : Color()),
-                Rect(8*j,8*i,8,8)
-            );
+    this->redraw();
 }
 void TetriminoController::draw() const
 {
@@ -34,6 +28,7 @@ void TetriminoController::draw() const
 void TetriminoController::update()
 {
     //movement
+    this->redraw();
     auto keys = sdlgame::key::get_pressed();
     this->topleft.x +=
         (
@@ -45,6 +40,10 @@ void TetriminoController::update()
 void TetriminoController::rotate()
 {
     this->tetrimino.rotate();
+    this->redraw();
+}
+void TetriminoController::redraw()
+{
     for(int i=0;i<4;i++)
         for(int j=0;j<4;j++)
             sdlgame::draw::rect(

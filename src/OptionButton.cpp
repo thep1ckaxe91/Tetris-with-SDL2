@@ -5,7 +5,6 @@ OptionButton::OptionButton(Game &game)
 {
     this->game = &game;
     set_images(this->game->images.option_button_idle, this->game->images.option_button_hover,this->game->images.option_button_click);
-    this->image = this->idle;
     this->rect = this->image.getRect();
 }
 OptionButton::OptionButton() = default;

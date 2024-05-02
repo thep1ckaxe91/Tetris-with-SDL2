@@ -33,6 +33,7 @@ public:
     TetriminoController();
     void reset(Tetrimino tetrimino);
     void draw() const;
+    void redraw();
     void update();
     void rotate();
     void handle_event(Event &event);

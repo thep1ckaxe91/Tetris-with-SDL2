@@ -10,7 +10,8 @@
 #include "flags.hpp"
 using namespace std;
 // If global declare is bad, i make MY OWN global declare >:)
-
+// #define DEBUG 1
+#ifndef DEBUG
 class Sandtris : public Game
 {
 public:
@@ -26,6 +27,7 @@ public:
         );
         this->window = Surface(RESOLUTION_WIDTH, RESOLUTION_HEIGHT);
         sdlgame::display::fullscreen_desktop();
+        sdlgame::display::get_window_size();
         audio_manager = AudioManager();
         images = Images();
         images.load();
@@ -128,7 +130,97 @@ public:
             {
                 if (event.type == sdlgame::QUIT or (event.type == sdlgame::WINDOWEVENT and event["event"] == sdlgame::WINDOWCLOSE))
                 {
-                    game_ended = 1;
+                    // game_ended = 1;
+                    sdlgame::quit();
+                    exit(0);
+                }
+                else if (event.type == sdlgame::WINDOWEVENT)
+                {
+                    if (event["event"] == sdlgame::WINDOWFOCUSGAINED or event["event"] == sdlgame::WINDOWSHOWN)
+                    {
+                        gameactive = 1;
+                        images.load();
+                        // cout << "focus gain" << endl;
+                    }
+                    else if (event["event"] == sdlgame::WINDOWFOCUSLOST)
+                    {
+                        gameactive = 0;
+                        images.load();
+                        // cout << "out focus" << endl;
+                    }
+                    else if (event["event"] == sdlgame::WINDOWRESIZED or event["event"] == sdlgame::WINDOWSIZECHANGED)
+                    {
+                        sdlgame::display::get_window_size();
+                        images.load();
+                        // cout << "resized" << endl;
+                    }
+                    else if (event["event"] == sdlgame::WINDOWTAKEFOCUS)
+                    {
+                        images.load();
+                    }
+                }
+                if (gameactive)
+                {
+                    if (!scene_list.empty())
+                        scene_list.back()->handle_event(event);
+                    audio_manager.handle_event(event);
+                }
+            }
+            if (gameactive)
+            {
+                update();
+                draw();
+                sdlgame::display::flip();
+                // sdlgame::display::set_caption((to_string(clock.get_fps())).c_str());
+            }
+        }
+    }
+};
+#else
+
+class Sandtris : public Game
+{
+public:
+    bool gameactive = 1;
+    bool played = 0;
+    Sandtris() : Game()
+    {
+        this->window = sdlgame::display::set_mode(
+            RESOLUTION_WIDTH, RESOLUTION_HEIGHT,
+            0
+            |sdlgame::MAXIMIZED
+            |sdlgame::RESIZABLE
+        );
+        // this->window = Surface(RESOLUTION_WIDTH, RESOLUTION_HEIGHT);
+        // sdlgame::display::fullscreen_desktop();
+        audio_manager = AudioManager();
+        images = Images();
+        images.load();
+#ifdef MULTITHREADING
+        grid_mem_init();
+#endif
+        // cout<<this->images.start_button_idle.texture<<" "<<this->images.start_button_hover.texture<<" "<<this->images.start_button_click.texture<<endl;
+        // exit(0);
+    }
+    void update()
+    {
+        
+    }
+    void draw()
+    {
+        this->window.blit(this->images.mainmenu_background,Vector2());
+        this->window.blit(this->images.gameover_screen,Vector2());
+    }
+    void run()
+    {
+        while (true)
+        {
+            clock.tick(MAXFPS);
+            for (auto &event : sdlgame::event::get())
+            {
+                if (event.type == sdlgame::QUIT or (event.type == sdlgame::WINDOWEVENT and event["event"] == sdlgame::WINDOWCLOSE))
+                {
+                    // game_ended = 1;
                     sdlgame::quit();
                     exit(0);
                 }
@@ -166,6 +258,9 @@ public:
         }
     }
 };
+
+
+#endif
 
 int main(int argc, char **argv)
 {

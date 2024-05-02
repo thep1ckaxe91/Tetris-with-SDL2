@@ -4,9 +4,9 @@
 class Button : public sdlgame::sprite::Sprite
 {
 public:
-    Surface idle;
-    Surface hover;
-    Surface click;
+    Surface *idle;
+    Surface *hover;
+    Surface *click;
     bool hovering, prev_hovered;
     Button();
     virtual void on_click()=0;

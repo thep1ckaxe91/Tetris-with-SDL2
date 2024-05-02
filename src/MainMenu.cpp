@@ -40,6 +40,7 @@ void MainMenu::draw(){
     this->game->window.blit(this->pb_button.image,pb_button.rect.getTopLeft());
     this->game->window.blit(this->htp_button.image, htp_button.rect.getTopLeft());   
     this->game->window.blit(this->option_button.image, option_button.rect.getTopLeft());
+
 }
 MainMenu::~MainMenu()
 {

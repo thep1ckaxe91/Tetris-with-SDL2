@@ -5,7 +5,6 @@ PauseButton::PauseButton(Game &game)
 {
     this->game = &game;
     this->set_images(this->game->images.pause_button_idle,this->game->images.pause_button_hover,this->game->images.pause_button_click);
-    this->image = this->idle;
     this->rect = this->image.getRect();
 }
 PauseButton::PauseButton()=default;
