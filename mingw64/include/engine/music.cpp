@@ -33,6 +33,10 @@ void sdlgame::music::stop()
 {
     Mix_HaltMusic();
 }
+bool sdlgame::music::is_playing()
+{
+    return Mix_PlayingMusic();
+}
 // Return duration of the music in second
 double sdlgame::music::duration()
 {

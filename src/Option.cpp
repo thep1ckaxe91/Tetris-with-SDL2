@@ -4,7 +4,7 @@ Option::Option(Game &game) : Scene(game)
 {
     sfx_slider = SFXVolumeSlider(game, Vector2(80, 32), this->game->audio_manager.get_sfx_volume(), 48, 1);
     music_slider = MusicVolumeSlider(game, Vector2(80, 64), this->game->audio_manager.get_music_volume(), 48, 1);
-    fs_slider = FullscreenSlider(game, Vector2(80,96), 1, 5, 1);
+    fs_slider = FullscreenSlider(game, Vector2(80,96), sdlgame::display::is_fullscreen() , 5, 1);
     back_button = BackButton(game);
     back_button.rect.setBottomRight(RESOLUTION_WIDTH - 2, RESOLUTION_HEIGHT - 2);
 }

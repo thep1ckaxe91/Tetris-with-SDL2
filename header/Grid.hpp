@@ -41,11 +41,11 @@ public:
     Grid(Game &game);
     Grid();
     Grid &operator=(const Grid &other);
-    void collision_check();
+    void collision_check(std::vector<pair<Uint8,Uint8>> &updated);
     void normalize_tetrimino();
-    void merge();
+    void merge(vector<pair<Uint8, Uint8>> &updated_sands);
     int get_score();
-    int check_scoring(std::vector<pair<Uint8, Uint8>> &updated_sands);
+    int check_scoring(vector<pair<Uint8, Uint8>> &updated_sands);
     void handle_event(Event &event);
     void update_ghost();
     void update_ghost_shape();

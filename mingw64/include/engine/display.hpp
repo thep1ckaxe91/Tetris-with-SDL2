@@ -35,6 +35,7 @@ namespace sdlgame
         void restore();
         void fullscreen();
         void fullscreen_desktop();
+        bool is_fullscreen();
         sdlgame::surface::Surface &get_surf();
         //get the actual size in pixel of the window
         sdlgame::math::Vector2 get_window_size();

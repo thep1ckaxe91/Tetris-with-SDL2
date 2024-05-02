@@ -185,7 +185,7 @@ int Grid::check_scoring(std::vector<pair<Uint8, Uint8>> &updated_sands)
     return pos.size();
 }
 
-void Grid::merge()
+void Grid::merge(vector<pair<Uint8, Uint8>> &updated)
 {
     // if merge at wrong place, game over
     // a bit offset for more comfort ux
@@ -196,7 +196,7 @@ void Grid::merge()
         this->game->window_draw_offset.y = 0;
         return;
     }
-    // merge if collided
+    // merge
     for (int shift = 0; shift < 16; shift++)
     {
         if (controller.tetrimino.mask >> shift & 1)
@@ -211,13 +211,16 @@ void Grid::merge()
                 for (int j = topleft.x; j < topleft.x + 8; j++)
                 {
                     if (i <= GRID_HEIGHT)
+                    {
+                        updated.push_back({i,j});
                         grid[i][j].mask = controller.tetrimino.color;
+                    }
                 }
             }
         }
     }
 }
-void Grid::collision_check()
+void Grid::collision_check(vector<pair<Uint8,Uint8>> &updated)
 {
     // check collision if the tetrimino is collided with the grid
     /*
@@ -248,7 +251,7 @@ void Grid::collision_check()
                                             check_point.y--;
                                     }
                                     called = 1;
-                                    merge();
+                                    this->merge(updated);
                                     this->controller.reset(this->next);
                                     this->next = Tetriminoes::randomTetrimino();
                                     sdlgame::event::post(MERGING);
@@ -391,7 +394,7 @@ void Grid::update()
             }
         }
 #endif
-        collision_check();
+        collision_check(updated_sands);
         if (!updated_sands.empty())
         {
             int added = check_scoring(updated_sands);

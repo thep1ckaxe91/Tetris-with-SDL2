@@ -12,6 +12,7 @@ namespace sdlgame {
         void pause();
         void resume();
         void stop();
+        bool is_playing();
         // Return duration of the music in second
         double duration();
         void set_volume(float value);

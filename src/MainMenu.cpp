@@ -14,6 +14,9 @@ MainMenu::MainMenu(Game &game) : Scene(game){
     this->htp_button.rect.setTopLeft(119,104);
     this->option_button = OptionButton(game);
     this->option_button.rect.setTopLeft(119-64-4,104);
+
+    sdlgame::music::load(base_path + "data/audio/music/mainmenu_theme_loop.mp3");
+    sdlgame::music::play(-1);
 }
 void MainMenu::handle_event(Event &event)
 {
