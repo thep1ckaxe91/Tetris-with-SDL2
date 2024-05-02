@@ -1,8 +1,6 @@
 #include "Images.hpp"
 #include "engine/engine.hpp"
-Images::Images()
-{
-}
+Images::Images() = default;
 void Images::load()
 {
     std::string base_path = sdlgame::get_base_path();

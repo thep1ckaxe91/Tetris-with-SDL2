@@ -173,14 +173,14 @@ sdlgame::color::Color::Color(const char *c_name)
     if(color_name.size()==0) sdlgame::color::init();
     if (color_name.find(name) == color_name.end())
     {
-        if(color_name.size()>0){
-            for(auto &[name, rgb] : color_name)
-            {
-                std::cout<<name<<" : ";
-                for(auto x:rgb) std::cout<<x<<' ';
-                std::cout<<std::endl;
-            }
-        }
+        // if(color_name.size()>0){
+        //     for(auto &[name, rgb] : color_name)
+        //     {
+        //         std::cout<<name<<" : ";
+        //         for(auto x:rgb) std::cout<<x<<' ';
+        //         std::cout<<std::endl;
+        //     }
+        // }
         printf("no such color: %s\n", c_name);
         exit(0);
     }

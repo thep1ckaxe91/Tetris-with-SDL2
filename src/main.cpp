@@ -14,9 +14,9 @@ using namespace std;
 class Sandtris : public Game
 {
 public:
-    #ifdef MULTITHREADING
+#ifdef MULTITHREADING
     bool gameactive = 1;
-    #endif
+#endif
     bool played = 0;
     Sandtris() : Game()
     {
@@ -27,14 +27,15 @@ public:
             // |sdlgame::RESIZABLE
         );
         this->window = Surface(RESOLUTION_WIDTH, RESOLUTION_HEIGHT);
-        sdlgame::display::fullscreen_desktop();
+        sdlgame::display::fullscreen();
         audio_manager = AudioManager();
+        images = Images();
         images.load();
         sdlgame::display::set_caption("Sandtris - Made by thep1ckaxe");
         sdlgame::display::set_icon((base_path + "data/image/icon/icon.png").c_str());
-        #ifdef MULTITHREADING
+#ifdef MULTITHREADING
         grid_mem_init();
-        #endif
+#endif
         // cout<<this->images.start_button_idle.texture<<" "<<this->images.start_button_hover.texture<<" "<<this->images.start_button_click.texture<<endl;
         // exit(0);
     }
@@ -47,31 +48,32 @@ public:
             }
         if (this->out)
         {
-            if(!played){
-                played=1;
+            if (!played)
+            {
+                played = 1;
             }
             out->update(clock.delta_time());
             if (out->isDone)
             {
                 delete out;
                 out = nullptr;
-                played=0;
+                played = 0;
             }
         }
         else if (this->in)
         {
             if (this->next)
             {
-                if(this->command==POP)
+                if (this->command == POP)
                 {
                     this->command = NONE;
                     delete scene_list.back();
                     scene_list.pop_back();
                 }
-                else if(this->command == CLEAR)
+                else if (this->command == CLEAR)
                 {
                     this->command = NONE;
-                    while(!scene_list.empty())
+                    while (!scene_list.empty())
                     {
                         delete scene_list.back();
                         scene_list.pop_back();
@@ -80,10 +82,10 @@ public:
                 scene_list.push_back(this->next);
                 this->next = nullptr;
             }
-            else if(this->command == REMOVE)
+            else if (this->command == REMOVE)
             {
                 this->command = NONE;
-                delete scene_list[scene_list.size()-1];
+                delete scene_list[scene_list.size() - 1];
                 scene_list.pop_back();
             }
             in->update(clock.delta_time());
@@ -115,12 +117,12 @@ public:
     }
     void run()
     {
-        Animation studiosc(*this,10,1);
+        Animation studiosc(*this, 10, 1);
         studiosc.load(base_path + "data/animations/splash/studio/");
         studiosc.play();
         InFade *in = new InFade();
-        StudioSC *next = new StudioSC(*this,studiosc,8);
-        this->add_scene(NULL,next,in);
+        StudioSC *next = new StudioSC(*this, studiosc, 8);
+        this->add_scene(NULL, next, in);
         while (true)
         {
             clock.tick(MAXFPS);
@@ -135,9 +137,15 @@ public:
                 else if (event.type == sdlgame::WINDOWEVENT)
                 {
                     if (event["event"] == sdlgame::WINDOWFOCUSGAINED)
+                    {
                         gameactive = 1;
+                        // cout << "focus gain" << endl;
+                    }
                     else if (event["event"] == sdlgame::WINDOWFOCUSLOST)
+                    {
                         gameactive = 0;
+                        // cout << "out focus" << endl;
+                    }
                     else if (event["event"] == sdlgame::WINDOWRESIZED)
                     {
                         sdlgame::display::get_window_size();
@@ -145,7 +153,8 @@ public:
                 }
                 if (gameactive)
                 {
-                    if(!scene_list.empty()) scene_list.back()->handle_event(event);
+                    if (!scene_list.empty())
+                        scene_list.back()->handle_event(event);
                     audio_manager.handle_event(event);
                 }
             }

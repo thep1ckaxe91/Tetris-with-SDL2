@@ -64,6 +64,7 @@ void sdlgame::display::fullscreen()
 sdlgame::math::Vector2 sdlgame::display::get_window_size(){
     int w,h;
     SDL_GetWindowSize(sdlgame::display::window,&w,&h);
+    // SDL_GetWindowSurface(sdlgame::display::window);
     return win_surf.size = sdlgame::math::Vector2(w,h);
 }
 

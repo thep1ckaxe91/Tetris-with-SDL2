@@ -36,7 +36,7 @@ public:
     Color ghost_color;
     Vector2 ghost_topleft;
     Game *game;
-    const double fixed_delta_time = 0.07;
+    const double fixed_delta_time = 0.05;
     TetriminoController controller;
     Grid(Game &game);
     Grid();
