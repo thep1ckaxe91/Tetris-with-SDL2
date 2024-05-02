@@ -13,10 +13,11 @@ void SplashScreen::play()
 }
 void SplashScreen::handle_event(Event &event)
 {
-    // if(this->time <=1 and event.type == sdlgame::MOUSEBUTTONDOWN)
-    // {
-    //     this->splash.pause();
-    // }
+    if(event.type == sdlgame::MOUSEBUTTONDOWN)
+    {
+        this->on_finish();
+        this->done = 1;
+    }
 }
 void SplashScreen::update()
 {

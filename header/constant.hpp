@@ -33,12 +33,12 @@ typedef enum
 const int dx[] =
 {
     0, 0, 1, -1,
-    1,-1,-1,1
+    // 1,-1,-1,1
 };
 const int dy[] =
 {
     1, -1, 0, 0,
-    1,1,-1,-1
+    // 1,1,-1,-1
 };
 typedef enum
 {
@@ -55,6 +55,7 @@ const int FONT_SIZE = 10;
 const double fall_speed = 40;          // pixel per second
 const double fast_fall_speed = 80;     // pps
 const double sideway_move_speed = 100; // pps
+const int step_range = 3;
 const Vector2 score_display_center = Vector2(132, 123);
 
 const Color RED_SAND_COLOR = Color("crimson");

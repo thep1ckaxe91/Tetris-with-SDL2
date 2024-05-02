@@ -11,6 +11,7 @@ public:
     BackButton back_button;
     SFXVolumeSlider sfx_slider;
     MusicVolumeSlider music_slider;
+    FullscreenSlider fs_slider;
     Option(Game &game);
     Option();
     void update();

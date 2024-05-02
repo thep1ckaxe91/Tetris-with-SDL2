@@ -28,6 +28,18 @@ public:
     void on_change_value();
 };
 
+class FullscreenSlider : public Slider
+{
+public:
+    Game *game;
+    FullscreenSlider(Game &game, Vector2 topleft, float value, float length, float max_value);
+    FullscreenSlider();
+    void update();
+    void handle_event(Event &event);
+    void draw();
+    void on_change_value();
+};
+
 // class OptionElement
 // {
 

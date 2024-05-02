@@ -20,7 +20,7 @@ Grid::Grid(Game &game)
     controller = TetriminoController(game, Tetriminoes::randomTetrimino());
     update_ghost_shape();
     this->next = Tetriminoes::randomTetrimino();
-    this->ghost = Surface(32,32);
+    this->ghost = Surface(32, 32);
     this->ghost_color = Color("white");
 #ifdef MULTITHREADING
     this->grid = grid_mem_address;
@@ -275,15 +275,17 @@ pair<Uint8, Uint8> Grid::step(int i, int j, int times)
         }
         else if (!grid[i + 1][j - 1].mask and !grid[i][j - 1].mask)
         {
-            swap(grid[i][j], grid[i][j - 1]);
+            swap(grid[i][j], grid[i + 1][j - 1]);
             // return step(i+1,j-1,times-1);
             j--;
+            i++;
         }
         else if (!grid[i + 1][j + 1].mask and !grid[i][j + 1].mask)
         {
-            swap(grid[i][j], grid[i][j + 1]);
+            swap(grid[i][j], grid[i + 1][j + 1]);
             // return step(i+1,j+1,times-1);
             j++;
+            i++;
         }
     }
     return {i, j};
@@ -294,52 +296,52 @@ pair<Uint8, Uint8> Grid::step(int i, int j, int times)
  */
 void Grid::update_ghost_shape()
 {
-    auto get_from_pos = [&](const int i,const int j)
+    auto get_from_pos = [&](const int i, const int j)
     {
-        return (3-i)*4 + (3-j);    
+        return (3 - i) * 4 + (3 - j);
     };
     ghost.fill("none");
-    for(int i=0;i<4;i++)
+    for (int i = 0; i < 4; i++)
     {
-        for(int j=0;j<4;j++)
+        for (int j = 0; j < 4; j++)
         {
-            if( this->controller.tetrimino.mask >> get_from_pos(i,j) & 1)
+            if (this->controller.tetrimino.mask >> get_from_pos(i, j) & 1)
             {
-                sdlgame::draw::rect(ghost,ghost_color,Rect(j*8,i*8,8,8),1);
+                sdlgame::draw::rect(ghost, ghost_color, Rect(j * 8, i * 8, 8, 8), 1);
             }
         }
     }
 }
 void Grid::update_ghost()
 {
-    bitset<4> checked; // if the ith collumn is check or not
-    int min_height = 144 ; // min distance 
+    bitset<4> checked;    // if the ith collumn is check or not
+    int min_height = 144; // min distance
     // get the min distance from the tetrimino down to display the ghost
     for (int shift = 0; shift < 16; shift++)
     {
-        if ((this->controller.tetrimino.mask >> shift & 1) and !checked[shift%4])
+        if ((this->controller.tetrimino.mask >> shift & 1) and !checked[shift % 4])
         {
             checked[shift % 4] = 1;
-            int left = this->controller.topleft.x + 8 * (3 - shift % 4)      - GRID_X;
+            int left = this->controller.topleft.x + 8 * (3 - shift % 4) - GRID_X;
             int right = this->controller.topleft.x + 8 * (3 - shift % 4) + 8 - GRID_X;
             for (int j = left; j < right; j++)
             {
                 int i = this->controller.topleft.y + 8 * (3 - shift / 4) - GRID_Y;
-                int cnt=0;
-                while(grid[i++][j+1].mask == 0)
+                int cnt = 0;
+                while (grid[i++][j + 1].mask == 0)
                 {
                     cnt++;
-                    if(cnt>=min_height) break;
+                    if (cnt >= min_height)
+                        break;
                 }
-                min_height = min(min_height,cnt);
+                min_height = min(min_height, cnt);
             }
         }
     }
     // update the topleft of the ghost
-    ghost_topleft = this->controller.topleft + Vector2(0,min_height-8);
+    ghost_topleft = this->controller.topleft + Vector2(0, min_height - 8);
     ghost_topleft.x = int(ghost_topleft.x);
-    ghost_topleft.y = int(ghost_topleft.y)-1;
-
+    ghost_topleft.y = int(ghost_topleft.y) - 1;
 }
 void Grid::update()
 {
@@ -355,7 +357,7 @@ void Grid::update()
             {
                 if (grid[i][j].mask)
                 {
-                    int step_times = sdlgame::random::randint(2, 5);
+                    int step_times = sdlgame::random::randint(1,step_range);
                     pair<Uint8, Uint8> pos = this->step(i, j, step_times);
                     if (i != pos.first or j != pos.second)
                         updated_sands.push_back(pos);
@@ -411,7 +413,7 @@ void Grid::update()
 void Grid::draw_ghost()
 {
     // sdlgame::draw::rect(ghost,"red",Rect(0,0,32,32),1);
-    this->game->window.blit(ghost,ghost_topleft);
+    this->game->window.blit(ghost, ghost_topleft);
 }
 void Grid::draw()
 {
