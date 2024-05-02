@@ -116,12 +116,12 @@ void GamePlay::update()
             flow2.move_ip(0, delta_y);
             if (flow1.getBottom() - 1 <= next_color_display_rect.getTop())
             {
-                flow1.setTop(next_color_display_rect.getBottom());
+                flow1.setTop(flow2.getBottom());
                 color_flow1 = SandShiftColor.at(next_display_color);
             }
             if (flow2.getBottom() - 1 <= next_color_display_rect.getTop())
             {
-                flow2.setTop(next_color_display_rect.getBottom());
+                flow2.setTop(flow1.getBottom());
                 color_flow2 = SandShiftColor.at(next_display_color);
             }
             change_shape.update();

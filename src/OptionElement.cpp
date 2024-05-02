@@ -60,13 +60,13 @@ void MusicVolumeSlider::on_change_value()
 FullscreenSlider::FullscreenSlider(Game &game, Vector2 topleft, float value, float length, float max_value) : Slider(topleft,value,length,max_value)
 {
     this->game = &game;
-    this->set_color("white","orange","dark brown");
+    this->set_color("white","orange","saddle brown");
     this->set_label("Fullscreen :", "white");
 }
 FullscreenSlider::FullscreenSlider() = default;
 void FullscreenSlider::update()
 {
-    Slider::update();
+    this->nob.setCenter(this->topleft + Vector2(this->value * this->slide_length/this->max_value, 0));
 }
 void FullscreenSlider::handle_event(Event &event)
 {
@@ -82,12 +82,14 @@ void FullscreenSlider::draw()
 void FullscreenSlider::on_change_value()
 {
     this->value = (this->value == 0 ? this->max_value : 0);
-    if(this->value)
+    if(this->value != this->max_value)
     {
         sdlgame::display::maximize();
+        // cout << "call restore" << endl;
     }
     else
     {
         sdlgame::display::fullscreen_desktop();
+        // cout << "call fullscreen" << endl;
     }
 }

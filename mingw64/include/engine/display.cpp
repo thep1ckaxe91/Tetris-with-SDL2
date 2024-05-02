@@ -49,12 +49,19 @@ sdlgame::surface::Surface &sdlgame::display::set_mode(int width, int height, Uin
 
 void sdlgame::display::maximize()
 {
+    SDL_SetWindowFullscreen(window,0);
     SDL_MaximizeWindow(window);
 }
 
 void sdlgame::display::minimize()
 {
+    SDL_SetWindowFullscreen(window,0);
     SDL_MinimizeWindow(window);
+}
+void sdlgame::display::restore()
+{
+    SDL_SetWindowFullscreen(window,0);
+    SDL_RestoreWindow(window);
 }
 void sdlgame::display::fullscreen()
 {

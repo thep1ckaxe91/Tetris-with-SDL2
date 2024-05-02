@@ -32,6 +32,7 @@ namespace sdlgame
          * Minimize the active window
          */
         void minimize();
+        void restore();
         void fullscreen();
         void fullscreen_desktop();
         sdlgame::surface::Surface &get_surf();

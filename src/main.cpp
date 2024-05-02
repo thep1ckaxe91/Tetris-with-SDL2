@@ -22,7 +22,7 @@ public:
         this->window_object = sdlgame::display::set_mode(
             RESOLUTION_WIDTH, RESOLUTION_HEIGHT,
             0
-            |sdlgame::MAXIMIZED
+            // |sdlgame::MAXIMIZED
             |sdlgame::RESIZABLE
         );
         this->window = Surface(RESOLUTION_WIDTH, RESOLUTION_HEIGHT);
