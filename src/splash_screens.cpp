@@ -45,4 +45,5 @@ void StudioSC::on_finish()
     InFade *in = new InFade(1);
     SDLSC *next = new SDLSC(*game,sdlsc,5);
     this->game->pop_scene(out,next,in);
+    this->game->audio_manager.sfx.soft_wind_blow.fadeout(1000);
 }

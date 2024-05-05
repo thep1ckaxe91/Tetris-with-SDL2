@@ -16,7 +16,7 @@ bool Game::out_transitioning()
 }
 bool Game::in_transitioning()
 {
-    return in;
+    return in and !out;
 }
 //clear all on stack scene and go to scene
 void Game::clear_scene(SceneTransition *out, Scene *scene, SceneTransition *in)

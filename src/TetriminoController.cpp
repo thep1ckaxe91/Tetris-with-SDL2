@@ -21,7 +21,7 @@ void TetriminoController::reset(Tetrimino tetrimino)
     topleft = spawn_pos;
     this->redraw();
 }
-void TetriminoController::draw() const
+void TetriminoController::draw()
 {
     this->game->window.blit(this->draw_surf,this->topleft);
 }

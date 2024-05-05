@@ -1,5 +1,4 @@
 #include "OptionElement.hpp"
-
 SFXVolumeSlider::SFXVolumeSlider(Game &game, Vector2 topleft, float val, float length, float max_val) : Slider(topleft, val, length, max_val)
 {
 
@@ -92,4 +91,5 @@ void FullscreenSlider::on_change_value()
         sdlgame::display::fullscreen_desktop();
         // cout << "call fullscreen" << endl;
     }
+    
 }

@@ -9,7 +9,6 @@ GamePlay::GamePlay(Game &game) : Scene(game)
 {
     this->game = &game;
     grid = Grid(game);
-    background = this->game->images.gameplay_background;
 
     this->score_font = Font(base_path + "data\\fonts\\sandtris pixel.ttf", FONT_SIZE);
     this->score_surf = score_font.render("0", 0, "white");
@@ -25,21 +24,11 @@ GamePlay::GamePlay(Game &game) : Scene(game)
     next_shape_surf = Surface(next_shape_display_rect.getWidth(), next_shape_display_rect.getHeight());
     redraw_next_shape();
 
-    change_shape = Animation(game, 120);
-    change_shape.load(base_path + "data/animations/change_next_shape/");
-    Surface tmp = Surface(next_shape_display_area.getWidth(), next_shape_display_area.getHeight());
-    tmp.fill("none");
-    change_shape.set_default(tmp);
-
-    count_down = Animation(game, 1);
-    count_down.load(base_path + "data/animations/count_down/");
-    tmp = Surface(count_down_display_rect.getWidth(), count_down_display_rect.getHeight());
-    tmp.fill("none");
-    count_down.set_default(tmp);
+    this->reload_animation();
     count_down.play();
 
     sdlgame::music::load(base_path + "data/audio/music/tetris_theme_loop_instrument.mp3");
-    sdlgame::music::play(-1);
+    sdlgame::music::play(-1,2000);
 
     pause_button = PauseButton(game);
     pause_button.rect.setTopRight(RESOLUTION_WIDTH, 0);
@@ -47,6 +36,21 @@ GamePlay::GamePlay(Game &game) : Scene(game)
     this->gameover = 0;
     this->blipcount = 100;
     pausing = 0;
+    reloaded = 0;
+}
+void GamePlay::reload_animation()
+{
+    change_shape = Animation(*game, 120);
+    change_shape.load(base_path + "data/animations/change_next_shape/");
+    Surface tmp = Surface(next_shape_display_area.getWidth(), next_shape_display_area.getHeight());
+    tmp.fill("none");
+    change_shape.set_default(tmp);
+
+    count_down = Animation(*game, 1);
+    count_down.load(base_path + "data/animations/count_down/");
+    tmp = Surface(count_down_display_rect.getWidth(), count_down_display_rect.getHeight());
+    tmp.fill("none");
+    count_down.set_default(tmp);
 }
 void GamePlay::load_grid(Grid grid)
 {
@@ -82,6 +86,7 @@ void GamePlay::handle_event(sdlgame::event::Event &event)
     if (event.type == SCORING)
     {
         this->reload_score_surf();
+        set_personal_best(this->grid.get_score());
     }
     else if (event.type == MERGING)
     {
@@ -119,6 +124,15 @@ void GamePlay::update()
         pausing = 0;
         count_down.reset();
         count_down.play();
+        reloaded = 0;
+    }
+    if(!this->reloaded and this->pausing and this->game->in_transitioning())
+    {
+        this->reload_animation();
+        this->reload_score_surf();
+        this->grid.controller.redraw();
+        this->redraw_next_shape();
+        this->reloaded = 1;
     }
     if (!gameover)
     {
@@ -165,7 +179,7 @@ void GamePlay::update()
 }
 void GamePlay::draw()
 {
-    this->game->window.blit(this->background, bg_offset);
+    this->game->window.blit(this->game->images.gameplay_background, bg_offset);
 
     sdlgame::draw::rect(
         this->game->window, color_flow1,

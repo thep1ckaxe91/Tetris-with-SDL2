@@ -10,11 +10,17 @@ class Pause : public Scene
 {
 public:
     MenuButton menu_button;
-    OptionButton option_button;
+    string message;
+    Surface message_surf;
+    Font message_font;
+    Rect message_rect;
+    // OptionButton option_button;
     RetryButton retry_button;
     BackButton back_button;
     Pause(Game &game);
     Pause();
+    void render_message(string new_message);
+    void display_message();
     void update();
     void handle_event(Event &event);
     void draw();

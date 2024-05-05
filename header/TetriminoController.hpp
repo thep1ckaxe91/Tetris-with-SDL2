@@ -32,7 +32,7 @@ public:
     TetriminoController(Game &game, Tetrimino tetrimino);
     TetriminoController();
     void reset(Tetrimino tetrimino);
-    void draw() const;
+    void draw();
     void redraw();
     void update();
     void rotate();

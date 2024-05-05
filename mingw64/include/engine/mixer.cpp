@@ -81,7 +81,7 @@ sdlgame::mixer::Sound::Sound(std::string path)
 sdlgame::mixer::Sound &sdlgame::mixer::Sound::operator=(const Sound& oth)
 {
     this->chunk = oth.chunk;
-    this->channels = oth.channels;
+    this->channel = oth.channel;
     this->volume = oth.volume;
     __chunk_pool[this->chunk]++;
     return *this;
@@ -93,13 +93,13 @@ sdlgame::mixer::Sound &sdlgame::mixer::Sound::operator=(const Sound& oth)
  */
 sdlgame::mixer::Channel sdlgame::mixer::Sound::play(int loops, int maxtime_ms, int fade_ms)
 {
-    int channel = Mix_FadeInChannelTimed(-1, chunk, loops, fade_ms, maxtime_ms);
-    // if (channel == -1)//this code got commented since sound still play but got -1 returned
-    // {
-    //     printf("cant play sound correctly\nErr:%s\n", Mix_GetError());
-    //     // exit(0);
-    // }
-    return Channel(channel);
+    this->channel = Mix_FadeInChannelTimed(-1, chunk, loops, fade_ms, maxtime_ms);
+    if (this->channel == -1)
+    {
+        printf("cant play sound correctly\nErr:%s\n", Mix_GetError());
+        // exit(0);
+    }
+    return Channel(this->channel);
 }
 void sdlgame::mixer::Sound::load(std::string path)
 {
@@ -114,7 +114,7 @@ void sdlgame::mixer::Sound::load(std::string path)
 }
 void sdlgame::mixer::Sound::fadeout(int ms)
 {
-    Mix_FadeOutChannel(channels, ms);
+    Mix_FadeOutChannel(this->channel, ms);
 }
 void sdlgame::mixer::Sound::set_volume(float value)
 {

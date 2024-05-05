@@ -51,7 +51,7 @@ namespace sdlgame
         class Sound
         {
         private:
-            int channels;
+            int channel;
             float volume;
         public:
             Mix_Chunk *chunk;

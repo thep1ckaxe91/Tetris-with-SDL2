@@ -18,12 +18,12 @@ class Game
 {
 protected:
     bool gameactive;
-    std::vector<Scene *> scene_list;
     SceneTransition *in;
     SceneTransition *out;
     Scene *next;
     SceneCommand command;
 public:
+    std::vector<Scene *> scene_list;
     Images images;
     AudioManager audio_manager;
     sdlgame::surface::Surface window;

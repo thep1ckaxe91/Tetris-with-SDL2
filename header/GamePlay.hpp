@@ -11,7 +11,6 @@ class GamePlay : public Scene
 {
 private:
     Vector2 bg_offset;
-    Surface background;
     Color next_color;
     Grid grid;
     Surface score_surf;
@@ -26,6 +25,7 @@ private:
     Animation count_down;
     bool gameover;
     bool pausing;
+    bool reloaded;
     int blipcount;
     PauseButton pause_button;
     const int flow_speed=48; //pps
@@ -37,6 +37,7 @@ public:
     void draw();
     void load_grid(Grid grid);
     void reload_score_surf();
+    void reload_animation();
     void handle_event(sdlgame::event::Event &event);
     ~GamePlay();
 };

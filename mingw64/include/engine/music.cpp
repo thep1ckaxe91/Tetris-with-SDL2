@@ -13,9 +13,10 @@ void sdlgame::music::load(std::string path)
         exit(0);
     }
 }
-void sdlgame::music::play(int loop)
+void sdlgame::music::play(int loop, int fadein_ms)
 {
-    if (Mix_PlayMusic(music, loop))
+    
+    if(Mix_FadeInMusic(music, loop, fadein_ms))
     {
         printf("Cant play music\nErr:%s\n", Mix_GetError());
         exit(0);
