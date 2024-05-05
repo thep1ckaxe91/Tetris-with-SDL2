@@ -36,6 +36,7 @@ public:
     void update();
     void draw();
     void load_grid(Grid grid);
+    void reload_score_surf();
     void handle_event(sdlgame::event::Event &event);
     ~GamePlay();
 };

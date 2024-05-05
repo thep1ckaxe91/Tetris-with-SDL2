@@ -18,5 +18,5 @@ void set_music_volume(float value);
 bool have_grid_data();
 bool delete_grid_data();
 bool save_grid_data(Grid &grid);
-Grid load_grid_data();
+Grid load_grid_data(Game *game);
 #endif

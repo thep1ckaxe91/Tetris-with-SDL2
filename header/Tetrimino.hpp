@@ -88,7 +88,7 @@ struct Tetrimino
     */
     Uint16 mask;
     char type;
-    int current_rotation = 0;
+    Uint8 current_rotation = 0;
     /**
      * @param shape the character stand for the shape
      * @param color SandShift color for the shape

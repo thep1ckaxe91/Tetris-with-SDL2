@@ -1,6 +1,7 @@
 #include "RetryButton.hpp"
 #include "scene_transitions.hpp"
 #include "GamePlay.hpp"
+#include "SaveData.hpp"
 RetryButton::RetryButton(Game &game)
 {
     this->game = &game;
@@ -17,6 +18,7 @@ void RetryButton::on_click()
     OutSwipeDown *out = new OutSwipeDown();
     InSwipeDown *in = new InSwipeDown();
     GamePlay *next = new GamePlay(*game);
+    delete_grid_data();
     this->game->clear_scene(out,next,in);
 }
 void RetryButton::update()

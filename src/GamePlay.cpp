@@ -1,9 +1,10 @@
- #include "GamePlay.hpp"
+#include "GamePlay.hpp"
 #include "Game.hpp"
 #include "constant.hpp"
 #include "TetrisEvent.hpp"
 #include "scene_transitions.hpp"
 #include "GameOver.hpp"
+#include "SaveData.hpp"
 GamePlay::GamePlay(Game &game) : Scene(game)
 {
     this->game = &game;
@@ -65,15 +66,22 @@ void GamePlay::redraw_next_shape()
                             (this->grid.next.type != 'I' and this->grid.next.type != 'O' ? Vector2(4, 1) : Vector2()),
                         6, 6));
 }
+void GamePlay::reload_score_surf()
+{
+    this->score_surf = score_font.render(to_string(this->grid.get_score()), 0, "white");
+    this->score_rect = score_surf.getRect();
+    score_rect.setCenter(score_display_center);
+}
 void GamePlay::handle_event(sdlgame::event::Event &event)
 {
-    if(!this->count_down.playing) this->grid.handle_event(event);
-    this->pause_button.handle_event(event);
+    if (!this->count_down.playing)
+    {
+        this->grid.handle_event(event);
+        this->pause_button.handle_event(event);
+    }
     if (event.type == SCORING)
     {
-        this->score_surf = score_font.render(to_string(this->grid.get_score()), 0, "white");
-        this->score_rect = score_surf.getRect();
-        score_rect.setCenter(score_display_center);
+        this->reload_score_surf();
     }
     else if (event.type == MERGING)
     {
@@ -84,20 +92,23 @@ void GamePlay::handle_event(sdlgame::event::Event &event)
     else if (event.type == GAMEOVER)
     {
         sdlgame::music::stop();
+        delete_grid_data();
         gameover = 1;
     }
     else if (event.type == BUTTON_CLICK)
     {
         sdlgame::music::pause();
         pausing = 1;
+        save_grid_data(this->grid);
     }
     else if (event.type == sdlgame::KEYDOWN)
     {
-        if(event["key"] == sdlgame::K_p)
+        if (event["key"] == sdlgame::K_p or event["key"] == sdlgame::K_ESCAPE)
         {
             pause_button.on_click();
             sdlgame::music::pause();
             pausing = 1;
+            save_grid_data(this->grid);
         }
     }
 }
@@ -165,7 +176,6 @@ void GamePlay::draw()
 
     this->game->window.blit(this->game->images.game_frame, Vector2());
 
-    
     this->game->window.blit(this->next_shape_surf, next_shape_display_rect.getTopLeft());
 
     this->game->window.blit(this->change_shape.image, next_shape_display_area.getTopLeft());

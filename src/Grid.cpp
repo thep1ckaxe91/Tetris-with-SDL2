@@ -19,6 +19,7 @@ Grid::Grid(Game &game)
     this->game = &game;
     controller = TetriminoController(game, Tetriminoes::randomTetrimino());
     update_ghost_shape();
+    this->ghost_topleft.y = -1000;
     this->next = Tetriminoes::randomTetrimino();
     this->ghost = Surface(32, 32);
     this->ghost_color = Color("white");
@@ -62,7 +63,10 @@ Grid &Grid::operator=(const Grid &other)
     this->ghost = other.ghost;
     this->ghost_color = other.ghost_color;
     this->game = other.game;
+    this->score1 = other.score1;
+    this->score2 = other.score2;
     update_ghost_shape();
+    this->ghost_topleft.y = -1000;
     for (int i = 0; i < GRID_HEIGHT + 2; i++)
         grid[i][0] = grid[i][GRID_WIDTH + 1] = Sand(STATIC_SAND);
     for (int i = 0; i < GRID_WIDTH + 2; i++)

@@ -22,7 +22,8 @@ void ResumeButton::on_click()
     InSwipeDown *in = new InSwipeDown(1);
     OutSwipeDown *out = new OutSwipeDown(1);
     GamePlay *next = new GamePlay(*game);
-    next->load_grid(load_grid_data());
-
+    next->load_grid(load_grid_data(game));
+    next->reload_score_surf();
+    next->redraw_next_shape();
     this->game->pop_scene(out,next,in);
 }

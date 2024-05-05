@@ -19,6 +19,7 @@ public:
     HTPButton htp_button;
     OptionButton option_button;
     ResumeButton resume_button;
+    bool can_resume;
     MainMenu(Game &game);
     void handle_event(Event &event);
     void update();

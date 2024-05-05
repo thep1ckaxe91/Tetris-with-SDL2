@@ -13,6 +13,7 @@
  */
 
 #include "SaveData.hpp"
+#include "constant.hpp"
 #include <bits/stdc++.h>
 int bytes_to_int(const char *c)
 {
@@ -36,7 +37,28 @@ char *int_to_bytes(int x)
     memcpy(res, data.c, 4);
     return res;
 }
-
+double bytes_to_double(const char *c)
+{
+    union
+    {
+        double val;
+        char cc[8];
+    } data;
+    memcpy(data.cc, c, 8);
+    return data.val;
+}
+char *double_to_bytes(double x)
+{
+    union
+    {
+        double val;
+        char c[8];
+    } data;
+    char *res = new char[8];
+    data.val = x;
+    memcpy(res, data.c, 8);
+    return res;
+}
 int get_personal_best()
 {
     if (!filesystem::exists(base_path + "data/save/config.dat"))
@@ -65,8 +87,7 @@ int get_personal_best()
     {
         SDL_Quit();
         printf("Oh, you nearly found the answer, it so close, it just that you could never reach it\n");
-        printf("Press any key to close...\n");
-        cin.get();
+        system("pause");
         exit(0);
     }
 
@@ -192,22 +213,24 @@ bool delete_grid_data()
 }
 /**
  * @brief save the grid data
- * 
+ *
  * overall, this is what we'll save:
- * 
+ *
  * 16 bytes of controller topleft
- * 1 byte of controller color
+ * 1 byte of controller color (sandshift color)
  * 1 byte of tetrimino type (character)
  * 1 byte of tetrimino rotation (0-3)
- * 
- * -> controller can be load with shapeinfolist 
- * 
- * GRID_WIDTH * GRID_HEIGHT bytes for grid data
- * each bytes save the color mask,
+ * 1 byte of next tetrimino type
+ * 1 byte of next tetrimino color (sandshift color)
+ * -> controller can be load with shapeinfolist
+ * next 4 bytes is interger for the score
+ * the rest is
+ * GRID_WIDTH * GRID_HEIGHT bytes for the color mask,
  * GRID_WIDTH * GRID_HEIGHT bytes for color offset byte
- * 
- * 
- * 
+ *
+ * both will lay like every GRIDWIDTH bytes is 1 line, from top to bottom
+ *
+ *
  *
  * @param grid the grid data to save
  * @return true save grid success
@@ -215,23 +238,142 @@ bool delete_grid_data()
  */
 bool save_grid_data(Grid &grid)
 {
-    if(have_grid_data()) delete_grid_data();
+    if (have_grid_data())
+        delete_grid_data();
     ofstream file(base_path + "data/save/grid.dat", ios_base::binary);
-    if (file.is_open())
-        file.write((char *)&grid, sizeof(grid));
+    int data_size = 16 + 5 + 4 + 2 * GRID_WIDTH * GRID_HEIGHT;
+    char *data = new char[data_size];
+    // prepare data
+    char *controller_x = double_to_bytes(grid.controller.topleft.x);
+    memcpy(data, controller_x, sizeof(double));
+    delete[] controller_x;
+    char *controller_y = double_to_bytes(grid.controller.topleft.y);
+    memcpy(data + 8, controller_y, sizeof(double));
+    delete[] controller_y;
 
-    char data[]
-    if (file.bad())
+    char controller_color = grid.controller.tetrimino.color;
+    memcpy(data + 16, &controller_color, 1);
+    char controller_type = grid.controller.tetrimino.type;
+    memcpy(data + 17, &controller_type, 1);
+    char controller_rotation = grid.controller.tetrimino.current_rotation;
+    memcpy(data + 18, &controller_rotation, 1);
+    char next_type = grid.next.type;
+    memcpy(data + 19, &next_type, 1);
+    char next_color = grid.next.color;
+    memcpy(data + 20, &next_color, 1);
+    char *score = int_to_bytes(grid.get_score());
+    memcpy(data + 21, score, 4);
+    cout <<"score saved: "<< grid.get_score() << endl;
+    delete[] score;
+    // data+25+.. from now
+    for (int i = 0; i < GRID_HEIGHT; i++)
+    {
+        for (int j = 0; j < GRID_WIDTH; j++)
+        {
+            memcpy(data + 25 + i * GRID_WIDTH + j, &grid.grid[i + 1][j + 1].mask, 1);
+        }
+    }
+    // char grid_offset[GRID_HEIGHT][GRID_WIDTH];
+    for (int i = 0; i < GRID_HEIGHT; i++)
+    {
+        for (int j = 0; j < GRID_WIDTH; j++)
+        {
+            memcpy(data + 25 + GRID_WIDTH * GRID_HEIGHT + i * GRID_WIDTH + j, &grid.grid[i + 1][j + 1].color_offset_rgb, 1);
+        }
+    }
+    file.write(data, data_size);
+
+    // cerr << "Expected Saved:\n"
+    //     <<"topleft:\n"
+    //     << grid.controller.topleft.x << " " << grid.controller.topleft.y << '\n'
+    //     << "color: " << grid.controller.tetrimino.color << '\n'
+    //     << "type: " << grid.controller.tetrimino.type << '\n'
+    //     << "rotation: "<< uint8_t(grid.controller.tetrimino.current_rotation) <<'\n'
+    //     << "next type: "<<
+    //     ;
+
+    if (file.bad() or file.fail())
     {
         cerr << "Cant save progess" << endl;
+        file.close();   
+        return 0;
     }
     file.close();
+    return 1;
 }
 /**
  * @brief load the grid data from file
+ * overall, this is what we'll load:
+ *
+ * 16 bytes of controller topleft
+ * 1 byte of controller color (sandshift color)
+ * 1 byte of tetrimino type (character)
+ * 1 byte of tetrimino rotation (0-3)
+ * 1 byte of next tetrimino type
+ * 1 byte of next tetrimino color (sandshift color)
+ * -> controller can be load with shapeinfolist
+ * next 4 bytes is interger for the score
+ * the rest is
+ * GRID_WIDTH * GRID_HEIGHT bytes for the color mask,
+ * GRID_WIDTH * GRID_HEIGHT bytes for color offset byte
+ *
+ * both will lay like every GRIDWIDTH bytes is 1 line, from top to bottom
  *
  * @return Grid
  */
-Grid load_grid_data()
+Grid load_grid_data(Game *game)
 {
+    Grid grid(*game);
+
+    ifstream file(base_path + "data/save/grid.dat", ios_base::binary);
+
+    char tmp[8];
+    Uint8 tmp_byte;
+    Uint8 tmp_byte2;
+    file.read(tmp, 8);
+    grid.controller.topleft.x = bytes_to_double(tmp);
+    file.read(tmp, 8);
+    grid.controller.topleft.y = bytes_to_double(tmp);
+
+    file.read((char *)&tmp_byte, 1); //color
+    file.read((char *)&tmp_byte2, 1); // type
+    Tetrimino cur_tetrimino((char)tmp_byte2,(SandShift)tmp_byte);
+
+    grid.controller.tetrimino = cur_tetrimino;
+
+    file.read((char *)&tmp_byte, 1);
+    grid.controller.tetrimino.current_rotation = tmp_byte;
+
+    grid.controller.redraw();
+
+    file.read((char *)&tmp_byte, 1);  // type
+    file.read((char *)&tmp_byte2, 1); // color
+    Tetrimino next(char(tmp_byte), (SandShift)tmp_byte2);
+    grid.next = next;
+
+    file.read(tmp, 4);
+    cout << "score got: "<<bytes_to_int(tmp)<<endl;
+    if (bytes_to_int(tmp) != 0)
+    {
+        grid.score2 = sdlgame::random::randint(2, bytes_to_int(tmp) - 2);
+        grid.score1 = bytes_to_int(tmp) - grid.score2;
+    }
+    for (int i = 0; i < GRID_HEIGHT; i++)
+    {
+        for (int j = 0; j < GRID_WIDTH; j++)
+        {
+            file.read((char *)&tmp_byte,1);
+            grid.grid[i+1][j+1].mask = SandShift(tmp_byte); 
+        }
+    }
+    for (int i = 0; i < GRID_HEIGHT; i++)
+    {
+        for (int j = 0; j < GRID_WIDTH; j++)
+        {
+            file.read((char *)&tmp_byte,1);
+            grid.grid[i+1][j+1].color_offset_rgb = tmp_byte; 
+        }
+    }
+
+    return grid;
 }

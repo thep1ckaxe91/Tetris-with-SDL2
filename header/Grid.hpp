@@ -22,8 +22,8 @@ class Grid
 {
 private:
     double update_timer = 0;
-    int score1 = 0, score2 = 0;
 public:
+    int score1 = 0, score2 = 0;
     #ifndef MULTITHREADING
     Sand grid[GRID_HEIGHT + 2][GRID_WIDTH + 2];
     #else
