@@ -14,6 +14,7 @@ void Button::set_images(Surface &idle, Surface &hover, Surface &click)
     this->hover = &hover;
     this->click = &click;
     this->image = idle;
+    this->rect = this->image.getRect();
 }
 
 void Button::handle_event(Event &event)

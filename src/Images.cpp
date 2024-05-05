@@ -33,16 +33,20 @@ void Images::load()
     pb_button_click = sdlgame::image::load(base_path + "data/image/ui/personal_best/pb_click.png");
 
     htp_button_idle = sdlgame::image::load(base_path + "data/image/ui/how_to_play/htp_idle.png");
-    htp_button_hover =sdlgame::image::load(base_path + "data/image/ui/how_to_play/htp_hover.png");
-    htp_button_click =sdlgame::image::load(base_path + "data/image/ui/how_to_play/htp_click.png");
+    htp_button_hover = sdlgame::image::load(base_path + "data/image/ui/how_to_play/htp_hover.png");
+    htp_button_click = sdlgame::image::load(base_path + "data/image/ui/how_to_play/htp_click.png");
 
     pause_button_idle = sdlgame::image::load(base_path + "data/image/ui/pause_button/pause_button_idle.png");
-    pause_button_hover =sdlgame::image::load(base_path + "data/image/ui/pause_button/pause_button_hover.png");
-    pause_button_click =sdlgame::image::load(base_path + "data/image/ui/pause_button/pause_button_click.png");
+    pause_button_hover = sdlgame::image::load(base_path + "data/image/ui/pause_button/pause_button_hover.png");
+    pause_button_click = sdlgame::image::load(base_path + "data/image/ui/pause_button/pause_button_click.png");
 
     option_button_idle = sdlgame::image::load(base_path + "data/image/ui/option_button/option_button_idle.png");
-    option_button_hover =sdlgame::image::load(base_path + "data/image/ui/option_button/option_button_hover.png");
-    option_button_click =sdlgame::image::load(base_path + "data/image/ui/option_button/option_button_click.png");
+    option_button_hover = sdlgame::image::load(base_path + "data/image/ui/option_button/option_button_hover.png");
+    option_button_click = sdlgame::image::load(base_path + "data/image/ui/option_button/option_button_click.png");
+
+    resume_button_idle = sdlgame::image::load(base_path + "data/image/ui/resume_button/resume_idle.png");
+    resume_button_hover = sdlgame::image::load(base_path + "data/image/ui/resume_button/resume_hover.png");
+    resume_button_click = sdlgame::image::load(base_path + "data/image/ui/resume_button/resume_click.png");
 
     gameplay_background = sdlgame::image::load(base_path + "data/image/background/gameplay_background.png");
     mainmenu_background = sdlgame::image::load(base_path + "data/image/background/mainmenu_sand_background.png");
@@ -52,5 +56,4 @@ void Images::load()
     pb_background = sdlgame::image::load(base_path + "data/image/background/view_personal_best.png");
     pause_background = sdlgame::image::load(base_path + "data/image/background/pause_background.png");
     gameover_screen = sdlgame::image::load(base_path + "data/image/background/gameover_screen.png");
-
 }

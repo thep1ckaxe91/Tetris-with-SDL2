@@ -44,6 +44,10 @@ public:
     Surface option_button_idle;
     Surface option_button_hover;
     Surface option_button_click;
+    
+    Surface resume_button_idle;
+    Surface resume_button_hover;
+    Surface resume_button_click;
 
     Surface gameplay_background;
     Surface mainmenu_background;

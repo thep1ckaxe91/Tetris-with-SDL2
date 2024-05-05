@@ -35,6 +35,7 @@ public:
     void redraw_next_shape();
     void update();
     void draw();
+    void load_grid(Grid grid);
     void handle_event(sdlgame::event::Event &event);
     ~GamePlay();
 };

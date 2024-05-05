@@ -1,4 +1,4 @@
-#include "GamePlay.hpp"
+ #include "GamePlay.hpp"
 #include "Game.hpp"
 #include "constant.hpp"
 #include "TetrisEvent.hpp"
@@ -46,6 +46,10 @@ GamePlay::GamePlay(Game &game) : Scene(game)
     this->gameover = 0;
     this->blipcount = 100;
     pausing = 0;
+}
+void GamePlay::load_grid(Grid grid)
+{
+    this->grid = grid;
 }
 void GamePlay::redraw_next_shape()
 {

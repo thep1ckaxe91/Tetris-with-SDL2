@@ -8,6 +8,7 @@
 #include "PBButton.hpp"
 #include "HTPButton.hpp"
 #include "OptionButton.hpp"
+#include "ResumeButton.hpp"
 class MainMenu : public Scene
 {
 public:
@@ -17,6 +18,7 @@ public:
     PBButton pb_button;
     HTPButton htp_button;
     OptionButton option_button;
+    ResumeButton resume_button;
     MainMenu(Game &game);
     void handle_event(Event &event);
     void update();
