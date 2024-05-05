@@ -61,12 +61,12 @@ char *double_to_bytes(double x)
 }
 int get_personal_best()
 {
-    if (!filesystem::exists(base_path + "data/save/config.dat"))
+    if (!filesystem::exists(base_path + "data/save/config.sandtris"))
     {
         set_personal_best(0);
         return 0;
     }
-    ifstream file(base_path + "data/save/config.dat", ios_base::binary);
+    ifstream file(base_path + "data/save/config.sandtris", ios_base::binary);
 
     int offset[8];
     file.read((char *)offset, sizeof(int) * 8);
@@ -96,7 +96,7 @@ int get_personal_best()
 // score must biger than get_personal_best()
 void set_personal_best(int score)
 {
-    ofstream file(base_path + "data/save/config.dat", ios_base::binary);
+    ofstream file(base_path + "data/save/config.sandtris", ios_base::binary);
     // offset 0->3 is the first 4 byte of the score value,
     int offset[8];
     map<int, bool> mp;
@@ -143,12 +143,12 @@ void set_personal_best(int score)
 
 float get_sfx_volume()
 {
-    if (!filesystem::exists(base_path + "data/save/sfx_volume.dat"))
+    if (!filesystem::exists(base_path + "data/save/sfx_volume.sandtris"))
     {
         set_sfx_volume(1);
         return 1;
     }
-    ifstream file(base_path + "data/save/sfx_volume.dat");
+    ifstream file(base_path + "data/save/sfx_volume.sandtris");
 
     float res;
     try
@@ -163,12 +163,12 @@ float get_sfx_volume()
 }
 float get_music_volume()
 {
-    if (!filesystem::exists(base_path + "data/save/music_volume.dat"))
+    if (!filesystem::exists(base_path + "data/save/music_volume.sandtris"))
     {
         set_music_volume(1);
         return 1;
     }
-    ifstream file(base_path + "data/save/music_volume.dat");
+    ifstream file(base_path + "data/save/music_volume.sandtris");
 
     float res;
     try
@@ -183,27 +183,27 @@ float get_music_volume()
 }
 void set_sfx_volume(float value)
 {
-    ofstream file(base_path + "data/save/sfx_volume.dat");
+    ofstream file(base_path + "data/save/sfx_volume.sandtris");
     file << (value < 0 ? 0 : (value > 1 ? 1 : value));
     file.close();
 }
 void set_music_volume(float value)
 {
-    ofstream file(base_path + "data/save/music_volume.dat");
+    ofstream file(base_path + "data/save/music_volume.sandtris");
     file << (value < 0 ? 0 : (value > 1 ? 1 : value));
     file.close();
 }
 
 bool have_grid_data()
 {
-    return filesystem::exists(base_path + "data/save/grid.dat");
+    return filesystem::exists(base_path + "data/save/grid.sandtris");
 }
 // delete the save file, if not exist or error is thrown, return false
 bool delete_grid_data()
 {
     try
     {
-        return std::filesystem::remove(base_path + "data/save/grid.dat");
+        return std::filesystem::remove(base_path + "data/save/grid.sandtris");
     }
     catch (const std::filesystem::filesystem_error &e)
     {
@@ -240,7 +240,7 @@ bool save_grid_data(Grid &grid)
 {
     if (have_grid_data())
         delete_grid_data();
-    ofstream file(base_path + "data/save/grid.dat", ios_base::binary);
+    ofstream file(base_path + "data/save/grid.sandtris", ios_base::binary);
     int data_size = 16 + 5 + 4 + 2 * GRID_WIDTH * GRID_HEIGHT;
     char *data = new char[data_size];
     // prepare data
@@ -263,7 +263,7 @@ bool save_grid_data(Grid &grid)
     memcpy(data + 20, &next_color, 1);
     char *score = int_to_bytes(grid.get_score());
     memcpy(data + 21, score, 4);
-    cout <<"score saved: "<< grid.get_score() << endl;
+    // cout <<"score saved: "<< grid.get_score() << endl;
     delete[] score;
     // data+25+.. from now
     for (int i = 0; i < GRID_HEIGHT; i++)
@@ -325,7 +325,7 @@ Grid load_grid_data(Game *game)
 {
     Grid grid(*game);
 
-    ifstream file(base_path + "data/save/grid.dat", ios_base::binary);
+    ifstream file(base_path + "data/save/grid.sandtris", ios_base::binary);
 
     char tmp[8];
     Uint8 tmp_byte;
@@ -352,7 +352,7 @@ Grid load_grid_data(Game *game)
     grid.next = next;
 
     file.read(tmp, 4);
-    cout << "score got: "<<bytes_to_int(tmp)<<endl;
+    // cout << "score got: "<<bytes_to_int(tmp)<<endl;
     if (bytes_to_int(tmp) != 0)
     {
         grid.score2 = sdlgame::random::randint(2, bytes_to_int(tmp) - 2);
