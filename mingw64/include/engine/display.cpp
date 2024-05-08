@@ -33,7 +33,7 @@ sdlgame::surface::Surface &sdlgame::display::set_mode(int width, int height, Uin
         printf("Failed to create a window object\nErr: %s\n", SDL_GetError());
         exit(0);
     }
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED);
+    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
     if (renderer == nullptr)
     {
         printf("Failed to create a renderer\nErr: %s\n", SDL_GetError());
