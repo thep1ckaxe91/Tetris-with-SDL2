@@ -22,7 +22,8 @@ void sdlgame::image::init()
         return;
     }
 }
-sdlgame::surface::Surface sdlgame::image::load(std::string path)
+// sdlgame::surface::Surface img_transfer_surf;
+sdlgame::surface::Surface sdlgame::image::load(const std::string path)
 {
     SDL_Texture *tex = IMG_LoadTexture(sdlgame::display::renderer, path.c_str());
     if (tex == NULL)
@@ -30,5 +31,6 @@ sdlgame::surface::Surface sdlgame::image::load(std::string path)
         printf("Cant load image\n%s\n", IMG_GetError());
         exit(0);
     }
+    // img_transfer_surf =sdlgame::surface::Surface(tex);
     return sdlgame::surface::Surface(tex);
 }

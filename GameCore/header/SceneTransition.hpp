@@ -14,6 +14,7 @@ public:
     SceneTransition(double time=1);
     virtual void update(double delta_time) = 0;
     virtual void draw() = 0;
+    virtual ~SceneTransition();
 };
 
 #endif

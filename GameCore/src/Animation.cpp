@@ -8,14 +8,7 @@ Animation::Animation(Game &game,int frame_rate, bool loop)
     this->frame_id=0;
     this->game = &game;
 }
-Animation::Animation()
-{
-    this->game = nullptr;
-    this->frame_rate = 60;
-    this->loop = 0;
-    this->playing = 0;
-    this->frame_id=0;
-}
+Animation::Animation()=default;
 /**
  * @brief load the animation's images in folder 'path'
  * 
@@ -37,11 +30,13 @@ void Animation::update()
 {
     if(this->playing)
     {
+        this->frame_change=0;
         this->time_cnt += this->game->clock.delta_time();
-        if(this->time_cnt >= 1/this->frame_rate)
+        
+        if(this->time_cnt >= 1.0/this->frame_rate)
         {
-            this->time_cnt-= 1/this->frame_rate;
-            if(frame_id>=frames.size())
+            this->time_cnt-= 1.0/this->frame_rate;
+            if(frame_id>=(int)frames.size())
             {
                 frame_id=0;
                 if(!(this->playing = this->loop))
@@ -53,12 +48,14 @@ void Animation::update()
             }
             this->image = this->frames[frame_id];
             this->frame_id++;
+            this->frame_change=1;
         }
+        // else this->image = this->frames[frame_id];
     }
 }
 void Animation::play()
 {
-    playing=1;
+    this->playing=1;
 }
 void Animation::pause()
 {

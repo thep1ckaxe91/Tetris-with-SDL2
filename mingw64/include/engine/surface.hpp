@@ -5,6 +5,7 @@
 #include "color.hpp"
 #include "rect.hpp"
 #include "math.hpp"
+#define SURFACE_TYPE SDL_TEXTUREACCESS_TARGET
 namespace sdlgame
 {
     namespace surface

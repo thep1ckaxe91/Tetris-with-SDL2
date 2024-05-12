@@ -14,7 +14,7 @@ public:
     Surface message_surf;
     Font message_font;
     Rect message_rect;
-    // OptionButton option_button;
+    OptionButton option_button;
     RetryButton retry_button;
     BackButton back_button;
     Pause(Game &game);

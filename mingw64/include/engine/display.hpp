@@ -42,6 +42,14 @@ namespace sdlgame
         double get_width();
         double get_height();
         /**
+         * @brief Set the render scale quality object
+         * 
+         * @param linear if true, set the scale quality to linear, and nearest if false
+         * @return true set success
+         * @return false set failed
+         */
+        bool set_render_scale_quality(bool linear);
+        /**
          *  if set to true, the mouse will be confine to the window
          * this function get or set the state of mouse being confine or not
          *

@@ -139,24 +139,15 @@ public:
                     if (event["event"] == sdlgame::WINDOWFOCUSGAINED or event["event"] == sdlgame::WINDOWSHOWN)
                     {
                         gameactive = 1;
-                        images.load();
                         // cout << "focus gain" << endl;
                     }
                     else if (event["event"] == sdlgame::WINDOWFOCUSLOST)
                     {
                         gameactive = 0;
-                        images.load();
-                        // cout << "out focus" << endl;
                     }
                     else if (event["event"] == sdlgame::WINDOWRESIZED or event["event"] == sdlgame::WINDOWSIZECHANGED)
                     {
                         sdlgame::display::get_window_size();
-                        images.load();
-                        // cout << "resized" << endl;
-                    }
-                    else if (event["event"] == sdlgame::WINDOWTAKEFOCUS)
-                    {
-                        images.load();
                     }
                 }
                 if (gameactive)
