@@ -25,7 +25,6 @@ private:
     Animation count_down;
     bool gameover;
     bool pausing;
-    bool reloaded;
     int blipcount;
     PauseButton pause_button;
     const int flow_speed=48; //pps
@@ -36,8 +35,6 @@ public:
     void update();
     void draw();
     void load_grid(Grid grid);
-    void reload_score_surf();
-    void reload_animation();
     void handle_event(sdlgame::event::Event &event);
     ~GamePlay();
 };

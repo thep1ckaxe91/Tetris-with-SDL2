@@ -13,7 +13,7 @@ sdlgame::math::Vector2 sdlgame::mouse::get_pos()
     double win_ratio = sdlgame::display::win_surf.size.x / sdlgame::display::win_surf.size.y;
     sdlgame::math::Vector2 offset(
         (win_ratio>reso_ratio)*(sdlgame::display::win_surf.size.x-sdlgame::display::win_surf.size.y*reso_ratio)/2,
-        (win_ratio<reso_ratio)*(sdlgame::display::win_surf.size.y-sdlgame::display::win_surf.size.x*reso_ratio)/2
+        (win_ratio<reso_ratio)*(sdlgame::display::win_surf.size.y-sdlgame::display::win_surf.size.x/reso_ratio)/2
     );
     //how much did the window grow 
     double scale = (win_ratio > reso_ratio ? sdlgame::display::win_surf.size.y / sdlgame::display::resolution.y : sdlgame::display::win_surf.size.x / sdlgame::display::resolution.x);
