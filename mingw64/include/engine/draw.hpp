@@ -20,6 +20,7 @@ namespace sdlgame{
         void circle(sdlgame::surface::Surface &surface, sdlgame::color::Color color, int centerX, int centerY, int radius, int width = 0);
         void polygon(sdlgame::surface::Surface &surface, sdlgame::color::Color color, std::vector<sdlgame::math::Vector2> points);
         void point(sdlgame::surface::Surface &surface, sdlgame::color::Color color, double x, double y);
+        void points(sdlgame::surface::Surface &surface, sdlgame::color::Color color,const std::vector<sdlgame::math::Vector2> &points);
     }
 }
 

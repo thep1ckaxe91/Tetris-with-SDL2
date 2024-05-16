@@ -98,6 +98,7 @@ void sdlgame::draw::circle(sdlgame::surface::Surface &surface, sdlgame::color::C
             SDL_RenderDrawLineF(sdlgame::display::renderer, centerX + rad.x, centerY + rad.y, centerX + next.x, centerY + next.y);
             rad = next;
         }
+        
     }
     else
     {
@@ -134,10 +135,30 @@ void sdlgame::draw::point(sdlgame::surface::Surface &surface, sdlgame::color::Co
         printf("Failed to set target: %s\n", SDL_GetError());
     }
     SDL_SetRenderDrawColor(sdlgame::display::renderer, color.r, color.g, color.b, color.a);
-
-    if (SDL_RenderDrawPointF(sdlgame::display::renderer, x, y))
+    SDL_FPoint point = {(float)x, (float)y};
+    if (SDL_RenderDrawPointsF(sdlgame::display::renderer, &point ,1))
     {
         printf("Failed to draw a point: %s\n", SDL_GetError());
+        exit(0);
+    }
+    if (SDL_SetRenderTarget(sdlgame::display::renderer, NULL))
+    {
+        printf("Failed to set target: %s\n", SDL_GetError());
+    }
+}
+
+void sdlgame::draw::points(sdlgame::surface::Surface &surface, sdlgame::color::Color color,const std::vector<sdlgame::math::Vector2> &points)
+{
+    if (SDL_SetRenderTarget(sdlgame::display::renderer, surface.texture))
+    {
+        printf("Failed to set target: %s\n", SDL_GetError());
+    }
+    SDL_SetRenderDrawColor(sdlgame::display::renderer, color.r, color.g, color.b, color.a);
+    SDL_FPoint sdl_points[points.size()];
+    for(int i=0;i<(int)points.size();i++) sdl_points[i] = points[i].to_SDL_FPoint();
+    if (SDL_RenderDrawPointsF(sdlgame::display::renderer, sdl_points, points.size()))
+    {
+        printf("Failed to draw points: %s\n", SDL_GetError());
         exit(0);
     }
     if (SDL_SetRenderTarget(sdlgame::display::renderer, NULL))

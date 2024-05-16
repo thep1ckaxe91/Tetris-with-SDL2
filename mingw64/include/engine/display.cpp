@@ -27,7 +27,7 @@ sdlgame::surface::Surface &sdlgame::display::set_mode(int width, int height, Uin
         height = DM.h;
     }
     resolution = sdlgame::math::Vector2(width, height);
-    if(!SDL_SetHintWithPriority(SDL_HINT_RENDER_DRIVER,"opengl",SDL_HINT_OVERRIDE))
+    if(!SDL_SetHintWithPriority(SDL_HINT_RENDER_DRIVER,"direct3d11",SDL_HINT_OVERRIDE))
     {
         printf("Set renderer driver hint failed\n");
     }

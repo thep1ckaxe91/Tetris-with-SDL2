@@ -217,7 +217,7 @@ void Grid::merge(vector<pair<Uint8, Uint8>> &updated)
                 {
                     if (i <= GRID_HEIGHT)
                     {
-                        updated.push_back({i,j});
+                        updated.push_back({i, j});
                         grid[i][j].mask = controller.tetrimino.color;
                     }
                 }
@@ -225,7 +225,7 @@ void Grid::merge(vector<pair<Uint8, Uint8>> &updated)
         }
     }
 }
-void Grid::collision_check(vector<pair<Uint8,Uint8>> &updated)
+void Grid::collision_check(vector<pair<Uint8, Uint8>> &updated)
 {
     // check collision if the tetrimino is collided with the grid
     /*
@@ -365,7 +365,7 @@ void Grid::update()
             {
                 if (grid[i][j].mask)
                 {
-                    int step_times = sdlgame::random::randint(1,step_range);
+                    int step_times = sdlgame::random::randint(1, step_range);
                     pair<Uint8, Uint8> pos = this->step(i, j, step_times);
                     if (i != pos.first or j != pos.second)
                         updated_sands.push_back(pos);
@@ -437,6 +437,27 @@ void Grid::draw()
                     j + GRID_X - 1, i + GRID_Y - 1);
         }
     }
+
+    // for (int i = 1; i >= 0; i--)
+    // {
+    //     for (int j = 0; j < 2; j++)
+    //     {
+    //         int top = i * GRID_HEIGHT / 2 + 1;
+    //         int left = j * GRID_WIDTH / 2 + 1;
+    //         int w = GRID_WIDTH / 2;
+    //         int h = GRID_HEIGHT / 2;
+    //         grid_draw_thread[i][j] =
+    //             thread(draw_part, std::ref(this->grid), std::ref(this->game), top, left, w, h);
+    //     }
+    // }
+    // for (int i = 1; i >= 0; i--)
+    // {
+    //     for (int j = 0; j < 2; j++)
+    //     {
+    //         grid_draw_thread[i][j].join();
+    //     }
+    // }
+
 #else
     for (int i = 1; i <= GRID_HEIGHT; i++)
     {
@@ -453,6 +474,22 @@ void Grid::draw()
     controller.draw();
     draw_ghost();
 }
+
+// std::thread grid_draw_thread[2][2];
+// void draw_part(const Sand **grid, Game *game, const int top, const int left, const int w, const int h)
+// {
+//     for (int i = top; i < top + h; i++)
+//     {
+//         for (int j = left; j < left + w; j++)
+//         {
+//             if (grid[i][j].mask)
+//                 sdlgame::draw::point(
+//                     game->window,
+//                     SandShiftColor.at(grid[i][j].mask).add_value(grid[i][j].color_offset_rgb >> 4 & 15, grid[i][j].color_offset_rgb >> 2 & 15, grid[i][j].color_offset_rgb & 15),
+//                     j + GRID_X - 1, i + GRID_Y - 1);
+//         }
+//     }
+// }
 
 #ifdef MULTITHREADING
 pair<Uint8, Uint8> step(int i, int j, int times)

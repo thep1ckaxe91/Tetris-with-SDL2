@@ -98,7 +98,7 @@ void GamePlay::handle_event(sdlgame::event::Event &event)
     }
     else if (event.type == sdlgame::KEYDOWN)
     {
-        if (event["key"] == sdlgame::K_p or event["key"] == sdlgame::K_ESCAPE)
+        if (event["key"] == sdlgame::K_p or event["key"] == sdlgame::K_ESCAPE and !this->game->in_transitioning() and !this->game->out_transitioning())
         {
             pause_button.on_click();
             sdlgame::music::pause();

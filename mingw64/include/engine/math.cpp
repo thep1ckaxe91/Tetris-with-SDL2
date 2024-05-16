@@ -193,3 +193,8 @@ sdlgame::math::Vector2 operator*(const double &scalar, const sdlgame::math::Vect
 {
     return sdlgame::math::Vector2(scalar * v.x, scalar * v.y);
 }
+SDL_FPoint sdlgame::math::Vector2::to_SDL_FPoint() const
+{
+    SDL_FPoint res = {(float)this->x,(float)this->y};
+    return res;
+}

@@ -92,6 +92,7 @@ namespace sdlgame {
              */
             void project_ip(const sdlgame::math::Vector2 &normal);
             std::string toString() const;
+            SDL_FPoint to_SDL_FPoint() const;
         };
 
         sdlgame::math::Vector2 operator*(const double &scalar, const sdlgame::math::Vector2 &v);

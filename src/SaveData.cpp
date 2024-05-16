@@ -377,3 +377,4 @@ Grid load_grid_data(Game *game)
 
     return grid;
 }
+

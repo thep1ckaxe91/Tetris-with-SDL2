@@ -62,8 +62,8 @@ public:
 #ifdef MULTITHREADING//multithreading optimization
 void update_part(const int top,const int left,const int width,const int height, vector<pair<Uint8,Uint8>> &updated);
 pair<Uint8,Uint8> step(int i,int j, int times);
-
 #endif
-
+extern std::thread grid_draw_thread[2][2];
+void draw_part(const Sand **grid ,Game *game , int top,const int left, const int w, const int h);
 
 #endif
