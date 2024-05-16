@@ -41,6 +41,7 @@ namespace sdlgame
         sdlgame::math::Vector2 get_window_size();
         //set client window area, not resolution
         void set_window_size(int w,int h);
+        void set_window_pos(int x,int y);
         double get_width();
         double get_height();
         /**

@@ -147,6 +147,9 @@ namespace sdlgame
     const Uint32 K_BACKSPACE = SDL_SCANCODE_BACKSPACE;
     const Uint32 K_BACKSLASH = SDL_SCANCODE_BACKSLASH;
     const Uint32 K_SPACE = SDL_SCANCODE_SPACE;
+
+
+    const Uint32 WINDOWPOS_CENTERED = SDL_WINDOWPOS_CENTERED;
 }
 
 #endif

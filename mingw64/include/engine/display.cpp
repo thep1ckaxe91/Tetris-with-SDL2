@@ -85,6 +85,11 @@ void sdlgame::display::set_window_size(int w,int h)
 {
     SDL_SetWindowSize(sdlgame::display::window,w,h);
 }
+//set position of window, use sdlgame::WINDOWPOS_CENTERED if you need center
+void sdlgame::display::set_window_pos(int x,int y)
+{
+    SDL_SetWindowPosition(sdlgame::display::window,x,y);
+}
 sdlgame::math::Vector2 sdlgame::display::get_window_size()
 {
     int w, h;

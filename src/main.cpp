@@ -25,8 +25,12 @@ public:
             |sdlgame::RESIZABLE
         );
         this->window = Surface(RESOLUTION_WIDTH, RESOLUTION_HEIGHT);
-        sdlgame::display::fullscreen_desktop();
         sdlgame::display::get_window_size();
+
+        auto res = load_resolution();
+        if(res.first == 0) sdlgame::display::fullscreen_desktop();
+        else sdlgame::display::set_window_size(res.first,res.second);
+        sdlgame::display::set_window_pos(sdlgame::WINDOWPOS_CENTERED,sdlgame::WINDOWPOS_CENTERED);
         audio_manager = AudioManager();
         images = Images();
         images.load();

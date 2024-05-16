@@ -400,8 +400,8 @@ bool save_resolution(int width, int height)
     {
         return false;
     }
-    return true;
     file.close();
+    return true;
 }
 /**
  * @brief load saved resolution
@@ -411,9 +411,10 @@ bool save_resolution(int width, int height)
 pair<int,int> load_resolution()
 {
     pair<int,int> res;
-    ifstream file(base_path + "data/save/resolution.sandtris");
+    
 
     try{
+        ifstream file(base_path + "data/save/resolution.sandtris");
         file >> res.first >> res.second;
         if(res.first == 0 or res.second == 0) return {0,0};
     }
