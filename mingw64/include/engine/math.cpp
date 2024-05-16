@@ -12,6 +12,7 @@ double sdlgame::math::radian_to_degree(double rad)
 }
 double sdlgame::math::clamp(double val, double l, double r)
 {
+    if(l>r) std::swap(l,r);
     return (val < l ? l : (val > r ? r : val));
 }
 sdlgame::math::Vector2::Vector2()

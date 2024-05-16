@@ -8,6 +8,7 @@ class HowToPlay : public Scene
 {
 public:
     BackButton back_button;
+    double height_pos;
     const Vector2 bb_pos = Vector2(123,123);
     HowToPlay(Game &game);
     void handle_event(Event &event);

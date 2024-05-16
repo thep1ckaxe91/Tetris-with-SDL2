@@ -14,7 +14,7 @@ namespace sdlgame{
         class Event
         {
         private:
-            std::map<std::string, Uint32> dict;
+            std::map<std::string, int64_t> dict;
 
         public:
             Uint32 type;
@@ -22,7 +22,7 @@ namespace sdlgame{
             SDL_Event tmp_e;
             Event();
             Event(SDL_Event e);
-            Uint32 operator[](std::string key);
+            int64_t operator[](std::string key);
         };
         extern std::vector<Event> current_events;
         extern Event tmp;

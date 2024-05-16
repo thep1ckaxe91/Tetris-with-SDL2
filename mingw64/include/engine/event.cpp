@@ -50,7 +50,7 @@ sdlgame::event::Event::Event(SDL_Event e)
         dict["yrel"] = e.motion.yrel;
     }
 }
-Uint32 sdlgame::event::Event::operator[](std::string key)
+int64_t sdlgame::event::Event::operator[](std::string key)
 {
     if (dict.find(key) != dict.end())
     {
@@ -66,7 +66,7 @@ std::vector<Event> &sdlgame::event::get()
     current_events.clear();
     SDL_Event e;
     // while (SDL_PollEvent(&e))
-    for(int i=1;i<=20;i++)
+    for(int i=1;i<=30;i++)
     {
         if(!SDL_PollEvent(&e)) break;
         current_events.push_back(Event(e));
