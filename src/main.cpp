@@ -165,6 +165,12 @@ public:
                             save_window_info(pos.first, pos.second, int(res.x), int(res.y));
                         }
                     }
+                    else if (event["event"] == sdlgame::WINDOWMOVED)
+                    {
+                        Vector2 res = sdlgame::display::get_window_size();
+                        auto pos = sdlgame::display::get_window_pos();
+                        save_window_info(pos.first, pos.second, int(res.x), int(res.y));
+                    }
                 }
                 if (gameactive)
                 {
