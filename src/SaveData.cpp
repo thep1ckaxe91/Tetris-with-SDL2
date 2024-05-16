@@ -377,4 +377,52 @@ Grid load_grid_data(Game *game)
 
     return grid;
 }
+/**
+ * @brief save the current resolution to disk
+ * if width or height is 0, it consider fullscreen
+ * @param width res_width
+ * @param height res_height
+ * @return true if saved
+ * @return false if error occur
+ */
+bool save_resolution(int width, int height)
+{
+    ofstream file(base_path + "data/save/resolution.sandtris");
+    try{
+        file << width << " " << height;
+    }
+    catch(const std::exception &e)
+    {
+        cerr << "Cant save resolution" << endl;
+        return 0;
+    }
+    if(file.bad() or file.fail())
+    {
+        return false;
+    }
+    return true;
+    file.close();
+}
+/**
+ * @brief load saved resolution
+ * 
+ * @return pair<int,int> resolution, <0,0> is fullscreen by default
+ */
+pair<int,int> load_resolution()
+{
+    pair<int,int> res;
+    ifstream file(base_path + "data/save/resolution.sandtris");
 
+    try{
+        file >> res.first >> res.second;
+        if(res.first == 0 or res.second == 0) return {0,0};
+    }
+    catch(const std::exception &e)
+    {
+        cerr << "Cant load resolution\n" << endl;
+        return {0,0};
+    }
+
+    return res;
+
+}

@@ -81,6 +81,10 @@ bool sdlgame::display::is_fullscreen()
 {
     return (SDL_GetWindowFlags(window) & SDL_WINDOW_FULLSCREEN_DESKTOP) || (SDL_GetWindowFlags(window) & SDL_WINDOW_FULLSCREEN);
 }
+void sdlgame::display::set_window_size(int w,int h)
+{
+    SDL_SetWindowSize(sdlgame::display::window,w,h);
+}
 sdlgame::math::Vector2 sdlgame::display::get_window_size()
 {
     int w, h;

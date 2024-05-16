@@ -8,6 +8,7 @@
 #include "Grid.hpp"
 #include "crtdbg.h"
 #include "flags.hpp"
+#include "SaveData.hpp"
 using namespace std;
 // If global declare is bad, i make MY OWN global declare >:)
 class Sandtris : public Game
@@ -145,7 +146,14 @@ public:
                     }
                     else if (event["event"] == sdlgame::WINDOWRESIZED or event["event"] == sdlgame::WINDOWSIZECHANGED)
                     {
-                        sdlgame::display::get_window_size();
+                        Vector2 res = sdlgame::display::get_window_size();
+                        if(sdlgame::display::is_fullscreen())
+                        {
+                            save_resolution(0,0);
+                        }
+                        else{
+                            save_resolution(int(res.x),int(res.y));
+                        }
                     }
                 }
                 if (gameactive)

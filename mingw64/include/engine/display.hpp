@@ -39,6 +39,8 @@ namespace sdlgame
         sdlgame::surface::Surface &get_surf();
         //get the actual size in pixel of the window
         sdlgame::math::Vector2 get_window_size();
+        //set client window area, not resolution
+        void set_window_size(int w,int h);
         double get_width();
         double get_height();
         /**

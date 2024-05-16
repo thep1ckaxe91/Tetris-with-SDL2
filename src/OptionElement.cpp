@@ -1,4 +1,5 @@
 #include "OptionElement.hpp"
+#include "SaveData.hpp"
 SFXVolumeSlider::SFXVolumeSlider(Game &game, Vector2 topleft, float val, float length, float max_val) : Slider(topleft, val, length, max_val)
 {
 
@@ -55,17 +56,16 @@ void MusicVolumeSlider::on_change_value()
     this->game->audio_manager.set_music_volume(this->value / this->max_value);
 }
 
-
-FullscreenSlider::FullscreenSlider(Game &game, Vector2 topleft, float value, float length, float max_value) : Slider(topleft,value,length,max_value)
+FullscreenSlider::FullscreenSlider(Game &game, Vector2 topleft, float value, float length, float max_value) : Slider(topleft, value, length, max_value)
 {
     this->game = &game;
-    this->set_color("white","orange","saddle brown");
+    this->set_color("white", "orange", "saddle brown");
     this->set_label("Fullscreen :", "white");
 }
 FullscreenSlider::FullscreenSlider() = default;
 void FullscreenSlider::update()
 {
-    this->nob.setCenter(this->topleft + Vector2(this->value * this->slide_length/this->max_value, 0));
+    this->nob.setCenter(this->topleft + Vector2(this->value * this->slide_length / this->max_value, 0));
 }
 void FullscreenSlider::handle_event(Event &event)
 {
@@ -81,15 +81,21 @@ void FullscreenSlider::draw()
 void FullscreenSlider::on_change_value()
 {
     this->value = (this->value == 0 ? this->max_value : 0);
-    if(this->value != this->max_value)
+    if (this->value != this->max_value)
     {
-        sdlgame::display::maximize();
-        // cout << "call restore" << endl;
+        pair<int, int> reso = load_resolution();
+        if (reso.first == 0)
+        {
+            sdlgame::display::maximize();
+        }
+        else
+        {
+            sdlgame::display::set_window_size(reso.first, reso.second);
+        } // cout << "call restore" << endl;
     }
     else
     {
         sdlgame::display::fullscreen_desktop();
         // cout << "call fullscreen" << endl;
     }
-    
 }
