@@ -20,7 +20,7 @@ bool delete_grid_data();
 bool save_grid_data(Grid &grid);
 Grid load_grid_data(Game *game);
 
-bool save_resolution(int width, int height);
-pair<int,int> load_resolution();
+bool save_window_info(int x,int y, int width, int height);
+pair<pair<int,int>,pair<int,int>> load_window_info();
 
 #endif

@@ -90,6 +90,12 @@ void sdlgame::display::set_window_pos(int x,int y)
 {
     SDL_SetWindowPosition(sdlgame::display::window,x,y);
 }
+std::pair<int,int> sdlgame::display::get_window_pos()
+{
+    int x,y;
+    SDL_GetWindowPosition(sdlgame::display::window,&x,&y);
+    return {x,y};
+}
 sdlgame::math::Vector2 sdlgame::display::get_window_size()
 {
     int w, h;

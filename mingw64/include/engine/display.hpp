@@ -42,6 +42,7 @@ namespace sdlgame
         //set client window area, not resolution
         void set_window_size(int w,int h);
         void set_window_pos(int x,int y);
+        std::pair<int,int> get_window_pos();
         double get_width();
         double get_height();
         /**

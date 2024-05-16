@@ -21,16 +21,19 @@ public:
         this->window_object = sdlgame::display::set_mode(
             RESOLUTION_WIDTH, RESOLUTION_HEIGHT,
             0
-            // |sdlgame::MAXIMIZED
-            |sdlgame::RESIZABLE
-        );
+                // |sdlgame::MAXIMIZED
+                | sdlgame::RESIZABLE);
         this->window = Surface(RESOLUTION_WIDTH, RESOLUTION_HEIGHT);
         sdlgame::display::get_window_size();
 
-        auto res = load_resolution();
-        if(res.first == 0) sdlgame::display::fullscreen_desktop();
-        else sdlgame::display::set_window_size(res.first,res.second);
-        sdlgame::display::set_window_pos(sdlgame::WINDOWPOS_CENTERED,sdlgame::WINDOWPOS_CENTERED);
+        auto res = load_window_info();
+        if (res.second.first == 0)
+            sdlgame::display::fullscreen_desktop();
+        else
+        {
+            sdlgame::display::set_window_size(res.second.first, res.second.second);
+            sdlgame::display::set_window_pos(res.first.first, res.first.second);
+        }
         audio_manager = AudioManager();
         images = Images();
         images.load();
@@ -151,12 +154,15 @@ public:
                     else if (event["event"] == sdlgame::WINDOWRESIZED or event["event"] == sdlgame::WINDOWSIZECHANGED)
                     {
                         Vector2 res = sdlgame::display::get_window_size();
-                        if(sdlgame::display::is_fullscreen())
+                        if (sdlgame::display::is_fullscreen())
                         {
-                            save_resolution(0,0);
+                            auto pos = sdlgame::display::get_window_pos();
+                            save_window_info(pos.first, pos.second, 0, 0);
                         }
-                        else{
-                            save_resolution(int(res.x),int(res.y));
+                        else
+                        {
+                            auto pos = sdlgame::display::get_window_pos();
+                            save_window_info(pos.first, pos.second, int(res.x), int(res.y));
                         }
                     }
                 }

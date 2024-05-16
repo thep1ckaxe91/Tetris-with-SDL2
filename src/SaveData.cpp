@@ -385,15 +385,15 @@ Grid load_grid_data(Game *game)
  * @return true if saved
  * @return false if error occur
  */
-bool save_resolution(int width, int height)
+bool save_window_info(int x,int y, int width, int height)
 {
     ofstream file(base_path + "data/save/resolution.sandtris");
     try{
-        file << width << " " << height;
+        file << x << " " << y << " " << width << " " << height;
     }
     catch(const std::exception &e)
     {
-        cerr << "Cant save resolution" << endl;
+        cerr << "Cant save info" << endl;
         return 0;
     }
     if(file.bad() or file.fail())
@@ -404,24 +404,23 @@ bool save_resolution(int width, int height)
     return true;
 }
 /**
- * @brief load saved resolution
+ * @brief load last used window x,y,w,h
  * 
- * @return pair<int,int> resolution, <0,0> is fullscreen by default
+ * @return pair<pair<int,int>,pair<int,int>> 
  */
-pair<int,int> load_resolution()
+pair<pair<int,int>,pair<int,int>> load_window_info()
 {
-    pair<int,int> res;
-    
+    pair<pair<int,int>,pair<int,int>> res;
 
     try{
         ifstream file(base_path + "data/save/resolution.sandtris");
-        file >> res.first >> res.second;
-        if(res.first == 0 or res.second == 0) return {0,0};
+        file >> res.first.first >> res.first.second >> res.second.first >> res.second.second;
+        if(res.second.first == 0 or res.second.second == 0) return {{0,0},{0,0}};
     }
     catch(const std::exception &e)
     {
-        cerr << "Cant load resolution\n" << endl;
-        return {0,0};
+        cerr << "Cant load info\n" << endl;
+        return {{0,0},{0,0}};
     }
 
     return res;
